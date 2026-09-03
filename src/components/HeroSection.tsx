@@ -136,10 +136,17 @@ export const HeroSection: React.FC = () => {
                     <div className="font-semibold text-slate-800 text-sm mt-0.5">{BUSINESS_INFO.address}</div>
                   </div>
                   <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 transition-colors duration-200 hover:bg-slate-100/80">
-                    <div className="text-xs text-slate-500 font-medium">Direct Agro Helpline:</div>
+                    <div className="text-xs text-slate-500 font-medium">Direct Helpline:</div>
                     <a href={BUSINESS_INFO.telLink} className="font-bold text-emerald-700 text-base block hover:underline mt-0.5">
                       {BUSINESS_INFO.phone}
                     </a>
+                    <div className="mt-2 pt-2 border-t border-slate-200/70 flex items-center justify-between">
+                      <div className="text-xs font-bold text-emerald-700 flex items-center gap-1.5">
+                        <span className="material-symbols-outlined text-[16px]">local_shipping</span>
+                        <span>Free Delivery</span>
+                      </div>
+                      <span className="urdu-text text-[11px] font-semibold text-emerald-600" dir="rtl">مفت ڈیلیوری</span>
+                    </div>
                   </div>
                 </div>
               </div>
