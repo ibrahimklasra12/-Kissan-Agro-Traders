@@ -1,0 +1,190 @@
+import React from 'react';
+import { BUSINESS_INFO } from '../data/agroData';
+
+interface CategoryHighlightsProps {
+  onSelectCategory: (category: 'all' | 'pesticides' | 'fertilizers' | 'seeds' | 'drone') => void;
+}
+
+export const CategoryHighlights: React.FC<CategoryHighlightsProps> = ({ onSelectCategory }) => {
+  return (
+    <section id="categories-highlight" className="py-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {/* 1. Pesticides */}
+        <div
+          id="cat-card-pesticides"
+          className="bg-white rounded-3xl border border-slate-200 p-5 flex flex-col justify-between shadow-sm hover:shadow-md transition-all group"
+        >
+          <div>
+            <div className="h-28 bg-orange-50 rounded-2xl mb-4 flex items-center justify-center text-orange-600">
+              <span className="material-symbols-outlined text-[36px]">pest_control</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-orange-600">Crop Protection</span>
+              <span className="urdu-text text-xs text-slate-400" dir="rtl">حفاظتی ادویات</span>
+            </div>
+            <h3 className="font-bold text-slate-800 text-lg mt-1">Pesticides</h3>
+            <h4 className="urdu-text text-emerald-700 text-base font-bold" dir="rtl">
+              فصلوں کی حفاظت
+            </h4>
+            <p className="text-xs text-slate-500 mt-2 leading-relaxed">
+              Targeted solutions against stem borers, sucking pests, and fungal diseases for cotton, wheat, and sugarcane.
+            </p>
+          </div>
+          <div className="mt-5 pt-4 border-t border-slate-100 flex flex-col gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                onSelectCategory('pesticides');
+                document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="w-full py-2 bg-slate-100 hover:bg-emerald-600 hover:text-white rounded-xl text-xs font-bold text-slate-700 text-center transition-all cursor-pointer flex items-center justify-center gap-1"
+            >
+              <span>View Products</span>
+              <span className="material-symbols-outlined text-[15px]">arrow_forward</span>
+            </button>
+            <a
+              href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent('Salam Kissan Agro Traders, I want to inquire about Pesticides for my crop.')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-2 bg-emerald-50 hover:bg-emerald-600 hover:text-white text-emerald-700 rounded-xl text-xs font-bold text-center transition-all flex items-center justify-center gap-1.5"
+            >
+              <span className="material-symbols-outlined text-[15px]">chat</span>
+              <span>WhatsApp Inquiry</span>
+            </a>
+          </div>
+        </div>
+
+        {/* 2. Fertilizers */}
+        <div
+          id="cat-card-fertilizers"
+          className="bg-white rounded-3xl border border-slate-200 p-5 flex flex-col justify-between shadow-sm hover:shadow-md transition-all group"
+        >
+          <div>
+            <div className="h-28 bg-blue-50 rounded-2xl mb-4 flex items-center justify-center text-blue-600">
+              <span className="material-symbols-outlined text-[36px]">compost</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600">Soil Vitality</span>
+              <span className="urdu-text text-xs text-slate-400" dir="rtl">زرخیزی مٹی</span>
+            </div>
+            <h3 className="font-bold text-slate-800 text-lg mt-1">Fertilizers</h3>
+            <h4 className="urdu-text text-emerald-700 text-base font-bold" dir="rtl">
+              بہتر غذائیت، زیادہ پیداوار
+            </h4>
+            <p className="text-xs text-slate-500 mt-2 leading-relaxed">
+              Certified macro & micro nutrients, potash, zinc, and bio-organic stimulants tailored for local soil.
+            </p>
+          </div>
+          <div className="mt-5 pt-4 border-t border-slate-100 flex flex-col gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                onSelectCategory('fertilizers');
+                document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="w-full py-2 bg-slate-100 hover:bg-emerald-600 hover:text-white rounded-xl text-xs font-bold text-slate-700 text-center transition-all cursor-pointer flex items-center justify-center gap-1"
+            >
+              <span>View Soil Formulas</span>
+              <span className="material-symbols-outlined text-[15px]">arrow_forward</span>
+            </button>
+            <a
+              href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent('Salam Kissan Agro Traders, I want to inquire about Fertilizers.')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-2 bg-emerald-50 hover:bg-emerald-600 hover:text-white text-emerald-700 rounded-xl text-xs font-bold text-center transition-all flex items-center justify-center gap-1.5"
+            >
+              <span className="material-symbols-outlined text-[15px]">chat</span>
+              <span>WhatsApp Inquiry</span>
+            </a>
+          </div>
+        </div>
+
+        {/* 3. Seeds */}
+        <div
+          id="cat-card-seeds"
+          className="bg-white rounded-3xl border border-slate-200 p-5 flex flex-col justify-between shadow-sm hover:shadow-md transition-all group"
+        >
+          <div>
+            <div className="h-28 bg-emerald-50 rounded-2xl mb-4 flex items-center justify-center text-emerald-700">
+              <span className="material-symbols-outlined text-[36px]">grain</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600">High Yield</span>
+              <span className="urdu-text text-xs text-slate-400" dir="rtl">اعلیٰ کوالٹی</span>
+            </div>
+            <h3 className="font-bold text-slate-800 text-lg mt-1">Premium Seeds</h3>
+            <h4 className="urdu-text text-emerald-700 text-base font-bold" dir="rtl">
+              مصدقہ ہائبرڈ بیج
+            </h4>
+            <p className="text-xs text-slate-500 mt-2 leading-relaxed">
+              Germination-guaranteed certified seeds for seasonal wheat varieties, cotton hybrids, and high-yield crops.
+            </p>
+          </div>
+          <div className="mt-5 pt-4 border-t border-slate-100 flex flex-col gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                onSelectCategory('seeds');
+                document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="w-full py-2 bg-slate-100 hover:bg-emerald-600 hover:text-white rounded-xl text-xs font-bold text-slate-700 text-center transition-all cursor-pointer flex items-center justify-center gap-1"
+            >
+              <span>View Certified Seeds</span>
+              <span className="material-symbols-outlined text-[15px]">arrow_forward</span>
+            </button>
+            <a
+              href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent('Salam Kissan Agro Traders, I want to inquire about Certified Seeds.')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-2 bg-emerald-50 hover:bg-emerald-600 hover:text-white text-emerald-700 rounded-xl text-xs font-bold text-center transition-all flex items-center justify-center gap-1.5"
+            >
+              <span className="material-symbols-outlined text-[15px]">chat</span>
+              <span>WhatsApp Inquiry</span>
+            </a>
+          </div>
+        </div>
+
+        {/* 4. Drone Spray */}
+        <div
+          id="cat-card-drone"
+          className="bg-white rounded-3xl border border-slate-200 p-5 flex flex-col justify-between shadow-sm hover:shadow-md transition-all group"
+        >
+          <div>
+            <div className="h-28 bg-purple-50 rounded-2xl mb-4 flex items-center justify-center text-purple-600">
+              <span className="material-symbols-outlined text-[36px]">flight_takeoff</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-purple-600">Precision Tech</span>
+              <span className="urdu-text text-xs text-slate-400" dir="rtl">ڈرون اسپرے</span>
+            </div>
+            <h3 className="font-bold text-slate-800 text-lg mt-1">Drone Services</h3>
+            <h4 className="urdu-text text-emerald-700 text-base font-bold" dir="rtl">
+              جدید زرعی اسپرے سروس
+            </h4>
+            <p className="text-xs text-slate-500 mt-2 leading-relaxed">
+              Fast, uniform aerial application saving 30% chemical and up to 90% water with ZERO crop trampling.
+            </p>
+          </div>
+          <div className="mt-5 pt-4 border-t border-slate-100 flex flex-col gap-2">
+            <a
+              href="#services"
+              className="w-full py-2 bg-slate-100 hover:bg-emerald-600 hover:text-white rounded-xl text-xs font-bold text-slate-700 text-center transition-all cursor-pointer flex items-center justify-center gap-1"
+            >
+              <span>Explore Drone Fleet</span>
+              <span className="material-symbols-outlined text-[15px]">arrow_forward</span>
+            </a>
+            <a
+              href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent('Salam Kissan Agro Traders, I want to book a Drone Spray Slot.')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-2 bg-emerald-50 hover:bg-emerald-600 hover:text-white text-emerald-700 rounded-xl text-xs font-bold text-center transition-all flex items-center justify-center gap-1.5"
+            >
+              <span className="material-symbols-outlined text-[15px]">chat</span>
+              <span>WhatsApp Inquiry</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};

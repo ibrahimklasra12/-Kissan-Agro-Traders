@@ -1,0 +1,6 @@
+{
+  "name": "KISSAN AGRO TRADERS",
+  "description": "Official website of Kissan Agro Traders in Kot Addu, Pakistan. Quality pesticides, fertilizers, hybrid seeds, and precision drone spray services with direct WhatsApp inquiries.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
