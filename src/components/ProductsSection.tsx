@@ -68,7 +68,7 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
         </div>
 
         {/* Product Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {filteredProducts.map((product) => (
             <div
               key={product.id}
@@ -76,7 +76,7 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
               className="bg-white rounded-3xl border border-slate-200 p-4 flex flex-col justify-between shadow-sm hover:shadow-md transition-all group"
             >
               <div>
-                <div className="relative aspect-4/3 rounded-2xl bg-slate-100 overflow-hidden mb-3.5">
+                <div className="relative aspect-square rounded-2xl bg-slate-50 overflow-hidden mb-3.5 border border-slate-100">
                   <img
                     src={product.imageUrl}
                     alt={product.imageAlt}
@@ -93,7 +93,7 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
                   <div className="text-[11px] font-bold text-emerald-600 uppercase tracking-wide mb-1">
                     {product.tagline}
                   </div>
-                  <h3 className="text-base font-bold text-slate-800 leading-tight">
+                  <h3 className="text-base sm:text-lg font-bold text-slate-800 leading-tight">
                     {product.name}
                   </h3>
                   <p className="urdu-text text-xs sm:text-sm text-slate-500 mt-1.5 leading-relaxed line-clamp-2" dir="rtl">
@@ -105,13 +105,13 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
               <div className="mt-4 pt-3 border-t border-slate-100 space-y-2">
                 <a
                   id={`product-whatsapp-${product.id}`}
-                  className="w-full flex items-center justify-center gap-1.5 bg-green-500 hover:bg-green-400 text-white text-xs font-bold py-2.5 px-3 rounded-xl shadow-xs transition-all active:scale-95"
+                  className="w-full flex items-center justify-center gap-1.5 bg-green-500 hover:bg-green-600 text-white text-xs sm:text-sm font-bold py-2.5 px-3 rounded-xl shadow-xs transition-all active:scale-95"
                   href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent(product.inquiryMessage)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <span className="material-symbols-outlined text-[17px]">chat</span>
-                  <span>WhatsApp Inquiry</span>
+                  <span>WhatsApp پر رابطہ کریں</span>
                 </a>
                 <button
                   type="button"
@@ -192,10 +192,10 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
                 href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent(selectedProduct.inquiryMessage)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-400 text-white text-xs sm:text-sm font-bold py-3 rounded-2xl shadow-sm transition-all"
+                className="flex-1 inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white text-xs sm:text-sm font-bold py-3 rounded-2xl shadow-sm transition-all"
               >
                 <span className="material-symbols-outlined text-[18px]">chat</span>
-                <span>WhatsApp پر معلومات لیں</span>
+                <span>WhatsApp پر رابطہ کریں</span>
               </a>
               <button
                 type="button"
