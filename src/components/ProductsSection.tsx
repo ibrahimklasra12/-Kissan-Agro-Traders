@@ -73,27 +73,27 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
             <div
               key={product.id}
               id={`product-card-${product.id}`}
-              className="bg-white rounded-3xl border border-slate-200 p-4 flex flex-col justify-between shadow-sm hover:shadow-md transition-all group"
+              className="bg-white rounded-3xl border border-slate-200 p-4 flex flex-col justify-between shadow-sm hover:shadow-xl hover:border-emerald-300 transition-all duration-300 hover:-translate-y-1.5 hover:scale-[1.01] group"
             >
               <div>
                 <div className="relative aspect-square rounded-2xl bg-slate-50 overflow-hidden mb-3.5 border border-slate-100">
                   <img
                     src={product.imageUrl}
                     alt={product.imageAlt}
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-full object-cover transform transition-transform duration-700 ease-out group-hover:scale-108"
                     referrerPolicy="no-referrer"
                     loading="lazy"
                   />
-                  <div className="absolute top-2.5 left-2.5 bg-white/95 backdrop-blur-xs text-emerald-700 text-[11px] px-2.5 py-0.5 rounded-full border border-slate-200 font-bold shadow-xs">
+                  <div className="absolute top-2.5 left-2.5 bg-white/95 backdrop-blur-xs text-emerald-700 text-[11px] px-2.5 py-0.5 rounded-full border border-slate-200 font-bold shadow-xs transition-transform duration-300 group-hover:scale-105">
                     {product.badge}
                   </div>
                 </div>
 
                 <div className="px-1">
-                  <div className="text-[11px] font-bold text-emerald-600 uppercase tracking-wide mb-1">
+                  <div className="text-[11px] font-bold text-emerald-600 uppercase tracking-wide mb-1 transition-colors duration-200 group-hover:text-emerald-700">
                     {product.tagline}
                   </div>
-                  <h3 className="text-base sm:text-lg font-bold text-slate-800 leading-tight">
+                  <h3 className="text-base sm:text-lg font-bold text-slate-800 leading-tight transition-colors duration-200 group-hover:text-slate-900">
                     {product.name}
                   </h3>
                   <p className="urdu-text text-xs sm:text-sm text-slate-500 mt-1.5 leading-relaxed line-clamp-2" dir="rtl">
@@ -105,18 +105,18 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
               <div className="mt-4 pt-3 border-t border-slate-100 space-y-2">
                 <a
                   id={`product-whatsapp-${product.id}`}
-                  className="w-full flex items-center justify-center gap-1.5 bg-green-500 hover:bg-green-600 text-white text-xs sm:text-sm font-bold py-2.5 px-3 rounded-xl shadow-xs transition-all active:scale-95"
+                  className="w-full flex items-center justify-center gap-1.5 bg-green-500 hover:bg-green-600 text-white text-xs sm:text-sm font-bold py-2.5 px-3 rounded-xl shadow-xs hover:shadow-md transition-all duration-200 hover:scale-[1.02] active:scale-95"
                   href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent(product.inquiryMessage)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <span className="material-symbols-outlined text-[17px]">chat</span>
+                  <span className="material-symbols-outlined text-[17px] transition-transform duration-200 group-hover:rotate-6">chat</span>
                   <span>WhatsApp پر رابطہ کریں</span>
                 </a>
                 <button
                   type="button"
                   onClick={() => setSelectedProduct(product)}
-                  className="w-full py-2 bg-slate-100 hover:bg-emerald-600 hover:text-white rounded-xl text-xs font-bold text-slate-600 text-center transition-all cursor-pointer"
+                  className="w-full py-2 bg-slate-100 hover:bg-emerald-600 hover:text-white rounded-xl text-xs font-bold text-slate-600 text-center transition-all duration-200 hover:scale-[1.01] hover:shadow-xs cursor-pointer"
                 >
                   فصل کی معلومات اور رہنمائی
                 </button>

@@ -48,21 +48,21 @@ export const AboutSection: React.FC = () => {
           <div className="lg:col-span-5">
             <div
               id="creator-highlight-card"
-              className="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200 shadow-sm"
+              className="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 group"
             >
               <div className="flex items-center gap-4">
-                <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden shrink-0 border-2 border-emerald-500 shadow-xs">
+                <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden shrink-0 border-2 border-emerald-500 shadow-xs transition-transform duration-500 group-hover:scale-105">
                   <img
                     src={creatorImgUrl}
                     alt="Portrait of Ibrahim Klasra, Web & Digital Architect"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     referrerPolicy="no-referrer"
                     loading="lazy"
                   />
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Digital Partner</p>
-                  <h4 className="text-lg sm:text-xl font-extrabold text-slate-800 mt-0.5">
+                  <p className="text-[10px] uppercase tracking-widest text-slate-400 font-bold transition-colors duration-300 group-hover:text-emerald-600">Digital Partner</p>
+                  <h4 className="text-lg sm:text-xl font-extrabold text-slate-800 mt-0.5 transition-colors duration-300 group-hover:text-emerald-800">
                     Ibrahim Klasra
                   </h4>
                   <p className="text-xs text-slate-500 font-medium">
@@ -82,7 +82,7 @@ export const AboutSection: React.FC = () => {
 
               <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
                 <span className="font-bold text-slate-700">Made by Ibrahim Klasra</span>
-                <span className="material-symbols-outlined text-emerald-600 text-[18px]">verified</span>
+                <span className="material-symbols-outlined text-emerald-600 text-[18px] transition-transform duration-300 group-hover:rotate-12">verified</span>
               </div>
             </div>
           </div>
