@@ -51,7 +51,11 @@ export const ContactMapSection: React.FC = () => {
                     >
                       {BUSINESS_INFO.phone}
                     </a>
-                    <div className="text-xs text-slate-500">Available 7 days a week for urgent spray requests</div>
+                    <div className="text-xs text-slate-500">Available 7 days a week: 7:00 AM — 6:30 PM</div>
+                    <div className="mt-1.5 flex items-center gap-1.5 text-xs font-semibold text-emerald-700">
+                      <span className="material-symbols-outlined text-[15px]">local_shipping</span>
+                      <span>Free Delivery / مفت ڈیلیوری</span>
+                    </div>
                   </div>
                 </div>
 
