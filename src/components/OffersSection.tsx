@@ -64,16 +64,25 @@ export const OffersSection: React.FC = () => {
                     </ul>
                   </div>
 
-                  <a
-                    id={`offer-link-${offer.id}`}
-                    className="w-full py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold text-center transition-all duration-200 flex items-center justify-center gap-1.5 border border-white/10 active:scale-95 group-hover:border-white/25"
-                    href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent(offer.inquiryMessage)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <span>Order via WhatsApp</span>
-                    <span className="material-symbols-outlined text-[16px] transition-transform duration-200 group-hover:translate-x-1">arrow_forward</span>
-                  </a>
+                  <div className="space-y-2">
+                    <a
+                      id={`offer-link-${offer.id}`}
+                      className="btn-shimmer w-full py-2.5 px-3 bg-green-500 hover:bg-green-600 text-white rounded-xl text-xs font-bold text-center transition-all duration-300 flex items-center justify-between border border-green-400/40 shadow-sm active:scale-95"
+                      href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent(offer.inquiryMessage)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <div className="flex items-center gap-1.5">
+                        <span className="material-symbols-outlined text-[16px]">chat</span>
+                        <span>WhatsApp for Price</span>
+                      </div>
+                      <span className="urdu-text text-[11px]" dir="rtl">ریٹ معلوم کریں</span>
+                    </a>
+                    <div className="flex items-center justify-center gap-1.5 py-1 px-2.5 rounded-lg bg-emerald-950/60 border border-emerald-500/30 text-emerald-200 text-xs font-bold text-center">
+                      <span className="material-symbols-outlined text-[14px] text-amber-300">local_shipping</span>
+                      <span>🚚 Free Delivery (مفت ہوم ڈیلیوری)</span>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { BUSINESS_INFO } from '../data/agroData';
+import { KissanLogo } from './KissanLogo';
 
 export const Footer: React.FC = () => {
   return (
@@ -8,9 +9,9 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-10 border-b border-slate-800">
           {/* Brand Info */}
           <div>
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-8 h-8 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-bold">
-                <span className="material-symbols-outlined text-[20px]">eco</span>
+            <div className="flex items-center gap-3 mb-3">
+              <div className="shrink-0">
+                <KissanLogo size={44} animated={false} />
               </div>
               <span className="text-base font-extrabold text-white tracking-tight">
                 {BUSINESS_INFO.name}

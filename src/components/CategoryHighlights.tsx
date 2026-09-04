@@ -31,26 +31,32 @@ export const CategoryHighlights: React.FC<CategoryHighlightsProps> = ({ onSelect
             </p>
           </div>
           <div className="mt-5 pt-4 border-t border-slate-100 flex flex-col gap-2">
+            <a
+              href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent('Salam Kissan Agro Traders, what is the price and availability of Pesticides for crops?')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-shimmer w-full py-2.5 px-3 bg-green-500 hover:bg-green-600 text-white rounded-xl text-xs font-bold text-center transition-all duration-300 flex items-center justify-between shadow-xs hover:shadow-md border border-green-400/40 active:scale-95"
+            >
+              <div className="flex items-center gap-1.5">
+                <span className="material-symbols-outlined text-[16px]">chat</span>
+                <span>WhatsApp for Price</span>
+              </div>
+              <span className="urdu-text text-[11px]" dir="rtl">ریٹ معلوم کریں</span>
+            </a>
+            <div className="flex items-center justify-center gap-1.5 py-1 px-2 rounded-lg bg-emerald-50/90 text-emerald-800 text-[11px] font-bold">
+              <span>🚚 Free Delivery (مفت ڈیلیوری)</span>
+            </div>
             <button
               type="button"
               onClick={() => {
                 onSelectCategory('pesticides');
                 document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="w-full py-2 bg-slate-100 hover:bg-emerald-600 hover:text-white rounded-xl text-xs font-bold text-slate-700 text-center transition-all duration-200 cursor-pointer flex items-center justify-center gap-1 active:scale-95"
+              className="w-full py-1.5 bg-slate-100 hover:bg-emerald-600 hover:text-white rounded-xl text-xs font-semibold text-slate-700 text-center transition-all duration-200 cursor-pointer flex items-center justify-center gap-1"
             >
               <span>View Products</span>
-              <span className="material-symbols-outlined text-[15px] transition-transform duration-200 group-hover:translate-x-0.5">arrow_forward</span>
+              <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
             </button>
-            <a
-              href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent('Salam Kissan Agro Traders, I want to inquire about Pesticides for my crop.')}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full py-2 bg-emerald-50 hover:bg-emerald-600 hover:text-white text-emerald-700 rounded-xl text-xs font-bold text-center transition-all duration-200 flex items-center justify-center gap-1.5 active:scale-95 shadow-2xs"
-            >
-              <span className="material-symbols-outlined text-[15px]">chat</span>
-              <span>WhatsApp Inquiry</span>
-            </a>
           </div>
         </div>
 
@@ -76,26 +82,32 @@ export const CategoryHighlights: React.FC<CategoryHighlightsProps> = ({ onSelect
             </p>
           </div>
           <div className="mt-5 pt-4 border-t border-slate-100 flex flex-col gap-2">
+            <a
+              href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent('Salam Kissan Agro Traders, what is the price and availability of Fertilizers?')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-shimmer w-full py-2.5 px-3 bg-green-500 hover:bg-green-600 text-white rounded-xl text-xs font-bold text-center transition-all duration-300 flex items-center justify-between shadow-xs hover:shadow-md border border-green-400/40 active:scale-95"
+            >
+              <div className="flex items-center gap-1.5">
+                <span className="material-symbols-outlined text-[16px]">chat</span>
+                <span>WhatsApp for Price</span>
+              </div>
+              <span className="urdu-text text-[11px]" dir="rtl">ریٹ معلوم کریں</span>
+            </a>
+            <div className="flex items-center justify-center gap-1.5 py-1 px-2 rounded-lg bg-emerald-50/90 text-emerald-800 text-[11px] font-bold">
+              <span>🚚 Free Delivery (مفت ڈیلیوری)</span>
+            </div>
             <button
               type="button"
               onClick={() => {
                 onSelectCategory('fertilizers');
                 document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="w-full py-2 bg-slate-100 hover:bg-emerald-600 hover:text-white rounded-xl text-xs font-bold text-slate-700 text-center transition-all duration-200 cursor-pointer flex items-center justify-center gap-1 active:scale-95"
+              className="w-full py-1.5 bg-slate-100 hover:bg-emerald-600 hover:text-white rounded-xl text-xs font-semibold text-slate-700 text-center transition-all duration-200 cursor-pointer flex items-center justify-center gap-1"
             >
               <span>View Soil Formulas</span>
-              <span className="material-symbols-outlined text-[15px] transition-transform duration-200 group-hover:translate-x-0.5">arrow_forward</span>
+              <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
             </button>
-            <a
-              href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent('Salam Kissan Agro Traders, I want to inquire about Fertilizers.')}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full py-2 bg-emerald-50 hover:bg-emerald-600 hover:text-white text-emerald-700 rounded-xl text-xs font-bold text-center transition-all duration-200 flex items-center justify-center gap-1.5 active:scale-95 shadow-2xs"
-            >
-              <span className="material-symbols-outlined text-[15px]">chat</span>
-              <span>WhatsApp Inquiry</span>
-            </a>
           </div>
         </div>
 
@@ -121,26 +133,32 @@ export const CategoryHighlights: React.FC<CategoryHighlightsProps> = ({ onSelect
             </p>
           </div>
           <div className="mt-5 pt-4 border-t border-slate-100 flex flex-col gap-2">
+            <a
+              href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent('Salam Kissan Agro Traders, what is the price and availability of Certified Seeds?')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-shimmer w-full py-2.5 px-3 bg-green-500 hover:bg-green-600 text-white rounded-xl text-xs font-bold text-center transition-all duration-300 flex items-center justify-between shadow-xs hover:shadow-md border border-green-400/40 active:scale-95"
+            >
+              <div className="flex items-center gap-1.5">
+                <span className="material-symbols-outlined text-[16px]">chat</span>
+                <span>WhatsApp for Price</span>
+              </div>
+              <span className="urdu-text text-[11px]" dir="rtl">ریٹ معلوم کریں</span>
+            </a>
+            <div className="flex items-center justify-center gap-1.5 py-1 px-2 rounded-lg bg-emerald-50/90 text-emerald-800 text-[11px] font-bold">
+              <span>🚚 Free Delivery (مفت ڈیلیوری)</span>
+            </div>
             <button
               type="button"
               onClick={() => {
                 onSelectCategory('seeds');
                 document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="w-full py-2 bg-slate-100 hover:bg-emerald-600 hover:text-white rounded-xl text-xs font-bold text-slate-700 text-center transition-all duration-200 cursor-pointer flex items-center justify-center gap-1 active:scale-95"
+              className="w-full py-1.5 bg-slate-100 hover:bg-emerald-600 hover:text-white rounded-xl text-xs font-semibold text-slate-700 text-center transition-all duration-200 cursor-pointer flex items-center justify-center gap-1"
             >
               <span>View Certified Seeds</span>
-              <span className="material-symbols-outlined text-[15px] transition-transform duration-200 group-hover:translate-x-0.5">arrow_forward</span>
+              <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
             </button>
-            <a
-              href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent('Salam Kissan Agro Traders, I want to inquire about Certified Seeds.')}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full py-2 bg-emerald-50 hover:bg-emerald-600 hover:text-white text-emerald-700 rounded-xl text-xs font-bold text-center transition-all duration-200 flex items-center justify-center gap-1.5 active:scale-95 shadow-2xs"
-            >
-              <span className="material-symbols-outlined text-[15px]">chat</span>
-              <span>WhatsApp Inquiry</span>
-            </a>
           </div>
         </div>
 
@@ -167,20 +185,26 @@ export const CategoryHighlights: React.FC<CategoryHighlightsProps> = ({ onSelect
           </div>
           <div className="mt-5 pt-4 border-t border-slate-100 flex flex-col gap-2">
             <a
-              href="#services"
-              className="w-full py-2 bg-slate-100 hover:bg-emerald-600 hover:text-white rounded-xl text-xs font-bold text-slate-700 text-center transition-all duration-200 cursor-pointer flex items-center justify-center gap-1 active:scale-95"
-            >
-              <span>Explore Drone Fleet</span>
-              <span className="material-symbols-outlined text-[15px] transition-transform duration-200 group-hover:translate-x-0.5">arrow_forward</span>
-            </a>
-            <a
-              href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent('Salam Kissan Agro Traders, I want to book a Drone Spray Slot.')}`}
+              href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent('Salam Kissan Agro Traders, what are the booking charges and price per acre for Drone Spray?')}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full py-2 bg-emerald-50 hover:bg-emerald-600 hover:text-white text-emerald-700 rounded-xl text-xs font-bold text-center transition-all duration-200 flex items-center justify-center gap-1.5 active:scale-95 shadow-2xs"
+              className="btn-shimmer w-full py-2.5 px-3 bg-green-500 hover:bg-green-600 text-white rounded-xl text-xs font-bold text-center transition-all duration-300 flex items-center justify-between shadow-xs hover:shadow-md border border-green-400/40 active:scale-95"
             >
-              <span className="material-symbols-outlined text-[15px]">chat</span>
-              <span>WhatsApp Inquiry</span>
+              <div className="flex items-center gap-1.5">
+                <span className="material-symbols-outlined text-[16px]">chat</span>
+                <span>WhatsApp for Price / Booking</span>
+              </div>
+              <span className="urdu-text text-[11px]" dir="rtl">ریٹ معلوم کریں</span>
+            </a>
+            <div className="flex items-center justify-center gap-1.5 py-1 px-2 rounded-lg bg-emerald-50/90 text-emerald-800 text-[11px] font-bold">
+              <span>🚚 Free Delivery (مفت فارم وزٹ)</span>
+            </div>
+            <a
+              href="#services"
+              className="w-full py-1.5 bg-slate-100 hover:bg-emerald-600 hover:text-white rounded-xl text-xs font-semibold text-slate-700 text-center transition-all duration-200 cursor-pointer flex items-center justify-center gap-1"
+            >
+              <span>Explore Drone Fleet</span>
+              <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
             </a>
           </div>
         </div>

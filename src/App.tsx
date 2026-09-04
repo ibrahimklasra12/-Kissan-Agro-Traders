@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { TopNoticeBar } from './components/TopNoticeBar';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
+import { WebCreatorCard } from './components/WebCreatorCard';
 import { CategoryHighlights } from './components/CategoryHighlights';
 import { ProductsSection } from './components/ProductsSection';
 import { OffersSection } from './components/OffersSection';
@@ -57,6 +58,9 @@ export default function App() {
       <main className="flex-1">
         {/* Hero Section */}
         <HeroSection />
+
+        {/* Ibrahim Klasra - Web Creator Feature Card */}
+        <WebCreatorCard />
 
         {/* 4-Pillar Category Highlights */}
         <CategoryHighlights

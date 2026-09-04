@@ -131,6 +131,42 @@ html {
   }
 }
 
+@keyframes logoFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-3px) rotate(0.5deg);
+  }
+}
+
+@keyframes goldGlowPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 6px rgba(229, 183, 75, 0.25)) drop-shadow(0 4px 10px rgba(6, 78, 59, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 14px rgba(229, 183, 75, 0.5)) drop-shadow(0 6px 16px rgba(6, 78, 59, 0.45));
+  }
+}
+
+@keyframes shimmerSweep {
+  0% {
+    transform: translateX(-150%) skewX(-20deg);
+  }
+  50%, 100% {
+    transform: translateX(250%) skewX(-20deg);
+  }
+}
+
+@keyframes subtlePulse {
+  0%, 100% {
+    opacity: 0.92;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 .animate-fade-in {
   animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
@@ -141,6 +177,71 @@ html {
 
 .animate-soft-float {
   animation: softFloat 4s ease-in-out infinite;
+}
+
+.animate-logo-float {
+  animation: logoFloat 5s ease-in-out infinite;
+}
+
+.animate-gold-glow {
+  animation: goldGlowPulse 4s ease-in-out infinite;
+}
+
+/* Premium Button Light Sweep */
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
+  transform: translateX(-150%) skewX(-20deg);
+  animation: shimmerSweep 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  pointer-events: none;
+}
+
+/* 3D-Style Card Transform */
+.card-premium-3d {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+  will-change: transform, box-shadow;
+}
+
+.card-premium-3d:hover {
+  transform: translateY(-6px) scale3d(1.01, 1.01, 1.01);
+  box-shadow: 0 22px 35px -8px rgba(6, 78, 59, 0.12),
+              0 10px 18px -6px rgba(15, 23, 42, 0.06);
+}
+
+/* Cinematic Dark Section Lighting */
+.cinematic-dark-mesh {
+  background: radial-gradient(circle at 15% 20%, rgba(16, 185, 129, 0.15) 0%, transparent 40%),
+              radial-gradient(circle at 85% 80%, rgba(245, 158, 11, 0.1) 0%, transparent 40%),
+              #022c22;
+}
+
+/* Animated Border Highlight */
+.border-glow-emerald {
+  border-color: rgba(16, 185, 129, 0.3);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.border-glow-emerald:hover {
+  border-color: rgba(52, 211, 153, 0.7);
+  box-shadow: 0 0 15px -2px rgba(16, 185, 129, 0.25);
 }
 
 /* GPU Hardware Acceleration for buttery-smooth 60fps animations */

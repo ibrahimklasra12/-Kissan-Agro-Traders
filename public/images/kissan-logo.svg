@@ -1,0 +1,76 @@
+<svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="goldRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F9DF88" />
+      <stop offset="35%" stop-color="#E5B74B" />
+      <stop offset="70%" stop-color="#D29930" />
+      <stop offset="100%" stop-color="#F5D678" />
+    </linearGradient>
+    <radialGradient id="greenBgGrad" cx="45%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#135E40" />
+      <stop offset="65%" stop-color="#0A452D" />
+      <stop offset="100%" stop-color="#063220" />
+    </radialGradient>
+    <linearGradient id="wheatGold" x1="20%" y1="10%" x2="80%" y2="90%">
+      <stop offset="0%" stop-color="#FDEAB0" />
+      <stop offset="50%" stop-color="#ECC463" />
+      <stop offset="100%" stop-color="#D9A334" />
+    </linearGradient>
+    <clipPath id="innerCircleClip">
+      <circle cx="250" cy="250" r="218" />
+    </clipPath>
+  </defs>
+
+  <circle cx="250" cy="250" r="242" fill="url(#goldRingGrad)" stroke="#B37E22" stroke-width="3" />
+
+  <g clip-path="url(#innerCircleClip)">
+    <circle cx="250" cy="250" r="220" fill="url(#greenBgGrad)" />
+
+    <path d="M250 45 L390 185 L440 330 L450 450 L340 470 L250 300 Z" fill="#032115" opacity="0.32" />
+    <path d="M340 210 L470 340 L450 430 L310 320 Z" fill="#032115" opacity="0.25" />
+
+    <line x1="250" y1="40" x2="250" y2="460" stroke="url(#wheatGold)" stroke-width="5" stroke-linecap="round" />
+
+    <g stroke="url(#wheatGold)" stroke-width="4.5" stroke-linecap="round">
+      <line x1="250" y1="120" x2="250" y2="48" />
+      <line x1="243" y1="120" x2="232" y2="52" />
+      <line x1="257" y1="120" x2="268" y2="52" />
+      <line x1="237" y1="130" x2="218" y2="65" />
+      <line x1="263" y1="130" x2="282" y2="65" />
+    </g>
+
+    <g fill="url(#wheatGold)" stroke="#093C27" stroke-width="2.5">
+      <path d="M250 115 C240 100 235 88 250 78 C265 88 260 100 250 115 Z" />
+      <path d="M250 140 C234 125 230 108 248 98 C251 110 250 128 250 140 Z" />
+      <path d="M250 140 C266 125 270 108 252 98 C249 110 250 128 250 140 Z" />
+      <path d="M250 168 C230 150 225 130 247 118 C252 132 250 152 250 168 Z" />
+      <path d="M250 168 C270 150 275 130 253 118 C248 132 250 152 250 168 Z" />
+      <path d="M250 196 C228 175 222 152 247 140 C252 155 250 178 250 196 Z" />
+      <path d="M250 196 C272 175 278 152 253 140 C248 155 250 178 250 196 Z" />
+      <path d="M250 224 C228 200 220 176 247 164 C252 180 250 206 250 224 Z" />
+      <path d="M250 224 C272 200 280 176 253 164 C248 180 250 206 250 224 Z" />
+    </g>
+
+    <g>
+      <path d="M248 290 C215 285 160 270 110 215 C102 205 106 195 118 195 C140 196 155 186 168 178 C176 172 186 178 184 188 C198 185 212 180 225 174 C232 170 240 176 238 184 C250 182 260 178 270 172 C276 168 284 174 282 182 C286 198 280 230 252 285 Z" fill="url(#wheatGold)" stroke="#083824" stroke-width="2" />
+      <path d="M248 285 Q190 240 112 200" stroke="#083824" stroke-width="3" fill="none" stroke-linecap="round" />
+      <path d="M170 232 L150 215 M195 248 L178 230 M220 265 L208 245" stroke="#083824" stroke-width="1.8" stroke-linecap="round" />
+      <path d="M165 228 L185 210 M190 244 L215 222 M215 260 L242 238" stroke="#083824" stroke-width="1.8" stroke-linecap="round" />
+    </g>
+
+    <g>
+      <path d="M252 290 C285 285 340 270 390 215 C398 205 394 195 382 195 C360 196 345 186 332 178 C324 172 314 178 316 188 C302 185 288 180 275 174 C268 170 260 176 262 184 C250 182 240 178 230 172 C224 168 216 174 218 182 C214 198 220 230 248 285 Z" fill="url(#wheatGold)" stroke="#083824" stroke-width="2" />
+      <path d="M252 285 Q310 240 388 200" stroke="#083824" stroke-width="3" fill="none" stroke-linecap="round" />
+      <path d="M330 232 L350 215 M305 248 L322 230 M280 265 L292 245" stroke="#083824" stroke-width="1.8" stroke-linecap="round" />
+      <path d="M335 228 L315 210 M310 244 L285 222 M285 260 L258 238" stroke="#083824" stroke-width="1.8" stroke-linecap="round" />
+    </g>
+
+    <path d="M236 288 L250 300 L264 288 L250 276 Z" fill="url(#wheatGold)" stroke="#073522" stroke-width="2" />
+
+    <text x="250" y="356" text-anchor="middle" fill="url(#wheatGold)" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Montserrat', 'Arial Black', sans-serif" font-weight="900" font-size="58" letter-spacing="3">KISSAN</text>
+    <rect x="245" y="364" width="10" height="10" fill="url(#wheatGold)" rx="1.5" />
+    <text x="250" y="398" text-anchor="middle" fill="url(#wheatGold)" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Montserrat', 'Segoe UI', sans-serif" font-weight="800" font-size="26" letter-spacing="6.5">AGRO TRADERS</text>
+  </g>
+
+  <circle cx="250" cy="250" r="218" fill="none" stroke="url(#goldRingGrad)" stroke-width="3.5" opacity="0.85" />
+</svg>
