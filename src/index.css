@@ -194,3 +194,29 @@ button:active {
 .card-premium-hover {
   will-change: transform;
 }
+/* Premium text reveal */
+
+@keyframes textReveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+li,
+label,
+a,
+button {
+  animation: textReveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
