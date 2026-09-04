@@ -13,20 +13,23 @@ import { ProductsSection } from './components/ProductsSection';
 import { OffersSection } from './components/OffersSection';
 import { DroneServicesSection } from './components/DroneServicesSection';
 import { WhyChooseUs } from './components/WhyChooseUs';
+import { CustomerReviews } from './components/CustomerReviews';
 import { AboutSection } from './components/AboutSection';
 import { ContactMapSection } from './components/ContactMapSection';
 import { Footer } from './components/Footer';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
+import { DroneBookingModal } from './components/DroneBookingModal';
 
 export default function App() {
   const [activeSection, setActiveSection] = useState<string>('home');
   const [selectedCategory, setSelectedCategory] = useState<
     'all' | 'pesticides' | 'fertilizers' | 'seeds' | 'drone'
   >('all');
+  const [isGlobalDroneBookingOpen, setIsGlobalDroneBookingOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['home', 'products', 'services', 'offers', 'about', 'contact'];
+      const sections = ['home', 'products', 'services', 'offers', 'why-choose-us', 'reviews', 'about', 'contact'];
       const scrollPosition = window.scrollY + 180;
 
       for (const section of sections) {
@@ -47,7 +50,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-surface flex flex-col font-sans selection:bg-primary-fixed selection:text-on-primary-fixed">
+    <div className="min-h-screen bg-surface flex flex-col font-sans selection:bg-emerald-500 selection:text-white">
       {/* 1. Top Notice Announcement & Contact Bar */}
       <TopNoticeBar />
 
@@ -56,45 +59,54 @@ export default function App() {
 
       {/* 3. Main Content Container */}
       <main className="flex-1">
-        {/* Hero Section */}
+        {/* Hero Section (Preserved) */}
         <HeroSection />
 
-        {/* Ibrahim Klasra - Web Creator Feature Card */}
+        {/* 9. Ibrahim Klasra - Web Creator Feature Card */}
         <WebCreatorCard />
 
-        {/* 4-Pillar Category Highlights */}
+        {/* 1. Hamari Services (5 Pillars: Pesticide, Fertilizer, Seeds, Drone Spray, Free Delivery) */}
         <CategoryHighlights
           onSelectCategory={(category) => setSelectedCategory(category)}
+          onOpenDroneBooking={() => setIsGlobalDroneBookingOpen(true)}
         />
 
-        {/* Products Showcase & Advisory Filter */}
+        {/* 2 & 3. Products Showcase, Categories & Real-time Search */}
         <ProductsSection
           selectedCategory={selectedCategory}
           onCategoryChange={setSelectedCategory}
         />
 
-        {/* Precision Drone Spray Mechanization */}
+        {/* 7. Precision Drone Spray Mechanization with dedicated booking */}
         <DroneServicesSection />
 
         {/* Special Seasonal Bundles & Bulk Deals */}
         <OffersSection />
 
-        {/* Institutional Pillars: Why Choose Us */}
+        {/* 10. Institutional Pillars: Why Choose Us (Kyun Kissan Agro Traders?) */}
         <WhyChooseUs />
 
-        {/* Heritage & Creator Feature */}
+        {/* 4. Customer Reviews: Hamare Customers Ka Aitmaad */}
+        <CustomerReviews />
+
+        {/* Heritage & Owner Section (Preserved) */}
         <AboutSection />
 
-        {/* Interactive Store Location & Directions */}
+        {/* 5 & 6. Shop Location (Hamari Location) & Contact Section */}
         <ContactMapSection />
       </main>
 
-      {/* 4. Complete Footer */}
+      {/* Complete Footer (Preserved) */}
       <Footer />
 
-      {/* 5. Floating Quick Action WhatsApp Button */}
+      {/* 8. Floating Quick Action WhatsApp Button (💬 WhatsApp Karein) */}
       <FloatingWhatsApp />
+
+      {/* Global Drone Spray Booking Modal */}
+      <DroneBookingModal
+        isOpen={isGlobalDroneBookingOpen}
+        onClose={() => setIsGlobalDroneBookingOpen(false)}
+      />
     </div>
   );
 }
-

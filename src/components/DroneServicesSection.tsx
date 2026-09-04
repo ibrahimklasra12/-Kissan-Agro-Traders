@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BUSINESS_INFO } from '../data/agroData';
+import { DroneBookingModal } from './DroneBookingModal';
 
 export const DroneServicesSection: React.FC = () => {
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
+
   const droneActionImg =
     'https://lh3.googleusercontent.com/aida-public/AB6AXuBXO7-V_0OnehdWikYDJxgL58_EOd2aFBnvS2yAiSMLSxi6iqwzm-RWaPoLZ5oHCODdAjmeJmR_c3paNMm8dCY9wOiAAp10tnJBq9f-ggLLcrB2nNHOE7GA-i1nCQ9spRK9fJe8V7_UFdLku1dZ0tGkeCGHeExdsricWQ1cLVZmlLh_T5jEmI1yV7C3X6aI1rzHptOFXYnD-0vTwM1lLFiKd2aJO_ktu39-lcJ0fvTDcj8nNIh1NY33';
 
@@ -35,7 +38,7 @@ export const DroneServicesSection: React.FC = () => {
 
           {/* Content & Information */}
           <div className="lg:col-span-6">
-            <div className="inline-flex items-center gap-2 bg-purple-50 text-purple-700 px-3 py-1 rounded-full text-xs font-bold mb-4">
+            <div className="inline-flex items-center gap-2 bg-purple-50 text-purple-700 px-3 py-1 rounded-full text-xs font-bold mb-4 border border-purple-200/60">
               <span className="material-symbols-outlined text-[16px]">flight</span>
               <span>Next-Gen Farm Mechanization</span>
             </div>
@@ -84,39 +87,54 @@ export const DroneServicesSection: React.FC = () => {
               </div>
             </div>
 
-            {/* Actions */}
+            {/* Actions: Dedicated Drone Booking Button + WhatsApp + Call */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              {/* Feature 7: Button "🚁 Drone Spray Book Karein" */}
+              <button
+                id="drone-dedicated-book-btn"
+                type="button"
+                onClick={() => setIsBookingOpen(true)}
+                className="btn-shimmer inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white text-xs sm:text-sm font-extrabold px-6 py-3.5 rounded-2xl shadow-md hover:shadow-purple-500/25 transition-all duration-300 hover:scale-[1.02] active:scale-95 border border-purple-400/40 cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-[20px]">flight_takeoff</span>
+                <span>🚁 Drone Spray Book Karein</span>
+              </button>
+
               <a
                 id="drone-book-whatsapp-btn"
-                className="btn-shimmer inline-flex items-center justify-between gap-3 bg-green-500 hover:bg-green-600 text-white text-xs sm:text-sm font-bold px-6 py-3.5 rounded-2xl shadow-md hover:shadow-green-500/25 transition-all duration-300 hover:scale-[1.02] active:scale-95 border border-green-400/40"
+                className="inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white text-xs sm:text-sm font-bold px-5 py-3.5 rounded-2xl shadow-xs transition-all duration-300 hover:scale-[1.02] active:scale-95 border border-green-400/40"
                 href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent('Salam Kissan Agro Traders, what is the price per acre for Drone Spray Service?')}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <div className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[20px]">chat</span>
-                  <span>WhatsApp for Price &amp; Booking</span>
-                </div>
-                <span className="urdu-text text-xs text-white/90" dir="rtl">ریٹ معلوم کریں</span>
+                <span className="material-symbols-outlined text-[19px]">chat</span>
+                <span>WhatsApp Rates</span>
               </a>
+
               <a
                 id="drone-call-pilot-btn"
-                className="inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs sm:text-sm font-bold px-5 py-3.5 rounded-2xl transition-all duration-200 hover:scale-[1.01]"
+                className="inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs sm:text-sm font-bold px-4 py-3.5 rounded-2xl transition-all duration-200 hover:scale-[1.01]"
                 href={BUSINESS_INFO.telLink}
               >
-                <span className="material-symbols-outlined text-[20px] text-emerald-700">call</span>
-                <span>Call Helpline: +92 342 6400074</span>
+                <span className="material-symbols-outlined text-[19px] text-emerald-700">call</span>
+                <span>Call Helpline</span>
               </a>
             </div>
 
             {/* Free Delivery / Farm Survey Badge directly underneath */}
-            <div className="mt-3 inline-flex items-center gap-2 py-1.5 px-3.5 rounded-xl bg-emerald-50 border border-emerald-200/70 text-emerald-800 text-xs font-bold">
+            <div className="mt-4 inline-flex items-center gap-2 py-1.5 px-3.5 rounded-xl bg-emerald-50 border border-emerald-200/70 text-emerald-800 text-xs font-bold">
               <span className="material-symbols-outlined text-[16px] text-emerald-600">local_shipping</span>
               <span>🚚 Free Delivery (مفت فارم معائنہ و ڈیلیوری)</span>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Booking Form Modal */}
+      <DroneBookingModal
+        isOpen={isBookingOpen}
+        onClose={() => setIsBookingOpen(false)}
+      />
     </section>
   );
 };
