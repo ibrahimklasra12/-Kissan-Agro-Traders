@@ -5,6 +5,23 @@ import aegisImg from '../assets/images/product_aegis_1788436235592.jpg';
 import kammanGrImg from '../assets/images/product_kamman_gr_1788436254038.jpg';
 import foreePlusImg from '../assets/images/product_foree_plus_1788436270542.jpg';
 
+// 15 New High-Fidelity Product Images
+import diamondBajraImg from '../assets/images/product_bajra_1788536271482.jpg';
+import diamondRiceImg from '../assets/images/product_diamond_rice_1788536325268.jpg';
+import rootexImg from '../assets/images/product_rootex_1788536344907.jpg';
+import trunkStarImg from '../assets/images/product_trunk_star_1788536368864.jpg';
+import zinkronImg from '../assets/images/product_zinkron_1788536390165.jpg';
+import factorImg from '../assets/images/product_factor_1788536412452.jpg';
+import bestowImg from '../assets/images/product_bestow_1788536430994.jpg';
+import rangerGoldImg from '../assets/images/product_ranger_gold_1788536449698.jpg';
+import alpineImg from '../assets/images/product_alpine_1788536478713.jpg';
+import superHelperImg from '../assets/images/product_super_helper_1788536502779.jpg';
+import fallSuperImg from '../assets/images/product_fall_super_1788536523383.jpg';
+import nitroPotashImg from '../assets/images/product_nitro_potash_1788536545866.jpg';
+import sunflowerSeedImg from '../assets/images/product_sunflower_seed_1788536568263.jpg';
+import hybridOkraImg from '../assets/images/product_hybrid_okra_1788536588007.jpg';
+import trunkImg from '../assets/images/product_trunk_1788536612922.jpg';
+
 export const BUSINESS_INFO = {
   name: 'KISSAN AGRO TRADERS',
   urduName: 'کسان ایگرو ٹریڈرز',
@@ -112,6 +129,216 @@ export const PRODUCTS: Product[] = [
     imageAlt: 'Agricultural spray drone flying over crop field',
     badge: 'Drone Spray / ڈرون سروس',
     inquiryMessage: 'Salam Kissan Agro Traders, I want to book or inquire about Drone Spray Service.',
+  },
+  // 1. Diamond Hybrid Pearl Millet (SEED)
+  {
+    id: 'diamond-hybrid-pearl-millet',
+    name: 'Diamond Hybrid Pearl Millet',
+    category: 'seeds',
+    categoryLabel: 'Seeds',
+    categoryUrdu: 'ہائبرڈ باجرہ بیج',
+    tagline: 'ڈائمنڈ ہائبرڈ باجرہ بیج - شاندار پیداوار',
+    descriptionUrdu: 'صحت مند فصل، موٹا سٹہ اور بہترین پیداواری صلاحیت کا حامل پنجاب مصدقہ ہائبرڈ باجرہ بیج۔',
+    imageUrl: diamondBajraImg,
+    imageAlt: 'Diamond Hybrid Pearl Millet Seed package in lush green farm field',
+    badge: 'Seeds / ہائبرڈ بیج',
+    inquiryMessage: 'Salam Kissan Agro Traders, I want to inquire about Diamond Hybrid Pearl Millet Seed.',
+  },
+  // 2. Diamond Hybrid Rice (SEED)
+  {
+    id: 'diamond-hybrid-rice',
+    name: 'Diamond Hybrid Rice',
+    category: 'seeds',
+    categoryLabel: 'Seeds',
+    categoryUrdu: 'ہائبرڈ چاول بیج',
+    tagline: 'ڈائمنڈ 152 ہائبرڈ چاول بیج',
+    descriptionUrdu: 'ڈائمنڈ ہی بس ڈائمنڈ ہے - بھرپور شگوفے، لمبا وزنی دانہ اور شاندار پیداواری ریکارڈ۔',
+    imageUrl: diamondRiceImg,
+    imageAlt: 'Diamond 152 Hybrid Rice Seed bag in golden paddy field',
+    badge: 'Seeds / ہائبرڈ چاول',
+    inquiryMessage: 'Salam Kissan Agro Traders, I want to inquire about Diamond Hybrid Rice (Diamond 152).',
+  },
+  // 3. Rootex (PESTICIDE)
+  {
+    id: 'rootex',
+    name: 'Rootex',
+    category: 'pesticides',
+    categoryLabel: 'Pesticides',
+    categoryUrdu: 'جڑی بوٹی مار (کماد)',
+    tagline: 'روٹیکس 300 EC (Rootex)',
+    descriptionUrdu: 'کماد کی فصل میں ڈھیلا گھاس، مدھانہ، برو اور دیگر تمام سخت جان جڑی بوٹیوں کا جڑ سے مکمل صفایا۔',
+    imageUrl: rootexImg,
+    imageAlt: 'Rootex 300 EC herbicide bottle for sugarcane weed control',
+    badge: 'Pesticides / جڑی بوٹی مار',
+    inquiryMessage: 'Salam Kissan Agro Traders, I want to inquire about Rootex 300 EC for sugarcane.',
+  },
+  // 4. Trunk Star (PESTICIDE)
+  {
+    id: 'trunk-star',
+    name: 'Trunk Star',
+    category: 'pesticides',
+    categoryLabel: 'Pesticides',
+    categoryUrdu: 'بیج کی حفاظت و کیڑے مار',
+    tagline: 'ٹرنک سٹار 26% FS (Trunk Star)',
+    descriptionUrdu: 'ٹرنک سٹار لگائیں، بیماریوں اور کیڑوں سے مکمل حفاظت پائیں - کپاس اور دیگر فصلوں کے لیے بہترین حل۔',
+    imageUrl: trunkStarImg,
+    imageAlt: 'Trunk Star 26% FS chemical bottle in green field',
+    badge: 'Pesticides / زرعی ادویات',
+    inquiryMessage: 'Salam Kissan Agro Traders, I want to inquire about Trunk Star 26% FS.',
+  },
+  // 5. Zinkron Chelated (FERTILIZER)
+  {
+    id: 'zinkron-chelated',
+    name: 'Zinkron Chelated',
+    category: 'fertilizers',
+    categoryLabel: 'Fertilizers',
+    categoryUrdu: 'زنک چیلیٹڈ مائیکرو نیوٹرینٹ',
+    tagline: 'زنکرون چیلیٹڈ زنک (Zinkron Chelated)',
+    descriptionUrdu: 'مضبوط بنیاد، بھرپور پیداوار - فصل کو زنک کی فوری اور آسان فراہمی جو پودے کی مدافعت اور پیداوار بڑھائے۔',
+    imageUrl: zinkronImg,
+    imageAlt: 'Zinkron Chelated Zinc package in rice paddy field',
+    badge: 'Fertilizers / چیلیٹڈ زنک',
+    inquiryMessage: 'Salam Kissan Agro Traders, I want to inquire about Zinkron Chelated Zinc fertilizer.',
+  },
+  // 6. Factor (FERTILIZER)
+  {
+    id: 'factor',
+    name: 'Factor',
+    category: 'fertilizers',
+    categoryLabel: 'Fertilizers',
+    categoryUrdu: 'زمینی اصلاح کار',
+    tagline: 'فیکٹر (Factor) - زمینی اصلاح کار',
+    descriptionUrdu: 'زمین کی سخت تہہ توڑے، جڑوں کی نشوونما تیز کرے اور کھادوں کے استعمال کو انتہائی موثر بنائے۔',
+    imageUrl: factorImg,
+    imageAlt: 'Factor soil conditioner green bag standing in field',
+    badge: 'Fertilizers / زمینی اصلاح کار',
+    inquiryMessage: 'Salam Kissan Agro Traders, I want to inquire about Factor Soil Conditioner.',
+  },
+  // 7. Bestow (FERTILIZER)
+  {
+    id: 'bestow',
+    name: 'Bestow',
+    category: 'fertilizers',
+    categoryLabel: 'Fertilizers',
+    categoryUrdu: 'NPK فاسفیٹ کھاد',
+    tagline: 'بیستو NPK 17:44:0 (Bestow)',
+    descriptionUrdu: 'پیداوار کے ڈھیر - صحت مند فصل، بھرپور فاسفورس اور نائٹروجن سے فصل کی فوری اور متوازن غذائیت۔',
+    imageUrl: bestowImg,
+    imageAlt: 'Bestow NPK 17:44:0 Urea Phosphate fertilizer bag in cotton field',
+    badge: 'Fertilizers / یوریا فاسفیٹ',
+    inquiryMessage: 'Salam Kissan Agro Traders, I want to inquire about Bestow NPK 17:44:0 Urea Phosphate.',
+  },
+  // 8. Ranger Gold (PESTICIDE)
+  {
+    id: 'ranger-gold',
+    name: 'Ranger Gold',
+    category: 'pesticides',
+    categoryLabel: 'Pesticides',
+    categoryUrdu: 'دانے دار کیڑے مار',
+    tagline: 'رینجر گولڈ (Ranger Gold)',
+    descriptionUrdu: 'کیڑوں اور سنڈیوں سے پاک صحت مند کماد و دیگر فصلیں - دیرپا اور طاقتور تحفظ۔',
+    imageUrl: rangerGoldImg,
+    imageAlt: 'Ranger Gold pesticide pouch packaging in sugarcane farm',
+    badge: 'Pesticides / دانے دار زہر',
+    inquiryMessage: 'Salam Kissan Agro Traders, I want to inquire about Ranger Gold pesticide.',
+  },
+  // 9. Alpine (PESTICIDE)
+  {
+    id: 'alpine',
+    name: 'Alpine',
+    category: 'pesticides',
+    categoryLabel: 'Pesticides',
+    categoryUrdu: 'رس چوسنے والے کیڑوں کا خاتمہ',
+    tagline: 'الپائن 200 SG (Alpine)',
+    descriptionUrdu: 'رس چوسنے والے کیڑوں، سفید مکھی اور تھرپس کا فوری اور انتہائی موثر و دیرپا کنٹرول۔',
+    imageUrl: alpineImg,
+    imageAlt: 'Alpine 200 SG pesticide sachet pouch packaging',
+    badge: 'Pesticides / حشرات کش',
+    inquiryMessage: 'Salam Kissan Agro Traders, I want to inquire about Alpine 200 SG.',
+  },
+  // 10. Super Helper (FERTILIZER)
+  {
+    id: 'super-helper',
+    name: 'Super Helper',
+    category: 'fertilizers',
+    categoryLabel: 'Fertilizers',
+    categoryUrdu: 'درآمد شدہ زرعی ٹانک و کھاد',
+    tagline: 'سپر ہیلپر سپیشل (Super Helper Special)',
+    descriptionUrdu: 'پیداوار کا نیا معیار - امریکہ سے درآمد شدہ سپیشل فارمولیشن، دانہ موٹا اور فصل سرسبز و شاداب۔',
+    imageUrl: superHelperImg,
+    imageAlt: 'Super Helper Special foliar fertilizer container in wheat farm',
+    badge: 'Fertilizers / پلانٹ ٹانک',
+    inquiryMessage: 'Salam Kissan Agro Traders, I want to inquire about Super Helper Special.',
+  },
+  // 11. Fall Super (PESTICIDE)
+  {
+    id: 'fall-super',
+    name: 'Fall Super',
+    category: 'pesticides',
+    categoryLabel: 'Pesticides',
+    categoryUrdu: 'فال آرمی ورم سپیشلسٹ',
+    tagline: 'فال سپر 0.35% دانے دار (Fall Super)',
+    descriptionUrdu: 'مکئی اور دیگر فصلوں میں فال آرمی ورم اور دیگر نقصان دہ سنڈیوں کا مکمل اور یقینی صفایا۔',
+    imageUrl: fallSuperImg,
+    imageAlt: 'Fall Super 0.35% granular insecticide bag in corn field',
+    badge: 'Pesticides / دانے دار زہر',
+    inquiryMessage: 'Salam Kissan Agro Traders, I want to inquire about Fall Super 0.35% Granular.',
+  },
+  // 12. Nitro Potash (FERTILIZER)
+  {
+    id: 'nitro-potash',
+    name: 'Nitro Potash',
+    category: 'fertilizers',
+    categoryLabel: 'Fertilizers',
+    categoryUrdu: 'نائٹروپوٹاش پوٹاشیم نائٹریٹ',
+    tagline: 'ڈائمنڈ نائٹروپوٹاش (Diamond Nitro Potash)',
+    descriptionUrdu: 'پھل اور دانے کا سائز بڑا، چمکدار اور وزنی بنانے کے لیے بہترین حل - پھول گرنے سے روکے۔',
+    imageUrl: nitroPotashImg,
+    imageAlt: 'Diamond Nitro Potash Potassium Nitrate fertilizer package',
+    badge: 'Fertilizers / پوٹاشیم نائٹریٹ',
+    inquiryMessage: 'Salam Kissan Agro Traders, I want to inquire about Diamond Nitro Potash.',
+  },
+  // 13. Sunflower Seed (SEED)
+  {
+    id: 'sunflower-seed',
+    name: 'Sunflower Seed',
+    category: 'seeds',
+    categoryLabel: 'Seeds',
+    categoryUrdu: 'سورج مکھی ہائبرڈ بیج',
+    tagline: 'ڈائمنڈ 2033 سورج مکھی ہائبرڈ بیج',
+    descriptionUrdu: 'اعلیٰ تیل کی مقدار، شاندار پھول اور ریکارڈ پیداواری صلاحیت کا حامل مصدقہ سورج مکھی F1 ہائبرڈ بیج۔',
+    imageUrl: sunflowerSeedImg,
+    imageAlt: 'Diamond 2033 F1 Hybrid Sunflower Seed packet in sunflower field',
+    badge: 'Seeds / سورج مکھی',
+    inquiryMessage: 'Salam Kissan Agro Traders, I want to inquire about Diamond 2033 Sunflower Seed.',
+  },
+  // 14. Hybrid Okra (Bhindi) (SEED)
+  {
+    id: 'hybrid-okra',
+    name: 'Hybrid Okra (Bhindi)',
+    category: 'seeds',
+    categoryLabel: 'Seeds',
+    categoryUrdu: 'بھنڈی ہائبرڈ بیج',
+    tagline: 'ڈائمنڈ 33 F1 ہائبرڈ بھنڈی بیج',
+    descriptionUrdu: 'گہرا سبز رنگ، نازک لذیذ پھل اور پیلی رگ کے وائرس کے خلاف زبردست قوت مدافعت والا اعلیٰ بیج۔',
+    imageUrl: hybridOkraImg,
+    imageAlt: 'Diamond 33 F1 Hybrid Okra Bhindi seed pouch in flourishing field',
+    badge: 'Seeds / ہائبرڈ بیج',
+    inquiryMessage: 'Salam Kissan Agro Traders, I want to inquire about Diamond 33 F1 Hybrid Okra Seed.',
+  },
+  // 15. Trunk (PESTICIDE)
+  {
+    id: 'trunk',
+    name: 'Trunk',
+    category: 'pesticides',
+    categoryLabel: 'Pesticides',
+    categoryUrdu: 'باغات و کیڑے مار دوا',
+    tagline: 'ٹرنک 20% SC (Trunk)',
+    descriptionUrdu: 'آم کے باغات میں مینگو ہاپر، رس چوسنے والے کیڑوں کا مکمل صفایا اور پھل کی شاندار حفاظت۔',
+    imageUrl: trunkImg,
+    imageAlt: 'Trunk 20% SC insecticide bottle for mango tree hopper control',
+    badge: 'Pesticides / حشرات کش',
+    inquiryMessage: 'Salam Kissan Agro Traders, I want to inquire about Trunk 20% SC pesticide.',
   },
 ];
 
