@@ -44,20 +44,20 @@ export const OffersSection: React.FC = () => {
                 <div
                   key={offer.id}
                   id={`offer-card-${offer.id}`}
-                  className="bg-emerald-800/40 backdrop-blur-sm rounded-3xl p-6 border border-emerald-700/50 flex flex-col justify-between hover:border-emerald-500/60 transition-all shadow-sm"
+                  className="bg-emerald-800/40 backdrop-blur-sm rounded-3xl p-6 border border-emerald-700/50 flex flex-col justify-between hover:border-emerald-400/80 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl group"
                 >
                   <div>
-                    <div className="text-emerald-300 text-[11px] font-bold uppercase tracking-wider mb-2">
+                    <div className="text-emerald-300 text-[11px] font-bold uppercase tracking-wider mb-2 transition-colors group-hover:text-emerald-200">
                       {offer.packageNumber}
                     </div>
-                    <h3 className="text-lg font-bold mb-2 text-white">{offer.title}</h3>
+                    <h3 className="text-lg font-bold mb-2 text-white group-hover:text-emerald-100 transition-colors">{offer.title}</h3>
                     <p className="urdu-text text-sm text-emerald-100 mb-4 leading-relaxed" dir="rtl">
                       {offer.descriptionUrdu}
                     </p>
                     <ul className="space-y-2 text-xs sm:text-sm text-emerald-100/90 mb-6">
                       {offer.features.map((feat, i) => (
                         <li key={i} className="flex items-center gap-2">
-                          <span className="material-symbols-outlined text-emerald-400 text-[18px]">check_circle</span>
+                          <span className="material-symbols-outlined text-emerald-400 text-[18px] transition-transform duration-200 group-hover:scale-110">check_circle</span>
                           <span>{feat}</span>
                         </li>
                       ))}
@@ -66,13 +66,13 @@ export const OffersSection: React.FC = () => {
 
                   <a
                     id={`offer-link-${offer.id}`}
-                    className="w-full py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold text-center transition-all flex items-center justify-center gap-1.5 border border-white/10"
+                    className="w-full py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold text-center transition-all duration-200 flex items-center justify-center gap-1.5 border border-white/10 active:scale-95 group-hover:border-white/25"
                     href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent(offer.inquiryMessage)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     <span>Order via WhatsApp</span>
-                    <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+                    <span className="material-symbols-outlined text-[16px] transition-transform duration-200 group-hover:translate-x-1">arrow_forward</span>
                   </a>
                 </div>
               ))}

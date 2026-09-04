@@ -10,7 +10,7 @@ export const ContactMapSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-12 gap-8">
           {/* Contact Information Block */}
-          <div className="lg:col-span-5 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm flex flex-col justify-between">
+          <div className="lg:col-span-5 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm card-premium-hover flex flex-col justify-between">
             <div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold uppercase tracking-wider mb-2">
                 <span>Reach Out Today</span>
@@ -24,8 +24,8 @@ export const ContactMapSection: React.FC = () => {
 
               <div className="space-y-6">
                 {/* Location Item */}
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0">
+                <div className="flex items-start gap-4 group">
+                  <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105">
                     <span className="material-symbols-outlined text-[24px]">location_on</span>
                   </div>
                   <div>
@@ -38,8 +38,8 @@ export const ContactMapSection: React.FC = () => {
                 </div>
 
                 {/* Phone Call Item */}
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                <div className="flex items-start gap-4 group">
+                  <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105">
                     <span className="material-symbols-outlined text-[24px]">call</span>
                   </div>
                   <div>
@@ -56,8 +56,8 @@ export const ContactMapSection: React.FC = () => {
                 </div>
 
                 {/* WhatsApp Chat Item */}
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-green-50 text-green-600 flex items-center justify-center shrink-0">
+                <div className="flex items-start gap-4 group">
+                  <div className="w-12 h-12 rounded-2xl bg-green-50 text-green-600 flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105">
                     <span className="material-symbols-outlined text-[24px]">chat</span>
                   </div>
                   <div>
@@ -81,7 +81,7 @@ export const ContactMapSection: React.FC = () => {
             <div className="mt-8 pt-6 border-t border-slate-100 flex flex-wrap gap-3">
               <a
                 id="contact-action-whatsapp"
-                className="flex-1 inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-400 text-white text-xs sm:text-sm font-bold py-3.5 px-5 rounded-2xl transition-all active:scale-95 shadow-sm"
+                className="flex-1 inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white text-xs sm:text-sm font-bold py-3.5 px-5 rounded-2xl transition-all duration-200 active:scale-95 shadow-sm hover:shadow-md hover:scale-[1.02]"
                 href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent('Salam Kissan Agro Traders, I need direct assistance.')}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -91,7 +91,7 @@ export const ContactMapSection: React.FC = () => {
               </a>
               <a
                 id="contact-action-call"
-                className="inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs sm:text-sm font-bold py-3.5 px-5 rounded-2xl transition-colors"
+                className="inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs sm:text-sm font-bold py-3.5 px-5 rounded-2xl transition-all duration-200 hover:scale-[1.02]"
                 href={BUSINESS_INFO.telLink}
               >
                 <span className="material-symbols-outlined text-[18px]">call</span>
@@ -101,12 +101,15 @@ export const ContactMapSection: React.FC = () => {
           </div>
 
           {/* Map Card & Route Directions */}
-          <div className="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm flex flex-col justify-between">
+          <div className="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm card-premium-hover flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Store Directions</span>
-                  <h3 className="text-lg font-bold text-slate-800">Kot Addu Hub Location</h3>
+                  <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+                    <span className="urdu-text" dir="rtl">مدینہ چوک</span>
+                    <span className="text-sm font-semibold text-slate-500 font-sans">(Store Location)</span>
+                  </h3>
                 </div>
                 <span className="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold">
                   Easy Access

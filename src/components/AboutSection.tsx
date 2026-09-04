@@ -29,7 +29,7 @@ export const AboutSection: React.FC = () => {
             <div className="flex items-center gap-6 pt-4 border-t border-slate-200">
               <div>
                 <div className="text-lg sm:text-xl font-extrabold text-slate-800">Kot Addu</div>
-                <div className="text-xs text-slate-500 font-medium">Operating Hub</div>
+                <div className="text-xs text-slate-500 font-medium urdu-text" dir="rtl">مدینہ چوک</div>
               </div>
               <div className="h-8 w-px bg-slate-200" />
               <div>

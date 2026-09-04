@@ -55,13 +55,13 @@ export const WhyChooseUs: React.FC = () => {
           {pillars.map((pillar, idx) => (
             <div
               key={idx}
-              className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group"
+              className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm card-premium-hover hover:border-slate-300 flex flex-col justify-between group"
             >
               <div>
-                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 ${pillar.iconClass}`}>
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110 ${pillar.iconClass}`}>
                   <span className="material-symbols-outlined text-[26px]">{pillar.icon}</span>
                 </div>
-                <h3 className="text-base sm:text-lg font-bold text-slate-800">{pillar.title}</h3>
+                <h3 className="text-base sm:text-lg font-bold text-slate-800 group-hover:text-slate-900 transition-colors">{pillar.title}</h3>
                 <h4 className="urdu-text text-sm sm:text-base text-emerald-700 font-bold mt-0.5" dir="rtl">
                   {pillar.titleUrdu}
                 </h4>

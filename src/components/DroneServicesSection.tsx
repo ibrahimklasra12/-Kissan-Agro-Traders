@@ -11,15 +11,15 @@ export const DroneServicesSection: React.FC = () => {
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           {/* Imagery with Drone Action */}
           <div className="lg:col-span-6">
-            <div className="relative rounded-3xl overflow-hidden shadow-lg border border-slate-200 aspect-4/3">
+            <div className="relative rounded-3xl overflow-hidden shadow-lg border border-slate-200 aspect-4/3 group">
               <img
                 src={droneActionImg}
                 alt="Modern precision hexacopter agriculture spray drone hovering above green crop canopy spraying fine mist droplets"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 referrerPolicy="no-referrer"
                 loading="lazy"
               />
-              <div className="absolute bottom-4 left-4 right-4 bg-slate-900/90 backdrop-blur-md rounded-2xl p-4 text-white border border-white/10 flex items-center justify-between shadow-lg">
+              <div className="absolute bottom-4 left-4 right-4 bg-slate-900/90 backdrop-blur-md rounded-2xl p-4 text-white border border-white/10 flex items-center justify-between shadow-lg transition-transform duration-300 group-hover:translate-y-[-2px]">
                 <div>
                   <span className="text-xs text-emerald-400 font-bold">Fast Coverage</span>
                   <div className="text-base sm:text-lg font-extrabold">15-20 Mins / Acre</div>

@@ -50,9 +50,9 @@ export const HeroSection: React.FC = () => {
               </h2>
 
               {/* Verified Business Leadership - Clean Text Badge (No Fake/AI Photo) */}
-              <div className="inline-flex flex-wrap items-center gap-2 bg-black/40 border border-emerald-500/30 backdrop-blur-md px-3.5 py-1.5 rounded-2xl mb-5 text-emerald-200 shadow-xs">
+              <div className="inline-flex flex-wrap items-center gap-2 bg-black/40 border border-emerald-500/30 backdrop-blur-md px-3.5 py-1.5 rounded-2xl mb-5 text-emerald-200 shadow-xs transition-transform duration-300 hover:scale-[1.02]">
                 <span className="material-symbols-outlined text-[16px] text-emerald-400">verified</span>
-                <span className="urdu-text text-sm font-bold text-white" dir="rtl">محمد طارق کلسرا (Owner)</span>
+                <span className="text-sm font-bold text-white tracking-wide">Muhammad Tariq Klasra (Owner)</span>
                 <span className="text-xs text-emerald-300 font-medium">• Kissan Agro Traders</span>
               </div>
 
@@ -66,7 +66,7 @@ export const HeroSection: React.FC = () => {
                 <a
                   id="hero-whatsapp-cta"
                   className="bg-green-500 hover:bg-green-600 text-white font-bold py-3.5 sm:py-4 px-6 rounded-2xl flex items-center justify-between group transition-all duration-300 shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-95"
-                  href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent('السلام علیکم! کسان ایگرو ٹریڈرز - محمد طارق کلسرا، مجھے زرعی رہنمائی اور ادویات کی معلومات درکار ہیں۔')}`}
+                  href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent('السلام علیکم! کسان ایگرو ٹریڈرز - Muhammad Tariq Klasra، مجھے زرعی رہنمائی اور ادویات کی معلومات درکار ہیں۔')}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

@@ -18,15 +18,15 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
   ];
 
   return (
-    <header id="main-header" className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-xs">
+    <header id="main-header" className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs transition-shadow duration-300">
       <div className="flex justify-between items-center w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto h-16 sm:h-18">
         {/* Brand Logo & Identity */}
-        <a id="navbar-brand-logo" className="flex items-center gap-3 group" href="#home">
-          <div className="w-10 h-10 rounded-lg bg-emerald-600 flex items-center justify-center text-white font-bold text-xl shadow-xs group-hover:bg-emerald-700 transition-colors">
+        <a id="navbar-brand-logo" className="flex items-center gap-3 group transition-transform duration-200 hover:scale-[1.01]" href="#home">
+          <div className="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-bold text-xl shadow-xs group-hover:bg-emerald-700 group-hover:scale-105 transition-all duration-300">
             <span>K</span>
           </div>
           <div className="flex flex-col">
-            <span className="text-base sm:text-lg font-bold text-slate-800 leading-tight tracking-tight">
+            <span className="text-base sm:text-lg font-bold text-slate-800 leading-tight tracking-tight group-hover:text-emerald-800 transition-colors">
               {BUSINESS_INFO.name}
             </span>
             <div className="flex items-center gap-2">
@@ -49,13 +49,16 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
                 key={link.href}
                 id={`nav-link-${link.href.substring(1)}`}
                 href={link.href}
-                className={`text-sm font-semibold transition-colors duration-150 pb-1 ${
+                className={`text-sm font-semibold transition-all duration-200 pb-1 relative ${
                   isActive
-                    ? 'text-emerald-700 border-b-2 border-emerald-600'
-                    : 'text-slate-600 hover:text-emerald-700'
+                    ? 'text-emerald-700 font-bold'
+                    : 'text-slate-600 hover:text-emerald-700 hover:-translate-y-0.5'
                 }`}
               >
                 {link.label}
+                {isActive && (
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 rounded-full animate-fade-in" />
+                )}
               </a>
             );
           })}
@@ -65,7 +68,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
         <div className="flex items-center gap-2 sm:gap-3">
           <a
             id="nav-call-btn"
-            className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800 text-white text-xs sm:text-sm font-bold hover:bg-slate-700 transition-colors shadow-xs"
+            className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800 text-white text-xs sm:text-sm font-bold hover:bg-slate-700 transition-all duration-200 hover:scale-[1.02] shadow-xs"
             href={BUSINESS_INFO.telLink}
           >
             <span className="material-symbols-outlined text-[17px]">call</span>
@@ -73,12 +76,12 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
           </a>
           <a
             id="nav-whatsapp-btn"
-            className="inline-flex items-center gap-1.5 sm:gap-2 bg-green-500 hover:bg-green-600 text-white text-xs sm:text-sm font-bold px-3.5 sm:px-4 py-2 rounded-full shadow-xs hover:shadow transition-all duration-150 active:scale-95"
+            className="inline-flex items-center gap-1.5 sm:gap-2 bg-green-500 hover:bg-green-600 text-white text-xs sm:text-sm font-bold px-3.5 sm:px-4 py-2 rounded-full shadow-xs hover:shadow-md transition-all duration-200 hover:scale-[1.03] active:scale-95"
             href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent('Salam Kissan Agro Traders, I need information about your products.')}`}
             target="_blank"
             rel="noopener noreferrer"
           >
-            <span className="material-symbols-outlined text-[18px] sm:text-[20px]">chat</span>
+            <span className="material-symbols-outlined text-[18px] sm:text-[20px] transition-transform duration-200 hover:rotate-6">chat</span>
             <span>WhatsApp</span>
           </a>
 

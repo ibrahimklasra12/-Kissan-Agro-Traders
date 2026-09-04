@@ -71,26 +71,26 @@ html {
   background-color: #ffffff;
   border-radius: 1.5rem;
   border: 1px solid #e2e8f0;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .sleek-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 14px 20px -4px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 24px -4px rgba(0, 0, 0, 0.07), 0 6px 10px -2px rgba(0, 0, 0, 0.03);
 }
 
 .lift-card {
   background-color: #ffffff;
   border-radius: 1.5rem;
   border: 1px solid #e2e8f0;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .lift-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 14px 20px -4px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 24px -4px rgba(0, 0, 0, 0.07), 0 6px 10px -2px rgba(0, 0, 0, 0.03);
 }
 
 .card-premium-hover {
@@ -98,8 +98,28 @@ html {
 }
 
 .card-premium-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 18px 24px -5px rgba(0, 0, 0, 0.08), 0 8px 12px -6px rgba(0, 0, 0, 0.04);
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 12px -6px rgba(0, 0, 0, 0.04);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes softFloat {
@@ -111,8 +131,23 @@ html {
   }
 }
 
+.animate-fade-in {
+  animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 .animate-soft-float {
   animation: softFloat 4s ease-in-out infinite;
+}
+
+/* GPU Hardware Acceleration for buttery-smooth 60fps animations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform, opacity;
 }
 
 @media (prefers-reduced-motion: reduce) {

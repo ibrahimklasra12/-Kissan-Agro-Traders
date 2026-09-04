@@ -92,7 +92,7 @@ export const Footer: React.FC = () => {
           {/* Store Contacts */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-4">
-              Kot Addu Hub / پتہ اور رابطہ
+              مدینہ چوک / پتہ اور رابطہ
             </h4>
             <div className="space-y-3 text-xs text-slate-400">
               <div className="flex items-start gap-2">
