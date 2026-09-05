@@ -8,17 +8,23 @@ import { TopNoticeBar } from './components/TopNoticeBar';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { WebCreatorCard } from './components/WebCreatorCard';
+import { BusinessStats } from './components/BusinessStats';
 import { CategoryHighlights } from './components/CategoryHighlights';
+import { FeaturedProducts } from './components/FeaturedProducts';
 import { ProductsSection } from './components/ProductsSection';
-import { OffersSection } from './components/OffersSection';
+import { CropAdvisorySection } from './components/CropAdvisorySection';
 import { DroneServicesSection } from './components/DroneServicesSection';
+import { HowItWorks } from './components/HowItWorks';
+import { OffersSection } from './components/OffersSection';
 import { WhyChooseUs } from './components/WhyChooseUs';
+import { BrandSignatureBanner } from './components/BrandSignatureBanner';
 import { CustomerReviews } from './components/CustomerReviews';
 import { AboutSection } from './components/AboutSection';
 import { ContactMapSection } from './components/ContactMapSection';
 import { Footer } from './components/Footer';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { DroneBookingModal } from './components/DroneBookingModal';
+import { CropAdvisoryModal } from './components/CropAdvisoryModal';
 
 export default function App() {
   const [activeSection, setActiveSection] = useState<string>('home');
@@ -26,10 +32,23 @@ export default function App() {
     'all' | 'pesticides' | 'fertilizers' | 'seeds' | 'drone'
   >('all');
   const [isGlobalDroneBookingOpen, setIsGlobalDroneBookingOpen] = useState(false);
+  const [isGlobalCropAdvisoryOpen, setIsGlobalCropAdvisoryOpen] = useState(false);
 
   useEffect(() => {
+    const sections = [
+      'home',
+      'featured-products',
+      'products',
+      'services',
+      'crop-advisory',
+      'how-it-works',
+      'offers',
+      'why-choose-us',
+      'reviews',
+      'about',
+      'contact',
+    ];
     const handleScroll = () => {
-      const sections = ['home', 'products', 'services', 'offers', 'why-choose-us', 'reviews', 'about', 'contact'];
       const scrollPosition = window.scrollY + 180;
 
       for (const section of sections) {
@@ -59,53 +78,79 @@ export default function App() {
 
       {/* 3. Main Content Container */}
       <main className="flex-1">
-        {/* Hero Section (Preserved) */}
+        {/* Existing Hero Section (Strictly Preserved) */}
         <HeroSection />
 
-        {/* 9. Ibrahim Klasra - Web Creator Feature Card */}
+        {/* Existing Ibrahim Klasra - Web Creator Feature Card (Strictly Preserved) */}
         <WebCreatorCard />
 
-        {/* 1. Hamari Services (5 Pillars: Pesticide, Fertilizer, Seeds, Drone Spray, Free Delivery) */}
+        {/* 9. 📊 Trust / Business Statistics Section */}
+        <BusinessStats />
+
+        {/* 2. 🚜 Our Services — Interactive Cards (Pesticides, Fertilizers, Seeds, Drone, Free Delivery, Crop Advisory) */}
         <CategoryHighlights
           onSelectCategory={(category) => setSelectedCategory(category)}
           onOpenDroneBooking={() => setIsGlobalDroneBookingOpen(true)}
+          onOpenCropAdvisory={() => setIsGlobalCropAdvisoryOpen(true)}
         />
 
-        {/* 2 & 3. Products Showcase, Categories & Real-time Search */}
+        {/* 8. 🛍️ Featured Products Showcase */}
+        <FeaturedProducts />
+
+        {/* Existing Products Showcase, Full Catalog, Categories & Real-time Search */}
         <ProductsSection
           selectedCategory={selectedCategory}
           onCategoryChange={setSelectedCategory}
         />
 
-        {/* 7. Precision Drone Spray Mechanization with dedicated booking */}
-        <DroneServicesSection />
+        {/* 4. 🌱 Crop Advisory Section & Modal Trigger */}
+        <CropAdvisorySection
+          onOpenAdvisoryModal={() => setIsGlobalCropAdvisoryOpen(true)}
+        />
 
-        {/* Special Seasonal Bundles & Bulk Deals */}
+        {/* 3. 🚁 Precision Drone Spray Mechanization with Prominent Booking Banner */}
+        <DroneServicesSection
+          onOpenBookingModal={() => setIsGlobalDroneBookingOpen(true)}
+        />
+
+        {/* 10. 📦 How It Works — 3 Steps Process */}
+        <HowItWorks />
+
+        {/* Existing Special Seasonal Bundles & Bulk Deals (Preserved) */}
         <OffersSection />
 
-        {/* 10. Institutional Pillars: Why Choose Us (Kyun Kissan Agro Traders?) */}
+        {/* 1. 🌾 Premium "Why Choose Us?" Section (Kyun Kissan Agro Traders?) */}
         <WhyChooseUs />
 
-        {/* 4. Customer Reviews: Hamare Customers Ka Aitmaad */}
+        {/* 11. 🌿 Brand Signature Banner ("کسان کی ترقی ہماری اولین ترجیح") */}
+        <BrandSignatureBanner />
+
+        {/* 5. ⭐ Customer Trust / Reviews Section (Hamare Customers Ka Aitmaad) */}
         <CustomerReviews />
 
-        {/* Heritage & Owner Section (Preserved) */}
+        {/* Existing Heritage & Owner Section (Strictly Preserved) */}
         <AboutSection />
 
-        {/* 5 & 6. Shop Location (Hamari Location) & Contact Section */}
+        {/* 6 & 7. 📍 Shop Location (Hamari Location) & 📞 Contact Section */}
         <ContactMapSection />
       </main>
 
-      {/* Complete Footer (Preserved) */}
+      {/* Existing Complete Footer (Strictly Preserved) */}
       <Footer />
 
-      {/* 8. Floating Quick Action WhatsApp Button (💬 WhatsApp Karein) */}
+      {/* 13. Floating Quick Action WhatsApp Button (💬 WhatsApp Karein) */}
       <FloatingWhatsApp />
 
-      {/* Global Drone Spray Booking Modal */}
+      {/* 3. Global Drone Spray Booking Modal */}
       <DroneBookingModal
         isOpen={isGlobalDroneBookingOpen}
         onClose={() => setIsGlobalDroneBookingOpen(false)}
+      />
+
+      {/* 4. Global Crop Advisory Modal */}
+      <CropAdvisoryModal
+        isOpen={isGlobalCropAdvisoryOpen}
+        onClose={() => setIsGlobalCropAdvisoryOpen(false)}
       />
     </div>
   );

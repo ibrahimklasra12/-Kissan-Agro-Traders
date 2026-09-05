@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { BUSINESS_INFO } from '../data/agroData';
 
-interface DroneBookingModalProps {
+interface CropAdvisoryModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export const DroneBookingModal: React.FC<DroneBookingModalProps> = ({ isOpen, onClose }) => {
+export const CropAdvisoryModal: React.FC<CropAdvisoryModalProps> = ({ isOpen, onClose }) => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [village, setVillage] = useState('');
   const [crop, setCrop] = useState('');
-  const [acres, setAcres] = useState('');
+  const [issue, setIssue] = useState('');
+  const [details, setDetails] = useState('');
   const [error, setError] = useState('');
 
   if (!isOpen) return null;
@@ -19,7 +20,7 @@ export const DroneBookingModal: React.FC<DroneBookingModalProps> = ({ isOpen, on
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 1. Form Validation
+    // Form validation
     if (!name.trim()) {
       setError('Barah-e-karam apna naam darj karein (Please enter your name).');
       return;
@@ -29,30 +30,31 @@ export const DroneBookingModal: React.FC<DroneBookingModalProps> = ({ isOpen, on
       return;
     }
     if (!village.trim()) {
-      setError('Barah-e-karam apna gaon ya ilaqah darj karein (Please enter village/area).');
+      setError('Barah-e-karam apna gaon ya ilaqah darj karein (Please enter your village/area).');
       return;
     }
     if (!crop.trim()) {
       setError('Barah-e-karam fasal ka naam darj karein (Please enter crop name).');
       return;
     }
-    if (!acres.trim()) {
-      setError('Barah-e-karam kul raqbah (Total Acres) darj karein.');
+    if (!issue.trim()) {
+      setError('Barah-e-karam masla ya zaroorat darj karein (Please describe your crop issue).');
       return;
     }
 
     setError('');
 
-    // 2. Prepare exact WhatsApp message required
-    const message = `Assalam o Alaikum! Mujhe Drone Spray booking karwani hai.
+    // Prepare requested WhatsApp message
+    const message = `Assalam o Alaikum! Mujhe Crop Advisory chahiye.
 
 Naam: ${name.trim()}
 Mobile: ${phone.trim()}
 Village / Area: ${village.trim()}
 Crop: ${crop.trim()}
-Total Acres: ${acres.trim()}
+Masla / Zaroorat: ${issue.trim()}
+Additional Details: ${details.trim() ? details.trim() : 'N/A'}
 
-Kissan Agro Traders se Drone Spray service ke hawale se rabta karna hai.`;
+Kissan Agro Traders se agricultural guidance darkar hai.`;
 
     const encoded = encodeURIComponent(message);
     const whatsappUrl = `${BUSINESS_INFO.whatsappBaseUrl}?text=${encoded}`;
@@ -66,23 +68,24 @@ Kissan Agro Traders se Drone Spray service ke hawale se rabta karna hai.`;
     setPhone('');
     setVillage('');
     setCrop('');
-    setAcres('');
+    setIssue('');
+    setDetails('');
     setError('');
     onClose();
   };
 
   return (
     <div
-      id="drone-booking-modal-backdrop"
+      id="crop-advisory-modal-backdrop"
       className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto animate-in fade-in duration-200"
       onClick={resetAndClose}
     >
       <div
-        id="drone-booking-modal"
+        id="crop-advisory-modal"
         className="bg-white max-w-lg w-full rounded-3xl p-6 sm:p-8 shadow-2xl border border-emerald-200 relative my-8 max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close X Button */}
+        {/* Close Button */}
         <button
           type="button"
           onClick={resetAndClose}
@@ -95,23 +98,23 @@ Kissan Agro Traders se Drone Spray service ke hawale se rabta karna hai.`;
         {/* Modal Header */}
         <div className="flex items-center gap-3 mb-4">
           <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center shadow-xs">
-            <span className="material-symbols-outlined text-[26px]">flight_takeoff</span>
+            <span className="material-symbols-outlined text-[26px]">psychology_alt</span>
           </div>
           <div>
             <span className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider block">
-              Precision Drone Spray • جدید ڈرون اسپرے
+              Agricultural Guidance • زرعی رہنمائی
             </span>
             <h3 className="text-xl sm:text-2xl font-black text-slate-800">
-              🚁 Drone Spray Booking
+              🌱 Crop Advisory Form
             </h3>
             <span className="urdu-text text-xs text-emerald-700 font-bold block" dir="rtl">
-              اپنی فصل کا اسپرے اب ڈرون سے کروائیں
+              فصل کے لیے بہتر زرعی مشورہ حاصل کریں
             </span>
           </div>
         </div>
 
         <p className="text-xs text-slate-500 mb-5 leading-relaxed">
-          Neeche diye gaye form mein apni fasal aur raqbah ki maloomat darj karein. Form submit karne par WhatsApp par booking request auto-fill ho jaye gi.
+          Apni fasal ki bimari, keeron ke hamle ya khad ke intekhab ke liye maloomat darj karein. Kissan Agro Traders ke mahir rabta farmayein ge.
         </p>
 
         {error && (
@@ -178,44 +181,56 @@ Kissan Agro Traders se Drone Spray service ke hawale se rabta karna hai.`;
               required
               value={crop}
               onChange={(e) => setCrop(e.target.value)}
-              placeholder="e.g. گندم / کپاس / مکئی / کماد / باغات"
+              placeholder="e.g. گندم / کپاس / مکئی / کماد / چاول / باغات"
               className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-800 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
             />
           </div>
 
-          {/* 5. Total Acres */}
+          {/* 5. Masla / Zaroorat */}
           <div>
             <label className="block text-xs font-bold text-slate-700 mb-1">
-              5. Total Acres (کل رقبہ / ایکڑ) <span className="text-red-500">*</span>
+              5. Masla / Zaroorat (مسئلہ یا ضرورت) <span className="text-red-500">*</span>
             </label>
-            <input
-              type="number"
-              min="1"
-              step="1"
+            <textarea
+              rows={2}
               required
-              value={acres}
-              onChange={(e) => setAcres(e.target.value)}
-              placeholder="e.g. 5 یا 10 ایکڑ"
-              className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-800 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+              value={issue}
+              onChange={(e) => setIssue(e.target.value)}
+              placeholder="e.g. سفید مکھی کا حملہ، جڑی بوٹیوں کی تلفی، کھاد کی صحیح مقدار"
+              className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-800 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all resize-none"
+            />
+          </div>
+
+          {/* 6. Additional Details (Optional) */}
+          <div>
+            <label className="block text-xs font-bold text-slate-700 mb-1">
+              6. Additional Details (اضافی تفصیلات - اختیاری)
+            </label>
+            <textarea
+              rows={2}
+              value={details}
+              onChange={(e) => setDetails(e.target.value)}
+              placeholder="Koi mazeed khas wazahat (Optional)"
+              className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-800 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all resize-none"
             />
           </div>
 
           {/* Submit Button */}
           <div className="pt-2">
             <button
-              id="drone-booking-submit-btn"
+              id="crop-advisory-submit-btn"
               type="submit"
               className="btn-shimmer w-full py-3.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-sm font-extrabold flex items-center justify-center gap-2 shadow-md hover:shadow-emerald-600/30 transition-all cursor-pointer active:scale-98"
             >
               <span className="material-symbols-outlined text-[20px]">chat</span>
-              <span>📲 WhatsApp Par Booking Bhejein</span>
+              <span>📲 WhatsApp Par Mashwara Mangwayein</span>
             </button>
           </div>
         </form>
 
         {/* Footnote */}
         <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
-          <span>Kissan Agro Traders Drone Pilot Helpline</span>
+          <span>Kissan Agro Traders Helpline</span>
           <span className="font-bold text-emerald-700">{BUSINESS_INFO.phone}</span>
         </div>
       </div>

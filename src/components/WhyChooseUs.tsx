@@ -3,93 +3,114 @@ import React from 'react';
 export const WhyChooseUs: React.FC = () => {
   const pillars = [
     {
-      badge: '✅ Quality Products',
+      badge: '✓ Genuine Products',
       icon: 'verified',
-      iconClass: 'bg-emerald-100 text-emerald-800 border-emerald-200',
-      title: 'Quality Products',
-      titleUrdu: 'معیاری اور 100% اصل ادویات',
+      gradient: 'from-emerald-500/10 via-emerald-500/5 to-transparent',
+      iconBg: 'bg-emerald-100 text-emerald-800 border-emerald-300/80',
+      title: 'Genuine Products',
+      titleUrdu: '100% تصدیق شدہ اور اصل ادویات',
       description:
-        'No counterfeit or sub-standard formulations. Every chemical batch is sourced from verified corporate manufacturers like Suncrop Group.',
+        'Zero counterfeit guarantee. Every pesticide, fertilizer, and seed batch is 100% original, lab-verified, and sourced from top manufacturers.',
     },
     {
-      badge: '✅ Trusted Service',
-      icon: 'handshake',
-      iconClass: 'bg-teal-100 text-teal-800 border-teal-200',
-      title: 'Trusted Service',
-      titleUrdu: 'قابلِ اعتماد کسان خدمات',
+      badge: '✓ Agricultural Guidance',
+      icon: 'psychology_alt',
+      gradient: 'from-green-500/10 via-green-500/5 to-transparent',
+      iconBg: 'bg-green-100 text-green-800 border-green-300/80',
+      title: 'Agricultural Guidance',
+      titleUrdu: 'مفید اور مفت زرعی رہنمائی',
       description:
-        'Decades of honest partnership with local farmers in Kot Addu, built on fair transparent rates and guaranteed authenticity.',
+        'Scientific field advice, pest threshold diagnosis, and custom crop nutrition schedules tailored directly to local soil conditions.',
     },
     {
-      badge: '✅ Expert Guidance',
-      icon: 'psychology',
-      iconClass: 'bg-green-100 text-green-800 border-green-200',
-      title: 'Expert Guidance',
-      titleUrdu: 'ماہرانہ زرعی رہنمائی',
+      badge: '✓ Drone Spray',
+      icon: 'flight_takeoff',
+      gradient: 'from-purple-500/10 via-purple-500/5 to-transparent',
+      iconBg: 'bg-purple-100 text-purple-800 border-purple-300/80',
+      title: 'Drone Spray',
+      titleUrdu: 'جدید ڈرون اسپرے سروس',
       description:
-        'Certified agricultural field advice, pest threshold diagnosis, and precise dosage schedules tailored to your specific crop soil.',
+        'Next-generation GPS aerial spraying. Uniform canopy coverage in 15-20 minutes per acre with 0% crop trampling and massive water savings.',
     },
     {
-      badge: '✅ Free Delivery',
+      badge: '✓ Free Delivery',
       icon: 'local_shipping',
-      iconClass: 'bg-emerald-100 text-emerald-800 border-emerald-200',
+      gradient: 'from-teal-500/10 via-teal-500/5 to-transparent',
+      iconBg: 'bg-teal-100 text-teal-800 border-teal-300/80',
       title: 'Free Delivery',
       titleUrdu: '100% مفت فارم ڈیلیوری',
       description:
-        'Zero delivery fee! Heavy fertilizer bags, pesticides, and seeds delivered directly to your farm or dera across the region.',
+        'Heavy fertilizer bags, pesticides, and hybrid seeds delivered straight to your farm or dera with 100% free delivery across Kot Addu.',
     },
     {
-      badge: '✅ Drone Spray Service',
-      icon: 'flight_takeoff',
-      iconClass: 'bg-purple-100 text-purple-800 border-purple-200',
-      title: 'Drone Spray Service',
-      titleUrdu: 'جدید ڈرون اسپرے سروس',
+      badge: '✓ Trusted Service',
+      icon: 'handshake',
+      gradient: 'from-amber-500/10 via-amber-500/5 to-transparent',
+      iconBg: 'bg-amber-100 text-amber-800 border-amber-300/80',
+      title: 'Trusted Service',
+      titleUrdu: 'کسانوں کا قابلِ اعتماد ادارہ',
       description:
-        'Advanced GPS agricultural hexacopters providing uniform micro-droplet coverage in 15 minutes per acre with zero crop trampling.',
+        'Decades of honest partnership with thousands of growers in Kot Addu, built upon transparent rates, mutual respect, and genuine care.',
     },
   ];
 
   return (
-    <section id="why-choose-us" className="py-12 lg:py-16 bg-slate-50 border-t border-slate-200/60">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold uppercase tracking-wider mb-2 border border-emerald-200/60">
-            <span className="material-symbols-outlined text-[16px] text-emerald-600">military_tech</span>
-            <span>Unmatched Reliability</span>
+    <section id="why-choose-us" className="py-14 lg:py-18 bg-slate-50 border-t border-slate-200/60 relative overflow-hidden">
+      {/* Subtle Background Glow */}
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-emerald-100/40 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-teal-100/40 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Section Header */}
+        <div className="text-center max-w-2xl mx-auto mb-12">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-100/80 text-emerald-800 text-xs font-bold uppercase tracking-wider mb-3 border border-emerald-300/60 shadow-xs">
+            <span className="material-symbols-outlined text-[16px] text-emerald-700">military_tech</span>
+            <span>Why Farmers Trust Us</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-800 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
             Kyun Kissan Agro Traders? / <span className="urdu-text font-bold text-emerald-700" dir="rtl">کیوں کسان ایگرو ٹریڈرز؟</span>
           </h2>
-          <p className="text-xs sm:text-sm text-slate-500 mt-2">
-            Committed to farmer prosperity through genuine products, fair guidance, free delivery, and cutting-edge drone mechanization.
+          <p className="text-xs sm:text-sm text-slate-600 mt-2.5 max-w-xl mx-auto leading-relaxed">
+            Har kisan ki behtar paidawar ke liye 100% genuine products, muft rahnumai, muft farm delivery aur jadeed drone technology.
           </p>
         </div>
 
-        {/* 5 Pillars Grid matching green/emerald theme */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4.5">
+        {/* 5 Animated Cards - Responsive Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
           {pillars.map((pillar, idx) => (
             <div
               key={idx}
-              className="bg-white p-5 rounded-3xl border border-slate-200 shadow-xs hover:shadow-md card-premium-hover hover:border-emerald-300 flex flex-col justify-between group transition-all duration-300"
+              style={{ animationDelay: `${idx * 100}ms` }}
+              className={`relative bg-white/90 backdrop-blur-xs p-6 rounded-3xl border border-emerald-100/80 shadow-xs hover:shadow-xl hover:-translate-y-2 hover:border-emerald-400 flex flex-col justify-between group transition-all duration-300 animate-slide-up overflow-hidden`}
             >
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <div className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 border ${pillar.iconClass}`}>
-                    <span className="material-symbols-outlined text-[24px]">{pillar.icon}</span>
+              {/* Subtle card top gradient */}
+              <div className={`absolute inset-x-0 top-0 h-24 bg-gradient-to-b ${pillar.gradient} pointer-events-none`} />
+
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-4">
+                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-xs border ${pillar.iconBg}`}>
+                    <span className="material-symbols-outlined text-[26px]">{pillar.icon}</span>
                   </div>
-                  <span className="text-[11px] font-extrabold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200/60">
+                  <span className="text-[10px] font-black text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200/70 shadow-2xs">
                     {pillar.badge}
                   </span>
                 </div>
-                <h3 className="text-base font-bold text-slate-800 group-hover:text-emerald-900 transition-colors">
+
+                <h3 className="text-lg font-black text-slate-800 group-hover:text-emerald-800 transition-colors tracking-tight">
                   {pillar.title}
                 </h3>
                 <h4 className="urdu-text text-sm font-bold text-emerald-700 mt-0.5" dir="rtl">
                   {pillar.titleUrdu}
                 </h4>
-                <p className="text-xs text-slate-500 mt-2 leading-relaxed">
+                <p className="text-xs text-slate-500 mt-2.5 leading-relaxed">
                   {pillar.description}
                 </p>
+              </div>
+
+              {/* Bottom Subtle Indicator */}
+              <div className="relative z-10 mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-semibold text-emerald-700">
+                <span>Verified Service</span>
+                <span className="material-symbols-outlined text-[16px] transition-transform duration-300 group-hover:translate-x-1">arrow_forward</span>
               </div>
             </div>
           ))}

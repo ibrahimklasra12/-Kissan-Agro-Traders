@@ -2,8 +2,20 @@ import React, { useState } from 'react';
 import { BUSINESS_INFO } from '../data/agroData';
 import { DroneBookingModal } from './DroneBookingModal';
 
-export const DroneServicesSection: React.FC = () => {
-  const [isBookingOpen, setIsBookingOpen] = useState(false);
+interface DroneServicesSectionProps {
+  onOpenBookingModal?: () => void;
+}
+
+export const DroneServicesSection: React.FC<DroneServicesSectionProps> = ({ onOpenBookingModal }) => {
+  const [internalBookingOpen, setInternalBookingOpen] = useState(false);
+
+  const handleOpenBooking = () => {
+    if (onOpenBookingModal) {
+      onOpenBookingModal();
+    } else {
+      setInternalBookingOpen(true);
+    }
+  };
 
   const droneActionImg =
     'https://lh3.googleusercontent.com/aida-public/AB6AXuBXO7-V_0OnehdWikYDJxgL58_EOd2aFBnvS2yAiSMLSxi6iqwzm-RWaPoLZ5oHCODdAjmeJmR_c3paNMm8dCY9wOiAAp10tnJBq9f-ggLLcrB2nNHOE7GA-i1nCQ9spRK9fJe8V7_UFdLku1dZ0tGkeCGHeExdsricWQ1cLVZmlLh_T5jEmI1yV7C3X6aI1rzHptOFXYnD-0vTwM1lLFiKd2aJO_ktu39-lcJ0fvTDcj8nNIh1NY33';
@@ -11,6 +23,43 @@ export const DroneServicesSection: React.FC = () => {
   return (
     <section id="services" className="py-12 lg:py-16 bg-white border-t border-slate-200/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Prominent Premium Banner for Drone Spray Booking (Requirement 3) */}
+        <div
+          id="drone-prominent-banner"
+          className="mb-10 relative overflow-hidden rounded-3xl bg-gradient-to-r from-purple-900 via-indigo-900 to-emerald-950 text-white p-6 sm:p-8 shadow-xl border border-purple-500/30 flex flex-col md:flex-row items-center justify-between gap-6"
+        >
+          {/* Ambient Lighting */}
+          <div className="absolute -top-12 -right-12 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-12 -left-12 w-64 h-64 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 space-y-2 text-center md:text-left">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/20 text-purple-200 text-xs font-bold border border-purple-400/30">
+              <span className="material-symbols-outlined text-[15px]">flight_takeoff</span>
+              <span>Precision Agriculture</span>
+            </div>
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-white tracking-tight">
+              🚁 Apni Fasal Ka Spray Ab Drone Se Karwayein
+            </h3>
+            <p className="urdu-text text-sm sm:text-base text-emerald-300 font-bold" dir="rtl">
+              وقت کی بچت، یکساں اسپرے اور فصل کے کچلے جانے کا صفر خطرہ
+            </p>
+          </div>
+
+          <div className="relative z-10 shrink-0 w-full md:w-auto">
+            {/* Requested Prominent Button: 🚁 Book Drone Spray */}
+            <button
+              id="drone-banner-book-btn"
+              type="button"
+              onClick={handleOpenBooking}
+              className="btn-shimmer w-full md:w-auto px-6 py-3.5 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-sm sm:text-base rounded-2xl shadow-lg hover:shadow-amber-400/30 transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center gap-2 cursor-pointer border border-amber-300"
+            >
+              <span className="material-symbols-outlined text-[20px] text-slate-950">flight_takeoff</span>
+              <span>🚁 Book Drone Spray</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Existing Grid Layout Preserved */}
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           {/* Imagery with Drone Action */}
           <div className="lg:col-span-6">
@@ -89,15 +138,14 @@ export const DroneServicesSection: React.FC = () => {
 
             {/* Actions: Dedicated Drone Booking Button + WhatsApp + Call */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-              {/* Feature 7: Button "🚁 Drone Spray Book Karein" */}
               <button
                 id="drone-dedicated-book-btn"
                 type="button"
-                onClick={() => setIsBookingOpen(true)}
+                onClick={handleOpenBooking}
                 className="btn-shimmer inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white text-xs sm:text-sm font-extrabold px-6 py-3.5 rounded-2xl shadow-md hover:shadow-purple-500/25 transition-all duration-300 hover:scale-[1.02] active:scale-95 border border-purple-400/40 cursor-pointer"
               >
                 <span className="material-symbols-outlined text-[20px]">flight_takeoff</span>
-                <span>🚁 Drone Spray Book Karein</span>
+                <span>🚁 Book Drone Spray</span>
               </button>
 
               <a
@@ -132,8 +180,8 @@ export const DroneServicesSection: React.FC = () => {
 
       {/* Booking Form Modal */}
       <DroneBookingModal
-        isOpen={isBookingOpen}
-        onClose={() => setIsBookingOpen(false)}
+        isOpen={internalBookingOpen}
+        onClose={() => setInternalBookingOpen(false)}
       />
     </section>
   );
