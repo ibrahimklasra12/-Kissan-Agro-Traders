@@ -1,18 +1,30 @@
 import React, { useState, useMemo } from 'react';
 import { PRODUCTS, BUSINESS_INFO } from '../data/agroData';
 import { Product } from '../types';
+import { ProductDetailModal } from './ProductDetailModal';
+import { useInquiryCart } from '../context/InquiryCartContext';
 
 interface ProductsSectionProps {
   selectedCategory: 'all' | 'pesticides' | 'fertilizers' | 'seeds' | 'drone';
   onCategoryChange: (category: 'all' | 'pesticides' | 'fertilizers' | 'seeds' | 'drone') => void;
+  onSelectProduct?: (product: Product) => void;
 }
 
 export const ProductsSection: React.FC<ProductsSectionProps> = ({
   selectedCategory,
   onCategoryChange,
+  onSelectProduct,
 }) => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const { addToInquiry } = useInquiryCart();
+
+  const handleOpenProduct = (product: Product) => {
+    setSelectedProduct(product);
+    if (onSelectProduct) {
+      onSelectProduct(product);
+    }
+  };
 
   const filterTabs = [
     { key: 'all', label: 'All Products', urdu: 'تمام' },
@@ -151,7 +163,12 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
                 id={`product-card-${product.id}`}
                 className="bg-white rounded-3xl border border-slate-200/90 p-4 flex flex-col justify-between shadow-sm card-premium-3d border-glow-emerald group"
               >
-                <div>
+                {/* Clickable Area to open ProductDetailModal */}
+                <div
+                  className="cursor-pointer"
+                  onClick={() => handleOpenProduct(product)}
+                  title={`${product.name} - View Details`}
+                >
                   {/* Product Image Frame with Zoom & Badges */}
                   <div className="relative aspect-square rounded-2xl bg-slate-50 overflow-hidden mb-3.5 border border-slate-100/80">
                     <img
@@ -188,13 +205,36 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
                   </div>
                 </div>
 
-                {/* Product Actions: WhatsApp for Price & Free Delivery */}
+                {/* Product Actions: Add to Inquiry, WhatsApp for Price & Details */}
                 <div className="mt-4 pt-3 border-t border-slate-100 space-y-2">
+                  {/* Action Row 1: Add to Inquiry & View Details */}
+                  <div className="grid grid-cols-2 gap-1.5">
+                    <button
+                      id={`card-add-inquiry-${product.id}`}
+                      type="button"
+                      onClick={() => addToInquiry(product, 1)}
+                      className="py-2 px-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 text-xs font-bold flex items-center justify-center gap-1 transition-all active:scale-95 cursor-pointer shadow-2xs"
+                    >
+                      <span className="material-symbols-outlined text-[16px] text-emerald-700">add_shopping_cart</span>
+                      <span>+ Inquiry</span>
+                    </button>
+
+                    <button
+                      id={`card-view-details-${product.id}`}
+                      type="button"
+                      onClick={() => handleOpenProduct(product)}
+                      className="py-2 px-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold flex items-center justify-center gap-1 transition-colors cursor-pointer"
+                    >
+                      <span className="material-symbols-outlined text-[16px]">info</span>
+                      <span>تفصیل دیکھیں</span>
+                    </button>
+                  </div>
+
                   {/* Primary Action: WhatsApp for Price */}
                   <a
                     id={`product-whatsapp-${product.id}`}
                     className="btn-shimmer w-full flex items-center justify-between bg-green-500 hover:bg-green-600 text-white text-xs sm:text-sm font-bold py-2.5 px-3.5 rounded-2xl shadow-sm hover:shadow-md hover:shadow-green-500/20 transition-all duration-300 hover:scale-[1.02] active:scale-95 border border-green-400/40 group/btn"
-                    href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent(`Salam Kissan Agro Traders, what is the price and availability of: ${product.name} (${product.tagline})?`)}`}
+                    href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent(`Assalam o Alaikum!\nMujhe ${product.name} (${product.tagline}) ke bare mein maloomat chahiye.`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -212,15 +252,6 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
                     <span className="text-slate-300 mx-0.5">•</span>
                     <span className="urdu-text text-[11px] font-semibold text-emerald-700" dir="rtl">مفت ڈیلیوری</span>
                   </div>
-
-                  {/* Info Modal Trigger */}
-                  <button
-                    type="button"
-                    onClick={() => setSelectedProduct(product)}
-                    className="w-full py-1.5 bg-slate-100/80 hover:bg-slate-200/80 hover:text-emerald-800 rounded-xl text-xs font-semibold text-slate-600 text-center transition-all duration-200 hover:scale-[1.01] cursor-pointer"
-                  >
-                    فصل کی رہنمائی و خوراک دیکھیں
-                  </button>
                 </div>
               </div>
             ))}
@@ -277,74 +308,11 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
         </div>
       </div>
 
-      {/* Product Detail Modal */}
-      {selectedProduct && (
-        <div
-          id="product-modal-backdrop"
-          className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4"
-          onClick={() => setSelectedProduct(null)}
-        >
-          <div
-            id="product-modal-content"
-            className="bg-white max-w-lg w-full rounded-3xl p-6 sm:p-7 shadow-2xl border border-slate-200 relative animate-in fade-in zoom-in-95 duration-150"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-start justify-between gap-4 mb-4">
-              <div>
-                <span className="text-xs font-bold text-emerald-600 uppercase tracking-wider">
-                  {selectedProduct.categoryLabel}
-                </span>
-                <h3 className="text-xl sm:text-2xl font-black text-slate-800 mt-0.5">
-                  {selectedProduct.name}
-                </h3>
-                <span className="text-sm font-bold text-slate-500">
-                  {selectedProduct.tagline}
-                </span>
-              </div>
-              <button
-                type="button"
-                onClick={() => setSelectedProduct(null)}
-                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 transition-colors cursor-pointer"
-              >
-                <span className="material-symbols-outlined text-[20px]">close</span>
-              </button>
-            </div>
-
-            <div className="rounded-2xl overflow-hidden mb-4 border border-slate-100 aspect-16/10 bg-slate-50">
-              <img
-                src={selectedProduct.imageUrl}
-                alt={selectedProduct.imageAlt}
-                className="w-full h-full object-cover"
-                referrerPolicy="no-referrer"
-              />
-            </div>
-
-            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200/80 mb-5">
-              <h4 className="text-xs font-bold uppercase text-slate-400 mb-1">تفصیل و فصل کی حفاظت:</h4>
-              <p className="urdu-text text-sm text-slate-700 leading-relaxed" dir="rtl">
-                {selectedProduct.descriptionUrdu}
-              </p>
-            </div>
-
-            <div className="space-y-2.5">
-              <a
-                href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent(`Salam Kissan Agro Traders, I want to confirm the rate and order for ${selectedProduct.name} (${selectedProduct.tagline}).`)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-shimmer w-full py-3 bg-green-500 hover:bg-green-600 text-white rounded-2xl text-xs sm:text-sm font-bold text-center transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-green-500/25 border border-green-400/40"
-              >
-                <span className="material-symbols-outlined text-[18px]">chat</span>
-                <span>WhatsApp پر ریٹ معلوم کریں اور آرڈر کریں</span>
-              </a>
-
-              <div className="flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-emerald-50 text-emerald-800 text-xs font-bold">
-                <span className="material-symbols-outlined text-[16px] text-emerald-600">local_shipping</span>
-                <span>🚚 Free Doorstep Delivery across Kot Addu</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Reusable Product Detail Modal */}
+      <ProductDetailModal
+        product={selectedProduct}
+        onClose={() => setSelectedProduct(null)}
+      />
     </section>
   );
 };

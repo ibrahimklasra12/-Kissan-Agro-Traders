@@ -20,3 +20,14 @@ export interface SeasonalOffer {
   features: string[];
   inquiryMessage: string;
 }
+
+export interface InquiryItem {
+  product: Product;
+  quantity: number;
+}
+
+export interface InquiryCustomerDetails {
+  name: string;
+  phone: string;
+  villageArea: string;
+}

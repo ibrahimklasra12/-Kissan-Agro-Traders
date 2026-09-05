@@ -1,12 +1,15 @@
 import React from 'react';
 import { PRODUCTS, BUSINESS_INFO } from '../data/agroData';
 import { Product } from '../types';
+import { useInquiryCart } from '../context/InquiryCartContext';
 
 interface FeaturedProductsProps {
   onSelectProduct?: (product: Product) => void;
 }
 
 export const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onSelectProduct }) => {
+  const { addToInquiry } = useInquiryCart();
+
   // Curated list of high-impact products from existing catalog without duplicating data
   const featuredList = PRODUCTS.filter((p) =>
     [
@@ -51,15 +54,20 @@ export const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onSelectProd
         {/* Featured Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {featuredList.map((product) => {
-            const waText = `Salam Kissan Agro Traders! Mujhe '${product.name}' (${product.categoryLabel}) ke baray mein maloomat aur price chahiye.`;
+            const waText = `Assalam o Alaikum!\nMujhe ${product.name} (${product.tagline}) ke bare mein maloomat chahiye.`;
             const waUrl = `${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent(waText)}`;
 
             return (
               <div
                 key={product.id}
+                id={`featured-card-${product.id}`}
                 className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-1.5 hover:border-emerald-300 flex flex-col justify-between group transition-all duration-300"
               >
-                <div>
+                {/* Clickable Area for Product Detail Modal */}
+                <div
+                  className="cursor-pointer"
+                  onClick={() => onSelectProduct?.(product)}
+                >
                   {/* Image Container with Badge */}
                   <div className="relative aspect-4/3 bg-slate-50 overflow-hidden border-b border-slate-100 flex items-center justify-center p-3">
                     <img
@@ -103,8 +111,8 @@ export const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onSelectProd
                 </div>
 
                 {/* Card Actions */}
-                <div className="p-4 sm:p-5 pt-0 border-t border-slate-100/60 mt-2">
-                  <div className="flex items-center justify-between py-1.5 px-2.5 rounded-xl bg-emerald-50 text-emerald-800 text-[11px] font-bold mb-2.5">
+                <div className="p-4 sm:p-5 pt-0 border-t border-slate-100/60 mt-2 space-y-2">
+                  <div className="flex items-center justify-between py-1.5 px-2.5 rounded-xl bg-emerald-50 text-emerald-800 text-[11px] font-bold">
                     <span className="flex items-center gap-1">
                       <span className="material-symbols-outlined text-[14px] text-emerald-600">local_shipping</span>
                       Free Farm Delivery
@@ -112,28 +120,40 @@ export const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onSelectProd
                     <span className="urdu-text" dir="rtl">مفت ترسیل</span>
                   </div>
 
-                  <div className="flex items-center gap-2">
-                    <a
-                      href={waUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn-shimmer flex-1 py-2.5 px-3 bg-green-500 hover:bg-green-600 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow-xs hover:shadow-md transition-all active:scale-95 border border-green-400/40"
+                  {/* Add to Inquiry & View Details buttons */}
+                  <div className="grid grid-cols-2 gap-1.5">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        addToInquiry(product, 1);
+                      }}
+                      className="py-2 px-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 text-xs font-bold flex items-center justify-center gap-1 transition-all active:scale-95 cursor-pointer"
                     >
-                      <span className="material-symbols-outlined text-[16px]">chat</span>
-                      <span>WhatsApp Inquiry</span>
-                    </a>
+                      <span className="material-symbols-outlined text-[15px] text-emerald-700">add_shopping_cart</span>
+                      <span>+ Inquiry</span>
+                    </button>
 
-                    {onSelectProduct && (
-                      <button
-                        type="button"
-                        onClick={() => onSelectProduct(product)}
-                        aria-label="Quick View"
-                        className="w-9 h-9 rounded-xl bg-slate-100 hover:bg-emerald-100 text-slate-600 hover:text-emerald-700 flex items-center justify-center transition-colors cursor-pointer"
-                      >
-                        <span className="material-symbols-outlined text-[18px]">visibility</span>
-                      </button>
-                    )}
+                    <button
+                      type="button"
+                      onClick={() => onSelectProduct?.(product)}
+                      className="py-2 px-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold flex items-center justify-center gap-1 transition-colors cursor-pointer"
+                    >
+                      <span className="material-symbols-outlined text-[15px]">info</span>
+                      <span>Details</span>
+                    </button>
                   </div>
+
+                  {/* WhatsApp Direct Action */}
+                  <a
+                    href={waUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-shimmer w-full py-2.5 px-3 bg-green-500 hover:bg-green-600 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow-xs hover:shadow-md transition-all active:scale-95 border border-green-400/40"
+                  >
+                    <span className="material-symbols-outlined text-[16px]">chat</span>
+                    <span>WhatsApp Inquiry</span>
+                  </a>
                 </div>
               </div>
             );

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BUSINESS_INFO } from '../data/agroData';
 import { KissanLogo } from './KissanLogo';
+import { useInquiryCart } from '../context/InquiryCartContext';
 
 interface NavbarProps {
   activeSection: string;
@@ -9,6 +10,7 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { totalCount, setIsDrawerOpen } = useInquiryCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -91,10 +93,31 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
         </nav>
 
         {/* Trailing Action Buttons */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-2 sm:gap-2.5">
+          {/* Inquiry Cart Action Button */}
+          <button
+            id="nav-inquiry-cart-btn"
+            type="button"
+            onClick={() => setIsDrawerOpen(true)}
+            aria-label={`View product inquiry cart (${totalCount} items)`}
+            className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-300 text-xs sm:text-sm font-extrabold transition-all duration-200 hover:scale-[1.03] active:scale-95 cursor-pointer shadow-2xs"
+          >
+            <span className="material-symbols-outlined text-[18px] sm:text-[20px] text-emerald-700">shopping_cart</span>
+            <span className="hidden sm:inline">Inquiry</span>
+            <span
+              className={`inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full text-[11px] font-black transition-all ${
+                totalCount > 0
+                  ? 'bg-emerald-700 text-white shadow-xs scale-105'
+                  : 'bg-emerald-200/70 text-emerald-800'
+              }`}
+            >
+              {totalCount}
+            </span>
+          </button>
+
           <a
             id="nav-call-btn"
-            className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800 text-white text-xs sm:text-sm font-bold hover:bg-slate-700 transition-all duration-200 hover:scale-[1.02] shadow-xs"
+            className="hidden lg:inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-slate-800 text-white text-xs sm:text-sm font-bold hover:bg-slate-700 transition-all duration-200 hover:scale-[1.02] shadow-xs"
             href={BUSINESS_INFO.telLink}
           >
             <span className="material-symbols-outlined text-[17px]">call</span>
@@ -102,12 +125,12 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
           </a>
           <a
             id="nav-whatsapp-btn"
-            className="btn-shimmer inline-flex items-center gap-1.5 sm:gap-2 bg-green-500 hover:bg-green-600 text-white text-xs sm:text-sm font-bold px-4 sm:px-5 py-2.5 rounded-full shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.03] active:scale-95 border border-green-400/40"
+            className="btn-shimmer inline-flex items-center gap-1.5 sm:gap-2 bg-green-500 hover:bg-green-600 text-white text-xs sm:text-sm font-bold px-3.5 sm:px-4.5 py-2 rounded-full shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.03] active:scale-95 border border-green-400/40"
             href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent('Salam Kissan Agro Traders, I need information about your products.')}`}
             target="_blank"
             rel="noopener noreferrer"
           >
-            <span className="material-symbols-outlined text-[18px] sm:text-[20px] transition-transform duration-200 group-hover:rotate-6">chat</span>
+            <span className="material-symbols-outlined text-[18px] transition-transform duration-200 group-hover:rotate-6">chat</span>
             <span>WhatsApp</span>
           </a>
 
@@ -116,7 +139,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
             id="mobile-menu-toggle-btn"
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden inline-flex items-center justify-center p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+            className="md:hidden inline-flex items-center justify-center p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer"
             aria-label="Toggle navigation menu"
           >
             <span className="material-symbols-outlined text-[24px]">
@@ -149,6 +172,23 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
             })}
           </nav>
           <div className="pt-3 mt-3 border-t border-slate-200 flex flex-col gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                setIsDrawerOpen(true);
+              }}
+              className="flex items-center justify-between px-3 py-2.5 text-sm font-bold text-emerald-900 bg-emerald-50 border border-emerald-200 rounded-xl"
+            >
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-[20px] text-emerald-700">shopping_cart</span>
+                <span>🛒 Product Inquiry Cart</span>
+              </div>
+              <span className="px-2 py-0.5 rounded-full bg-emerald-700 text-white text-xs font-black">
+                {totalCount} Items
+              </span>
+            </button>
+
             <a
               href={BUSINESS_INFO.telLink}
               className="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-slate-800 bg-slate-100 rounded-xl"
