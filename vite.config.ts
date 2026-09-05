@@ -6,9 +6,9 @@ import {VitePWA} from 'vite-plugin-pwa';
 
 const REPO_BASE = '/-Kissan-Agro-Traders/';
 
-export default defineConfig(({ command }) => {
-  const isProduction = command === 'build' || process.env.NODE_ENV === 'production';
-  const base = process.env.VITE_BASE || (isProduction ? REPO_BASE : '/');
+export default defineConfig(({ command, mode }) => {
+  const isBuild = command === 'build' || mode === 'production';
+  const base = process.env.VITE_BASE || (isBuild ? REPO_BASE : '/');
 
   return {
     base,
@@ -39,19 +39,19 @@ export default defineConfig(({ command }) => {
           scope: REPO_BASE,
           icons: [
             {
-              src: 'pwa-192x192.png',
+              src: `${REPO_BASE}pwa-192x192.png`,
               sizes: '192x192',
               type: 'image/png',
               purpose: 'any',
             },
             {
-              src: 'pwa-512x512.png',
+              src: `${REPO_BASE}pwa-512x512.png`,
               sizes: '512x512',
               type: 'image/png',
               purpose: 'any',
             },
             {
-              src: 'pwa-maskable-512x512.png',
+              src: `${REPO_BASE}pwa-maskable-512x512.png`,
               sizes: '512x512',
               type: 'image/png',
               purpose: 'maskable',
