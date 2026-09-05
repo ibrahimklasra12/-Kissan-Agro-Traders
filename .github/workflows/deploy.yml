@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - master
   workflow_dispatch:
 
 permissions:
@@ -35,9 +36,13 @@ jobs:
 
       - name: Build static website
         run: npm run build
+        env:
+          VITE_BASE: '/-Kissan-Agro-Traders/'
 
-      - name: Create 404.html fallback
-        run: cp dist/index.html dist/404.html
+      - name: Create GitHub Pages fallbacks (.nojekyll & 404.html)
+        run: |
+          cp dist/index.html dist/404.html
+          touch dist/.nojekyll
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

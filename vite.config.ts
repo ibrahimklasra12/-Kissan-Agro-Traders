@@ -4,9 +4,14 @@ import path from 'path';
 import {defineConfig} from 'vite';
 import {VitePWA} from 'vite-plugin-pwa';
 
+const REPO_BASE = '/-Kissan-Agro-Traders/';
+
 export default defineConfig(({ command }) => {
+  const isProduction = command === 'build' || process.env.NODE_ENV === 'production';
+  const base = process.env.VITE_BASE || (isProduction ? REPO_BASE : '/');
+
   return {
-    base: process.env.VITE_BASE || (command === 'build' ? '/-Kissan-Agro-Traders/' : '/'),
+    base,
     plugins: [
       react(),
       tailwindcss(),
@@ -19,8 +24,10 @@ export default defineConfig(({ command }) => {
           'pwa-192x192.png',
           'pwa-512x512.png',
           'pwa-maskable-512x512.png',
+          '.nojekyll',
         ],
         manifest: {
+          id: REPO_BASE,
           name: 'Kissan Agro Traders',
           short_name: 'Kissan Agro',
           description: 'Kissan Agro Traders — Pesticides, Fertilizers, Seeds & Drone Spray',
@@ -28,8 +35,8 @@ export default defineConfig(({ command }) => {
           background_color: '#f8fafc',
           display: 'standalone',
           orientation: 'portrait',
-          start_url: '/',
-          scope: '/',
+          start_url: REPO_BASE,
+          scope: REPO_BASE,
           icons: [
             {
               src: 'pwa-192x192.png',

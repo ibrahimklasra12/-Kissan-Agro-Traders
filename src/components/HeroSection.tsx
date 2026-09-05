@@ -3,7 +3,7 @@ import { BUSINESS_INFO } from '../data/agroData';
 import kissanShopImg from '../assets/images/kissan_shop_real_1788444483844.jpg';
 
 export const HeroSection: React.FC = () => {
-  const shopBgUrl = kissanShopImg || '/images/shop.jpg';
+  const shopBgUrl = kissanShopImg || `${import.meta.env.BASE_URL}images/shop.jpg`;
 
   return (
     <section

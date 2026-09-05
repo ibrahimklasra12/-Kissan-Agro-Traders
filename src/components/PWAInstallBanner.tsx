@@ -1,5 +1,6 @@
 import React from 'react';
 import { usePWAInstall } from '../hooks/usePWAInstall';
+import { KissanLogo } from './KissanLogo';
 
 export const PWAInstallBanner: React.FC = () => {
   const {
@@ -22,12 +23,8 @@ export const PWAInstallBanner: React.FC = () => {
         className="fixed bottom-20 sm:bottom-6 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-md z-40 bg-white/95 backdrop-blur-md rounded-2xl border border-emerald-200/90 shadow-xl p-3.5 sm:p-4 animate-in fade-in slide-in-from-bottom-5 duration-300"
       >
         <div className="flex items-center gap-3">
-          <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-emerald-800 to-emerald-950 p-1.5 shrink-0 shadow-xs flex items-center justify-center">
-            <img
-              src="/images/kissan-logo.svg"
-              alt="Kissan Agro Traders"
-              className="w-full h-full object-contain"
-            />
+          <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-emerald-800 to-emerald-950 p-1 shrink-0 shadow-xs flex items-center justify-center">
+            <KissanLogo size={36} animated={false} />
           </div>
 
           <div className="flex-1 min-w-0">
