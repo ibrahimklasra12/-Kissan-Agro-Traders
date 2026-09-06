@@ -1,39 +1,110 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { PRODUCTS } from '../data/agroData';
 
 export const BusinessStats: React.FC = () => {
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const [counter100Genuine, setCounter100Genuine] = useState(0);
+  const [counterCategories, setCounterCategories] = useState(0);
+  const [counter100Delivery, setCounter100Delivery] = useState(0);
+  const [counterProducts, setCounterProducts] = useState(0);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+        }
+      },
+      { threshold: 0.25 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [hasAnimated]);
+
+  useEffect(() => {
+    if (!hasAnimated) return;
+
+    // Check prefers-reduced-motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      setCounter100Genuine(100);
+      setCounterCategories(4);
+      setCounter100Delivery(100);
+      setCounterProducts(PRODUCTS.length);
+      return;
+    }
+
+    const duration = 1500;
+    const steps = 40;
+    const interval = duration / steps;
+    let step = 0;
+
+    const timer = setInterval(() => {
+      step++;
+      const progress = step / steps;
+      // easeOutQuad
+      const factor = 1 - (1 - progress) * (1 - progress);
+
+      setCounter100Genuine(Math.round(factor * 100));
+      setCounterCategories(Math.round(factor * 4));
+      setCounter100Delivery(Math.round(factor * 100));
+      setCounterProducts(Math.round(factor * PRODUCTS.length));
+
+      if (step >= steps) {
+        clearInterval(timer);
+        setCounter100Genuine(100);
+        setCounterCategories(4);
+        setCounter100Delivery(100);
+        setCounterProducts(PRODUCTS.length);
+      }
+    }, interval);
+
+    return () => clearInterval(timer);
+  }, [hasAnimated]);
+
   const stats = [
     {
-      metric: '100%',
+      metric: `${counter100Genuine}%`,
       label: 'Genuine Products',
       urduLabel: 'اصل اور مصدقہ پروڈکٹس',
       icon: 'verified_user',
       description: 'Zero counterfeit guarantee on all pesticides and fertilizers.',
     },
     {
-      metric: '4+',
+      metric: `${counterCategories}+`,
       label: 'Core Categories',
       urduLabel: 'چار زرعی شعبہ جات',
       icon: 'category',
       description: 'Pesticides, Fertilizers, Hybrid Seeds, and Drone Mechanization.',
     },
     {
-      metric: '100%',
+      metric: `${counterProducts}+`,
+      label: 'Verified Products',
+      urduLabel: 'مستند زرعی کیٹلاگ',
+      icon: 'inventory_2',
+      description: 'Handpicked pesticides and high-yield seeds for Punjab agriculture.',
+    },
+    {
+      metric: `${counter100Delivery}%`,
       label: 'Free Farm Delivery',
       urduLabel: 'مفت فارم ڈیلیوری',
       icon: 'local_shipping',
       description: 'Direct delivery to dera or field anywhere in Kot Addu bypass region.',
     },
-    {
-      metric: 'Fast',
-      label: 'WhatsApp Support',
-      urduLabel: 'فوری واٹس ایپ رابطہ',
-      icon: 'chat',
-      description: 'Direct agricultural advice and rate confirmation on WhatsApp.',
-    },
   ];
 
   return (
-    <section id="business-stats" className="py-12 bg-emerald-950 text-white relative overflow-hidden">
+    <section
+      ref={sectionRef}
+      id="business-stats"
+      className="py-12 bg-emerald-950 text-white relative overflow-hidden"
+    >
       {/* Background Ambience */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-800/40 via-emerald-950 to-emerald-950 pointer-events-none" />
       <div className="absolute -top-24 -left-24 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -53,7 +124,7 @@ export const BusinessStats: React.FC = () => {
           </p>
         </div>
 
-        {/* 4 Cards Grid */}
+        {/* 4 Cards Grid with Animated Counter */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {stats.map((stat, idx) => (
             <div
@@ -64,7 +135,7 @@ export const BusinessStats: React.FC = () => {
                 <span className="material-symbols-outlined text-[26px]">{stat.icon}</span>
               </div>
 
-              <div className="text-3xl sm:text-4xl font-black text-amber-300 tracking-tight mb-1">
+              <div className="text-3xl sm:text-4xl font-black text-amber-300 tracking-tight mb-1 tabular-nums">
                 {stat.metric}
               </div>
 

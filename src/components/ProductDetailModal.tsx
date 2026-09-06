@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Product } from '../types';
 import { BUSINESS_INFO } from '../data/agroData';
 import { useInquiryCart } from '../context/InquiryCartContext';
+import { FavoriteButton } from './FavoriteButton';
 
 interface ProductDetailModalProps {
   product: Product | null;
@@ -68,15 +69,21 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product,
               {product.categoryUrdu}
             </span>
           </div>
-          <button
-            id="modal-close-btn"
-            type="button"
-            onClick={onClose}
-            aria-label="Close product modal"
-            className="w-8 h-8 rounded-full bg-white hover:bg-slate-200/80 flex items-center justify-center text-slate-500 hover:text-slate-800 border border-slate-200/60 transition-colors cursor-pointer shadow-2xs"
-          >
-            <span className="material-symbols-outlined text-[20px]">close</span>
-          </button>
+
+          <div className="flex items-center gap-2">
+            {/* ❤️ Favorite Button in Header */}
+            <FavoriteButton productId={product.id} size="sm" showLabel />
+
+            <button
+              id="modal-close-btn"
+              type="button"
+              onClick={onClose}
+              aria-label="Close product modal"
+              className="w-8 h-8 rounded-full bg-white hover:bg-slate-200/80 flex items-center justify-center text-slate-500 hover:text-slate-800 border border-slate-200/60 transition-colors cursor-pointer shadow-2xs"
+            >
+              <span className="material-symbols-outlined text-[20px]">close</span>
+            </button>
+          </div>
         </div>
 
         {/* Modal Scrollable Body */}

@@ -62,16 +62,27 @@ export const CropAdvisorySection: React.FC<CropAdvisorySectionProps> = ({ onOpen
           </div>
 
           {/* Right Action Card */}
-          <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3 justify-center">
+          <div className="lg:col-span-4 flex flex-col gap-3 justify-center">
+            {/* Primary Requested Button: 📸 Crop Problem Photo Inquiry */}
+            <button
+              id="crop-photo-inquiry-btn"
+              type="button"
+              onClick={handleOpen}
+              className="btn-shimmer w-full py-4 px-6 bg-gradient-to-r from-emerald-400 via-green-400 to-emerald-500 hover:from-emerald-300 hover:to-green-300 text-slate-950 font-black text-sm sm:text-base rounded-2xl shadow-lg hover:shadow-emerald-500/40 transition-all duration-300 hover:scale-[1.02] active:scale-98 flex items-center justify-center gap-2.5 cursor-pointer border border-emerald-200/80"
+            >
+              <span className="material-symbols-outlined text-[24px] text-slate-950">photo_camera</span>
+              <span>📸 Crop Problem Photo Inquiry</span>
+            </button>
+
             {/* Requested Button: 🌱 Crop Advisory */}
             <button
               id="crop-advisory-open-btn"
               type="button"
               onClick={handleOpen}
-              className="btn-shimmer w-full py-4 px-6 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-400 hover:to-green-400 text-slate-950 font-black text-sm sm:text-base rounded-2xl shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 hover:scale-[1.02] active:scale-98 flex items-center justify-center gap-2.5 cursor-pointer border border-emerald-300/60"
+              className="w-full py-3.5 px-5 bg-white/15 hover:bg-white/25 border border-white/30 text-white font-bold text-xs sm:text-sm rounded-2xl transition-all duration-300 hover:scale-[1.02] active:scale-98 flex items-center justify-center gap-2 cursor-pointer backdrop-blur-md shadow-xs"
             >
-              <span className="material-symbols-outlined text-[22px] text-slate-950">psychology_alt</span>
-              <span>🌱 Crop Advisory</span>
+              <span className="material-symbols-outlined text-[20px] text-emerald-300">psychology_alt</span>
+              <span>🌱 Crop Advisory (مشورہ فارم)</span>
             </button>
 
             {/* Direct Quick WhatsApp */}
@@ -80,9 +91,9 @@ export const CropAdvisorySection: React.FC<CropAdvisorySectionProps> = ({ onOpen
               href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent('Assalam o Alaikum! Mujhe Crop Advisory chahiye. Kissan Agro Traders se agricultural guidance darkar hai.')}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full py-3.5 px-5 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs sm:text-sm rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 backdrop-blur-md"
+              className="w-full py-3 px-4 bg-emerald-950/80 hover:bg-emerald-950 border border-emerald-500/40 text-emerald-300 hover:text-white font-bold text-xs rounded-2xl transition-all duration-200 flex items-center justify-center gap-2"
             >
-              <span className="material-symbols-outlined text-[18px] text-emerald-300">chat</span>
+              <span className="material-symbols-outlined text-[17px] text-emerald-400">chat</span>
               <span>Direct WhatsApp Chat</span>
             </a>
 
@@ -90,10 +101,10 @@ export const CropAdvisorySection: React.FC<CropAdvisorySectionProps> = ({ onOpen
             <a
               id="crop-advisory-direct-call"
               href={BUSINESS_INFO.telLink}
-              className="w-full py-3 px-4 bg-emerald-950/70 hover:bg-emerald-950 text-emerald-300 hover:text-white border border-emerald-500/30 font-semibold text-xs rounded-2xl transition-all flex items-center justify-center gap-2 text-center"
+              className="w-full py-2.5 px-3 text-emerald-300/80 hover:text-white font-medium text-xs transition-colors flex items-center justify-center gap-1.5 text-center"
             >
-              <span className="material-symbols-outlined text-[16px]">call</span>
-              <span>Call Helpline: {BUSINESS_INFO.phone}</span>
+              <span className="material-symbols-outlined text-[15px]">call</span>
+              <span>Helpline: {BUSINESS_INFO.phone}</span>
             </a>
           </div>
         </div>

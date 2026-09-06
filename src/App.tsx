@@ -5,6 +5,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { TopNoticeBar } from './components/TopNoticeBar';
+import { SeasonalBanner } from './components/SeasonalBanner';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { WebCreatorCard } from './components/WebCreatorCard';
@@ -29,13 +30,16 @@ import { ProductDetailModal } from './components/ProductDetailModal';
 import { InquiryDrawer } from './components/InquiryDrawer';
 import { InquiryToast } from './components/InquiryToast';
 import { PWAInstallBanner } from './components/PWAInstallBanner';
+import { PWAUpdateNotice } from './components/PWAUpdateNotice';
+import { LoadingScreen } from './components/LoadingScreen';
 import { InquiryCartProvider } from './context/InquiryCartContext';
+import { FavoritesProvider } from './context/FavoritesContext';
 import { Product } from './types';
 
 export default function App() {
   const [activeSection, setActiveSection] = useState<string>('home');
   const [selectedCategory, setSelectedCategory] = useState<
-    'all' | 'pesticides' | 'fertilizers' | 'seeds' | 'drone'
+    'all' | 'pesticides' | 'fertilizers' | 'seeds' | 'drone' | 'favorites'
   >('all');
   const [isGlobalDroneBookingOpen, setIsGlobalDroneBookingOpen] = useState(false);
   const [isGlobalCropAdvisoryOpen, setIsGlobalCropAdvisoryOpen] = useState(false);
@@ -76,109 +80,120 @@ export default function App() {
   }, []);
 
   return (
-    <InquiryCartProvider>
-      <div className="min-h-screen bg-surface flex flex-col font-sans selection:bg-emerald-500 selection:text-white">
-        {/* 1. Top Notice Announcement & Contact Bar */}
-        <TopNoticeBar />
+    <FavoritesProvider>
+      <InquiryCartProvider>
+        {/* Premium Brand Loading Screen */}
+        <LoadingScreen />
 
-        {/* 2. Primary Navigation */}
-        <Navbar activeSection={activeSection} />
+        <div className="min-h-screen bg-surface flex flex-col font-sans selection:bg-emerald-500 selection:text-white">
+          {/* 1. Top Notice Announcement & Contact Bar */}
+          <TopNoticeBar />
 
-        {/* 3. Main Content Container */}
-        <main className="flex-1">
-          {/* Existing Hero Section (Strictly Preserved) */}
-          <HeroSection />
+          {/* Seasonal Animated Banner */}
+          <SeasonalBanner />
 
-          {/* Existing Ibrahim Klasra - Web Creator Feature Card (Strictly Preserved) */}
-          <WebCreatorCard />
+          {/* 2. Primary Navigation */}
+          <Navbar activeSection={activeSection} />
 
-          {/* 9. 📊 Trust / Business Statistics Section */}
-          <BusinessStats />
+          {/* 3. Main Content Container */}
+          <main className="flex-1">
+            {/* Existing Hero Section (Strictly Preserved) */}
+            <HeroSection />
 
-          {/* 2. 🚜 Our Services — Interactive Cards (Pesticides, Fertilizers, Seeds, Drone, Free Delivery, Crop Advisory) */}
-          <CategoryHighlights
-            onSelectCategory={(category) => setSelectedCategory(category)}
-            onOpenDroneBooking={() => setIsGlobalDroneBookingOpen(true)}
-            onOpenCropAdvisory={() => setIsGlobalCropAdvisoryOpen(true)}
+            {/* Existing Ibrahim Klasra - Web Creator Portfolio (Upgraded) */}
+            <WebCreatorCard />
+
+            {/* 9. 📊 Trust / Business Statistics Section (Animated Counters) */}
+            <BusinessStats />
+
+            {/* 2. 🚜 Our Services — Interactive Cards */}
+            <CategoryHighlights
+              onSelectCategory={(category) => setSelectedCategory(category)}
+              onOpenDroneBooking={() => setIsGlobalDroneBookingOpen(true)}
+              onOpenCropAdvisory={() => setIsGlobalCropAdvisoryOpen(true)}
+            />
+
+            {/* 8. 🛍️ Featured Products Showcase */}
+            <FeaturedProducts
+              onSelectProduct={(product) => setSelectedProductForModal(product)}
+            />
+
+            {/* Existing Products Showcase, Full Catalog, Categories, Favorites & Animated Search */}
+            <ProductsSection
+              selectedCategory={selectedCategory}
+              onCategoryChange={setSelectedCategory}
+              onSelectProduct={(product) => setSelectedProductForModal(product)}
+            />
+
+            {/* 4. 🌱 Crop Advisory Section & Modal Trigger */}
+            <CropAdvisorySection
+              onOpenAdvisoryModal={() => setIsGlobalCropAdvisoryOpen(true)}
+            />
+
+            {/* 3. 🚁 Precision Drone Spray Mechanization with Prominent Booking Banner */}
+            <DroneServicesSection
+              onOpenBookingModal={() => setIsGlobalDroneBookingOpen(true)}
+            />
+
+            {/* 10. 📦 How It Works — 3 Steps Process */}
+            <HowItWorks />
+
+            {/* Existing Special Seasonal Bundles & Bulk Deals (Preserved) */}
+            <OffersSection />
+
+            {/* 1. 🌾 Premium "Why Choose Us?" Section (Kyun Kissan Agro Traders?) */}
+            <WhyChooseUs />
+
+            {/* 11. 🌿 Brand Signature Banner ("کسان کی ترقی ہماری اولین ترجیح") */}
+            <BrandSignatureBanner />
+
+            {/* 5. ⭐ Customer Trust / Reviews Section (Hamare Customers Ka Aitmaad) */}
+            <CustomerReviews />
+
+            {/* Existing Heritage & Owner Section (Strictly Preserved) */}
+            <AboutSection />
+
+            {/* 6 & 7. 📍 Shop Location (Hamari Location) & 📞 Contact Section */}
+            <ContactMapSection />
+          </main>
+
+          {/* Existing Complete Footer (Strictly Preserved) */}
+          <Footer />
+
+          {/* 13. Floating Quick Action WhatsApp Button (💬 WhatsApp Karein) */}
+          <FloatingWhatsApp />
+
+          {/* 3. Global Drone Spray Booking Modal */}
+          <DroneBookingModal
+            isOpen={isGlobalDroneBookingOpen}
+            onClose={() => setIsGlobalDroneBookingOpen(false)}
           />
 
-          {/* 8. 🛍️ Featured Products Showcase */}
-          <FeaturedProducts
-            onSelectProduct={(product) => setSelectedProductForModal(product)}
+          {/* 4. Global Crop Advisory Modal (With Photo Upload & Web Share) */}
+          <CropAdvisoryModal
+            isOpen={isGlobalCropAdvisoryOpen}
+            onClose={() => setIsGlobalCropAdvisoryOpen(false)}
           />
 
-          {/* Existing Products Showcase, Full Catalog, Categories & Real-time Search */}
-          <ProductsSection
-            selectedCategory={selectedCategory}
-            onCategoryChange={setSelectedCategory}
-            onSelectProduct={(product) => setSelectedProductForModal(product)}
+          {/* Reusable Product Detail Modal (With Heart Favorite & WhatsApp Inquiry) */}
+          <ProductDetailModal
+            product={selectedProductForModal}
+            onClose={() => setSelectedProductForModal(null)}
           />
 
-          {/* 4. 🌱 Crop Advisory Section & Modal Trigger */}
-          <CropAdvisorySection
-            onOpenAdvisoryModal={() => setIsGlobalCropAdvisoryOpen(true)}
-          />
+          {/* Smart Inquiry Drawer */}
+          <InquiryDrawer />
 
-          {/* 3. 🚁 Precision Drone Spray Mechanization with Prominent Booking Banner */}
-          <DroneServicesSection
-            onOpenBookingModal={() => setIsGlobalDroneBookingOpen(true)}
-          />
+          {/* Inquiry Notification Toast */}
+          <InquiryToast />
 
-          {/* 10. 📦 How It Works — 3 Steps Process */}
-          <HowItWorks />
+          {/* PWA Install Banner */}
+          <PWAInstallBanner />
 
-          {/* Existing Special Seasonal Bundles & Bulk Deals (Preserved) */}
-          <OffersSection />
-
-          {/* 1. 🌾 Premium "Why Choose Us?" Section (Kyun Kissan Agro Traders?) */}
-          <WhyChooseUs />
-
-          {/* 11. 🌿 Brand Signature Banner ("کسان کی ترقی ہماری اولین ترجیح") */}
-          <BrandSignatureBanner />
-
-          {/* 5. ⭐ Customer Trust / Reviews Section (Hamare Customers Ka Aitmaad) */}
-          <CustomerReviews />
-
-          {/* Existing Heritage & Owner Section (Strictly Preserved) */}
-          <AboutSection />
-
-          {/* 6 & 7. 📍 Shop Location (Hamari Location) & 📞 Contact Section */}
-          <ContactMapSection />
-        </main>
-
-        {/* Existing Complete Footer (Strictly Preserved) */}
-        <Footer />
-
-        {/* 13. Floating Quick Action WhatsApp Button (💬 WhatsApp Karein) */}
-        <FloatingWhatsApp />
-
-        {/* 3. Global Drone Spray Booking Modal */}
-        <DroneBookingModal
-          isOpen={isGlobalDroneBookingOpen}
-          onClose={() => setIsGlobalDroneBookingOpen(false)}
-        />
-
-        {/* 4. Global Crop Advisory Modal */}
-        <CropAdvisoryModal
-          isOpen={isGlobalCropAdvisoryOpen}
-          onClose={() => setIsGlobalCropAdvisoryOpen(false)}
-        />
-
-        {/* Reusable Product Detail Modal */}
-        <ProductDetailModal
-          product={selectedProductForModal}
-          onClose={() => setSelectedProductForModal(null)}
-        />
-
-        {/* Smart Inquiry Drawer */}
-        <InquiryDrawer />
-
-        {/* Inquiry Notification Toast */}
-        <InquiryToast />
-
-        {/* PWA Install Banner */}
-        <PWAInstallBanner />
-      </div>
-    </InquiryCartProvider>
+          {/* Automatic PWA Update Notice */}
+          <PWAUpdateNotice />
+        </div>
+      </InquiryCartProvider>
+    </FavoritesProvider>
   );
 }

@@ -3,10 +3,12 @@ import { PRODUCTS, BUSINESS_INFO } from '../data/agroData';
 import { Product } from '../types';
 import { ProductDetailModal } from './ProductDetailModal';
 import { useInquiryCart } from '../context/InquiryCartContext';
+import { useFavorites } from '../context/FavoritesContext';
+import { FavoriteButton } from './FavoriteButton';
 
 interface ProductsSectionProps {
-  selectedCategory: 'all' | 'pesticides' | 'fertilizers' | 'seeds' | 'drone';
-  onCategoryChange: (category: 'all' | 'pesticides' | 'fertilizers' | 'seeds' | 'drone') => void;
+  selectedCategory: 'all' | 'pesticides' | 'fertilizers' | 'seeds' | 'drone' | 'favorites';
+  onCategoryChange: (category: 'all' | 'pesticides' | 'fertilizers' | 'seeds' | 'drone' | 'favorites') => void;
   onSelectProduct?: (product: Product) => void;
 }
 
@@ -17,7 +19,9 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
 }) => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
   const { addToInquiry } = useInquiryCart();
+  const { isFavorite, favoritesCount } = useFavorites();
 
   const handleOpenProduct = (product: Product) => {
     setSelectedProduct(product);
@@ -34,11 +38,13 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
     { key: 'drone', label: 'Drone Spray', urdu: 'ڈرون سروس' },
   ] as const;
 
-  // Filter products by category and reactive real-time search
+  // Filter products by category, favorites, and reactive search
   const filteredProducts = useMemo(() => {
     let result = PRODUCTS;
 
-    if (selectedCategory !== 'all') {
+    if (selectedCategory === 'favorites') {
+      result = result.filter((p) => isFavorite(p.id));
+    } else if (selectedCategory !== 'all') {
       result = result.filter((p) => p.category === selectedCategory);
     }
 
@@ -57,7 +63,7 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
     }
 
     return result;
-  }, [selectedCategory, searchQuery]);
+  }, [selectedCategory, searchQuery, isFavorite]);
 
   return (
     <section id="products" className="py-12 lg:py-16 bg-slate-50 border-t border-slate-200/60">
@@ -77,36 +83,51 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
             </p>
           </div>
 
-          {/* Search Bar - Feature 3 */}
+          {/* Animated Search Bar - Feature 8 */}
           <div className="w-full md:w-80 lg:w-96">
-            <div className="relative">
+            <div
+              className={`relative rounded-2xl transition-all duration-300 ${
+                isSearchFocused
+                  ? 'ring-2 ring-emerald-500 shadow-md bg-white'
+                  : 'bg-white/90 border border-slate-200/90 shadow-2xs hover:border-slate-300'
+              }`}
+            >
               <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                <span className="material-symbols-outlined text-[20px]">search</span>
+                <span
+                  className={`material-symbols-outlined text-[20px] transition-transform duration-300 ${
+                    isSearchFocused ? 'text-emerald-600 scale-110' : 'text-slate-400'
+                  }`}
+                >
+                  search
+                </span>
               </div>
               <input
                 id="product-search-input"
                 type="text"
                 value={searchQuery}
+                onFocus={() => setIsSearchFocused(true)}
+                onBlur={() => setIsSearchFocused(false)}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="🔎 Product ka naam search karein..."
                 aria-label="Product search"
-                className="w-full pl-10 pr-10 py-3 rounded-2xl bg-white border border-slate-200 shadow-xs text-sm text-slate-800 placeholder-slate-400 focus:outline-hidden focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+                className="w-full pl-10 pr-10 py-3 rounded-2xl bg-transparent border-none text-sm text-slate-800 placeholder-slate-400 focus:outline-hidden"
               />
               {searchQuery && (
                 <button
                   type="button"
                   onClick={() => setSearchQuery('')}
                   aria-label="Clear search"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 cursor-pointer"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 cursor-pointer animate-fade-in"
                 >
                   <span className="material-symbols-outlined text-[18px]">close</span>
                 </button>
               )}
             </div>
+
             {searchQuery && (
-              <div className="mt-1.5 text-xs text-slate-500 flex items-center justify-between px-1">
+              <div className="mt-1.5 text-xs text-slate-500 flex items-center justify-between px-1 animate-fade-in">
                 <span>
-                  Found: <strong className="text-emerald-700">{filteredProducts.length}</strong> products
+                  Found: <strong className="text-emerald-700 font-bold">{filteredProducts.length}</strong> products
                 </span>
                 <button
                   type="button"
@@ -120,7 +141,7 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
           </div>
         </div>
 
-        {/* Categories Bar - Feature 2 */}
+        {/* Categories Bar & Favorites Tab - Feature 7 */}
         <div className="flex flex-wrap items-center justify-between gap-3 mb-8 bg-white p-3 rounded-2xl border border-slate-200/90 shadow-2xs">
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-xs font-bold text-slate-400 uppercase tracking-wider px-2 hidden sm:inline">
@@ -134,7 +155,7 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
                   id={`product-tab-${tab.key}`}
                   type="button"
                   onClick={() => onCategoryChange(tab.key)}
-                  className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                  className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer flex items-center gap-1.5 active:scale-95 ${
                     isActive
                       ? 'bg-emerald-800 text-white shadow-xs scale-102'
                       : 'bg-slate-50 border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-100'
@@ -147,6 +168,27 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
                 </button>
               );
             })}
+
+            {/* ❤️ My Favorites Tab */}
+            <button
+              id="product-tab-favorites"
+              type="button"
+              onClick={() => onCategoryChange('favorites')}
+              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer flex items-center gap-1.5 active:scale-95 ${
+                selectedCategory === 'favorites'
+                  ? 'bg-rose-600 text-white shadow-xs scale-102'
+                  : 'bg-rose-50/80 border border-rose-200/80 text-rose-700 hover:bg-rose-100'
+              }`}
+            >
+              <span>❤️ My Favorites</span>
+              <span
+                className={`px-1.5 py-0.2 rounded-full text-[10px] font-extrabold ${
+                  selectedCategory === 'favorites' ? 'bg-white text-rose-600' : 'bg-rose-200/80 text-rose-900'
+                }`}
+              >
+                {favoritesCount}
+              </span>
+            </button>
           </div>
 
           <div className="text-xs text-slate-500 font-medium px-2">
@@ -161,48 +203,61 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
               <div
                 key={product.id}
                 id={`product-card-${product.id}`}
-                className="bg-white rounded-3xl border border-slate-200/90 p-4 flex flex-col justify-between shadow-sm card-premium-3d border-glow-emerald group"
+                className="bg-white rounded-3xl border border-slate-200/90 p-4 flex flex-col justify-between shadow-xs card-premium-3d border-glow-emerald group transition-all duration-300 relative"
               >
-                {/* Clickable Area to open ProductDetailModal */}
-                <div
-                  className="cursor-pointer"
-                  onClick={() => handleOpenProduct(product)}
-                  title={`${product.name} - View Details`}
-                >
-                  {/* Product Image Frame with Zoom & Badges */}
-                  <div className="relative aspect-square rounded-2xl bg-slate-50 overflow-hidden mb-3.5 border border-slate-100/80">
+                {/* Product Image Frame with Zoom & Badges & Favorite Heart */}
+                <div className="relative aspect-square rounded-2xl bg-slate-50 overflow-hidden mb-3.5 border border-slate-100/80">
+                  <div
+                    className="w-full h-full cursor-pointer"
+                    onClick={() => handleOpenProduct(product)}
+                    title={`${product.name} - View Details`}
+                  >
                     <img
                       src={product.imageUrl}
                       alt={product.imageAlt}
-                      className="w-full h-full object-cover transform transition-transform duration-700 ease-out group-hover:scale-110"
+                      className="w-full h-full object-cover transform transition-transform duration-700 ease-out group-hover:scale-108"
                       referrerPolicy="no-referrer"
                       loading="lazy"
                     />
-                    <div className="absolute top-2.5 left-2.5 bg-white/95 backdrop-blur-md text-emerald-800 text-[11px] px-2.5 py-0.5 rounded-full border border-emerald-200/60 font-extrabold shadow-xs transition-transform duration-300 group-hover:scale-105">
-                      {product.badge}
-                    </div>
-                    <div className="absolute top-2.5 right-2.5 bg-emerald-900/85 backdrop-blur-md text-amber-300 text-[10px] px-2 py-0.5 rounded-full font-bold flex items-center gap-1 shadow-xs">
-                      <span className="material-symbols-outlined text-[13px]">verified</span>
-                      <span>100% اصل</span>
-                    </div>
                   </div>
 
-                  <div className="px-1">
-                    <div className="flex items-center justify-between gap-1 mb-1">
-                      <span className="text-[11px] font-bold text-emerald-600 uppercase tracking-wider">
-                        {product.tagline}
-                      </span>
-                      <span className="text-[10px] font-medium text-slate-400 capitalize">
-                        {product.category}
-                      </span>
-                    </div>
-                    <h3 className="text-base sm:text-lg font-extrabold text-slate-800 leading-tight transition-colors duration-200 group-hover:text-emerald-900">
-                      {product.name}
-                    </h3>
-                    <p className="urdu-text text-xs sm:text-sm text-slate-500 mt-1.5 leading-relaxed line-clamp-2" dir="rtl">
-                      {product.descriptionUrdu}
-                    </p>
+                  {/* Left Badge: Product Type */}
+                  <div className="absolute top-2.5 left-2.5 bg-white/95 backdrop-blur-md text-emerald-800 text-[11px] px-2.5 py-0.5 rounded-full border border-emerald-200/60 font-extrabold shadow-xs transition-transform duration-300 group-hover:scale-105 pointer-events-none">
+                    {product.badge}
                   </div>
+
+                  {/* Right: ❤️ Favorite Heart Button */}
+                  <div className="absolute top-2.5 right-2.5 z-10">
+                    <FavoriteButton productId={product.id} size="md" />
+                  </div>
+
+                  {/* Bottom: 100% Genuine Tag */}
+                  <div className="absolute bottom-2.5 left-2.5 bg-emerald-950/85 backdrop-blur-md text-amber-300 text-[10px] px-2 py-0.5 rounded-full font-bold flex items-center gap-1 shadow-xs pointer-events-none">
+                    <span className="material-symbols-outlined text-[13px]">verified</span>
+                    <span>100% اصل</span>
+                  </div>
+                </div>
+
+                {/* Clickable Area for Info */}
+                <div
+                  className="px-1 cursor-pointer"
+                  onClick={() => handleOpenProduct(product)}
+                  title={`${product.name} - View Details`}
+                >
+                  <div className="flex items-center justify-between gap-1 mb-1">
+                    <span className="text-[11px] font-bold text-emerald-600 uppercase tracking-wider">
+                      {product.tagline}
+                    </span>
+                    <span className="text-[10px] font-medium text-slate-400 capitalize">
+                      {product.category}
+                    </span>
+                  </div>
+                  <h3 className="text-base sm:text-lg font-extrabold text-slate-800 leading-tight transition-colors duration-200 group-hover:text-emerald-900">
+                    {product.name}
+                  </h3>
+                  <p className="urdu-text text-xs sm:text-sm text-slate-500 mt-1.5 leading-relaxed line-clamp-2" dir="rtl">
+                    {product.descriptionUrdu}
+                  </p>
                 </div>
 
                 {/* Product Actions: Add to Inquiry, WhatsApp for Price & Details */}
@@ -213,7 +268,7 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
                       id={`card-add-inquiry-${product.id}`}
                       type="button"
                       onClick={() => addToInquiry(product, 1)}
-                      className="py-2 px-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 text-xs font-bold flex items-center justify-center gap-1 transition-all active:scale-95 cursor-pointer shadow-2xs"
+                      className="py-2 px-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 active:scale-95 text-emerald-900 border border-emerald-200 text-xs font-bold flex items-center justify-center gap-1 transition-all cursor-pointer shadow-2xs"
                     >
                       <span className="material-symbols-outlined text-[16px] text-emerald-700">add_shopping_cart</span>
                       <span>+ Inquiry</span>
@@ -223,17 +278,17 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
                       id={`card-view-details-${product.id}`}
                       type="button"
                       onClick={() => handleOpenProduct(product)}
-                      className="py-2 px-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold flex items-center justify-center gap-1 transition-colors cursor-pointer"
+                      className="py-2 px-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-700 text-xs font-bold flex items-center justify-center gap-1 transition-all cursor-pointer"
                     >
                       <span className="material-symbols-outlined text-[16px]">info</span>
                       <span>تفصیل دیکھیں</span>
                     </button>
                   </div>
 
-                  {/* Primary Action: WhatsApp for Price */}
+                  {/* Primary Action: One-Tap WhatsApp for Price */}
                   <a
                     id={`product-whatsapp-${product.id}`}
-                    className="btn-shimmer w-full flex items-center justify-between bg-green-500 hover:bg-green-600 text-white text-xs sm:text-sm font-bold py-2.5 px-3.5 rounded-2xl shadow-sm hover:shadow-md hover:shadow-green-500/20 transition-all duration-300 hover:scale-[1.02] active:scale-95 border border-green-400/40 group/btn"
+                    className="btn-shimmer w-full flex items-center justify-between bg-green-500 hover:bg-green-600 text-white text-xs sm:text-sm font-bold py-2.5 px-3.5 rounded-2xl shadow-xs hover:shadow-md hover:shadow-green-500/20 transition-all duration-300 hover:scale-[1.02] active:scale-95 border border-green-400/40 group/btn"
                     href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent(`Assalam o Alaikum!\nMujhe ${product.name} (${product.tagline}) ke bare mein maloomat chahiye.`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -245,7 +300,7 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
                     <span className="urdu-text text-xs text-white/90 font-semibold" dir="rtl">قیمت معلوم کریں</span>
                   </a>
 
-                  {/* Free Delivery Label directly underneath WhatsApp for Price */}
+                  {/* Free Delivery Label */}
                   <div className="flex items-center justify-center gap-1.5 py-1.5 px-2.5 rounded-xl bg-emerald-50/80 border border-emerald-200/60 text-emerald-800 text-xs font-bold transition-colors group-hover:bg-emerald-100/80">
                     <span className="material-symbols-outlined text-[15px] text-emerald-600">local_shipping</span>
                     <span>🚚 Free Delivery</span>
@@ -256,9 +311,29 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
               </div>
             ))}
           </div>
+        ) : selectedCategory === 'favorites' ? (
+          /* Empty Favorites State */
+          <div className="bg-white rounded-3xl p-10 text-center border border-slate-200 max-w-md mx-auto shadow-sm animate-fade-in">
+            <div className="w-16 h-16 rounded-full bg-rose-50 text-rose-500 flex items-center justify-center mx-auto mb-4 text-3xl">
+              <span>♡</span>
+            </div>
+            <h3 className="text-lg font-bold text-slate-800 mb-1">
+              ابھی کوئی پسندیدہ پروڈکٹ نہیں ہے
+            </h3>
+            <p className="text-xs text-slate-500 mb-5 leading-relaxed">
+              Abhi aap ne koi favorite product shamil nahi ki. Kisi bhi product par bane dil (❤️) ke nishan par click karke use yahan mehfooz kar sakte hain.
+            </p>
+            <button
+              type="button"
+              onClick={() => onCategoryChange('all')}
+              className="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold transition-all active:scale-95 shadow-xs cursor-pointer"
+            >
+              تمام پروڈکٹس دیکھیں (Browse All Products)
+            </button>
+          </div>
         ) : (
           /* Empty Search State */
-          <div className="bg-white rounded-3xl p-10 text-center border border-slate-200 max-w-md mx-auto shadow-sm">
+          <div className="bg-white rounded-3xl p-10 text-center border border-slate-200 max-w-md mx-auto shadow-sm animate-fade-in">
             <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mx-auto text-slate-400 mb-4">
               <span className="material-symbols-outlined text-[32px]">search_off</span>
             </div>
@@ -273,7 +348,7 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
                   setSearchQuery('');
                   onCategoryChange('all');
                 }}
-                className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold transition-colors"
+                className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold transition-colors cursor-pointer"
               >
                 تمام پروڈکٹس دیکھیں (Reset Search)
               </button>
@@ -300,7 +375,7 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
             href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent('Salam Kissan Agro Traders, I want to send crop photos for diagnosis.')}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white text-xs font-bold transition-all whitespace-nowrap"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white text-xs font-bold transition-all whitespace-nowrap cursor-pointer"
           >
             <span>تصویر بھیجیں (WhatsApp)</span>
             <span className="material-symbols-outlined text-[15px]">arrow_forward</span>
