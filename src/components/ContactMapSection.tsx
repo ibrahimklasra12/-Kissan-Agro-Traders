@@ -1,5 +1,6 @@
 import React from 'react';
 import { BUSINESS_INFO } from '../data/agroData';
+import { ShopStatusBadge } from './ShopStatusBadge';
 
 // ============================================================================
 // 📍 GOOGLE MAPS CONFIGURATION
@@ -108,12 +109,15 @@ export const ContactMapSection: React.FC = () => {
                     <span className="material-symbols-outlined text-[22px]">schedule</span>
                   </div>
                   <div>
-                    <div className="font-bold text-slate-800 text-sm">🕐 Opening Hours</div>
+                    <div className="font-bold text-slate-800 text-sm flex items-center gap-2">
+                      <span>🕐 Opening Hours</span>
+                      <ShopStatusBadge />
+                    </div>
                     <div className="text-xs sm:text-sm text-slate-700 font-semibold mt-0.5">
-                      7:00 AM — 6:30 PM (Daily)
+                      8:00 AM — 8:00 PM (Daily)
                     </div>
                     <div className="urdu-text text-xs text-slate-500" dir="rtl">
-                      ہفتے کے 7 دن کسان بھائیوں کی خدمت میں کھلا ہے
+                      ہفتے کے 7 دن کسان بھائیوں کی خدمت میں کھلا ہے (واٹس ایپ ہیلپ لائن 24/7)
                     </div>
                   </div>
                 </div>

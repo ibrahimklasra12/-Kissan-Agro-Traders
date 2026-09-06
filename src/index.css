@@ -308,16 +308,52 @@ button:active {
   }
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-li,
-label,
-a,
-button {
+.text-reveal-animate {
   animation: textReveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-5px); }
+  40%, 80% { transform: translateX(5px); }
+}
+
+.animate-shake {
+  animation: shake 0.4s ease-in-out both;
+}
+
+.pb-safe {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+
+/* Dark mode theme adjustments */
+html.dark {
+  color-scheme: dark;
+}
+
+html.dark body {
+  background-color: #06120e;
+  color: #f1f5f9;
+}
+
+html.dark .sleek-card,
+html.dark .lift-card {
+  background-color: #0c1e18;
+  border-color: #1a3a2d;
+  color: #f1f5f9;
+}
+
+html.dark .card-premium-hover {
+  background-color: #0d221b;
+  border-color: #1b4233;
+}
+
+/* RTL layout helpers */
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="rtl"] .material-symbols-outlined {
+  direction: ltr;
+}
+
