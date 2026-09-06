@@ -33,7 +33,7 @@ const TRANSLATIONS: Record<string, { en: string; ur: string }> = {
   'cta.drone_booking': { en: 'Book Drone Spray', ur: 'ڈرون اسپرے بک کریں' },
 
   // Status
-  'status.open': { en: 'Open Now (8 AM - 8 PM)', ur: 'کھلا ہے (صبح 8 تا رات 8)' },
+  'status.open': { en: 'Open Now (7:00 AM - 6:30 PM)', ur: 'کھلا ہے (صبح 7:00 تا شام 6:30)' },
   'status.closed': { en: 'Closed Now (WhatsApp 24/7)', ur: 'دکان بند ہے (واٹس ایپ 24/7)' },
 };
 

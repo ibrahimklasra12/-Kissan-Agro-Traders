@@ -51,9 +51,9 @@ const FAQS: FAQItem[] = [
     questionUrdu: 'دکان کے اوقات کار اور رابطہ نمبر کیا ہے؟',
     questionEnglish: 'What are the shop operating hours and helpline contact numbers?',
     answerUrdu:
-      `ہماری دکان مدینہ چوک بائی پاس کوٹ ادو پر روزانہ صبح 8:00 بجے سے رات 8:00 بجے تک کھلی رہتی ہے۔ ہیلپ لائن ${BUSINESS_INFO.phone} اور واٹس ایپ پر کسان بھائی کسی بھی وقت 24/7 رہنمائی لے سکتے ہیں۔`,
+      `ہماری دکان مدینہ چوک بائی پاس کوٹ ادو پر روزانہ صبح 7:00 بجے سے شام 6:30 بجے تک کھلی رہتی ہے۔ ہیلپ لائن ${BUSINESS_INFO.phone} اور واٹس ایپ پر کسان بھائی کسی بھی وقت 24/7 رہنمائی لے سکتے ہیں۔`,
     answerEnglish:
-      `Our physical outlet at Madina Chowk, Kot Addu Bypass is open daily from 8:00 AM to 8:00 PM PKT. Our helpline (${BUSINESS_INFO.phone}) and WhatsApp are accessible for farmer inquiries.`,
+      `Our physical outlet at Madina Chowk, Kot Addu Bypass is open daily from 7:00 AM to 6:30 PM PKT. Our helpline (${BUSINESS_INFO.phone}) and WhatsApp are accessible for farmer inquiries.`,
   },
 ];
 

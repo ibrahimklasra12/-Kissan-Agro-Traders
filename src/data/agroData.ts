@@ -34,6 +34,8 @@ export const BUSINESS_INFO = {
   address: 'Kot Addu Bypass, Madina Chowk, Punjab, Pakistan',
   addressUrdu: 'کوٹ ادو بائی پاس، مدینہ چوک، پاکستان',
   mapsUrl: 'https://maps.google.com/?q=Kot+Addu+Bypass+Madina+Chowk+Pakistan',
+  openingHours: '7:00 AM — 6:30 PM (Daily)',
+  openingHoursUrdu: 'روزانہ صبح 7:00 بجے سے شام 6:30 بجے تک',
 };
 
 export const PRODUCTS: Product[] = [

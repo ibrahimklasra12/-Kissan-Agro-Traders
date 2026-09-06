@@ -89,6 +89,7 @@ export const WebCreatorCard: React.FC = () => {
       role: 'Owner, Kissan Agro Traders',
       rating: 5,
       comment: 'ابراہیم کلاسرہ نے ہماری دکان کے لیے انتہائی شاندار اور تیز رفتار ویب سائٹ تیار کی۔ کسانوں کو واٹس ایپ پر آرڈر دینا بہت آسان ہو گیا ہے۔',
+      isUrdu: true,
     },
     {
       id: 't-2',
@@ -96,6 +97,14 @@ export const WebCreatorCard: React.FC = () => {
       role: 'Business Owner, Punjab',
       rating: 5,
       comment: 'Super fast delivery and flawless mobile responsive design. The PWA installability works smoothly on all smartphones.',
+      isUrdu: false,
+    },
+    {
+      id: 't-3',
+      name: 'Adil Abbas',
+      role: 'Customer / Reviewer',
+      comment: 'بہت اچھی ایپس بناتے ہیں، ابھی جو ایپ بنائی ہے وہ بھی بہت کمال کی چل رہی ہے۔ کام صاف، خوبصورت اور استعمال میں آسان ہے۔',
+      isUrdu: true,
     },
   ];
 
@@ -325,26 +334,55 @@ export const WebCreatorCard: React.FC = () => {
             {/* 4. Creator Testimonials */}
             <div>
               <div className="flex items-center gap-2 mb-3">
-                <span className="material-symbols-outlined text-[18px] text-amber-400">star</span>
+                <span className="material-symbols-outlined text-[18px] text-amber-400">rate_review</span>
                 <h4 className="text-sm sm:text-base font-bold text-white">
-                  Client Feedback / اعتماد
+                  Client &amp; User Feedback / اعتماد
                 </h4>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
                 {testimonials.map((test) => (
-                  <div key={test.id} className="p-4 rounded-2xl bg-emerald-900/35 border border-emerald-500/20">
-                    <div className="flex items-center gap-1 text-amber-400 mb-1.5">
-                      {[...Array(test.rating)].map((_, i) => (
-                        <span key={i} className="material-symbols-outlined text-[16px] fill-current">star</span>
-                      ))}
+                  <div
+                    key={test.id}
+                    className="p-4 sm:p-5 rounded-2xl bg-emerald-900/40 border border-emerald-500/25 hover:border-emerald-400/50 hover:bg-emerald-900/60 transition-all duration-300 flex flex-col justify-between shadow-xs hover:shadow-md hover:-translate-y-0.5 active:scale-[0.99] group cursor-default"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between gap-2 mb-2.5">
+                        {test.rating ? (
+                          <div className="flex items-center gap-0.5 text-amber-400">
+                            {[...Array(test.rating)].map((_, i) => (
+                              <span key={i} className="material-symbols-outlined text-[16px] fill-current">star</span>
+                            ))}
+                          </div>
+                        ) : (
+                          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-300 bg-emerald-950/70 px-2 py-0.5 rounded-md border border-emerald-500/30">
+                            <span className="material-symbols-outlined text-[13px] text-emerald-400">chat</span>
+                            <span>Feedback</span>
+                          </span>
+                        )}
+                        <span className="material-symbols-outlined text-emerald-400/60 group-hover:text-emerald-300 text-[22px] transition-transform duration-200 group-hover:scale-110">
+                          format_quote
+                        </span>
+                      </div>
+
+                      <p
+                        className={`text-xs sm:text-sm text-emerald-100/90 leading-relaxed ${
+                          test.isUrdu ? 'urdu-text font-medium leading-relaxed text-right' : 'italic'
+                        }`}
+                        dir={test.isUrdu ? 'rtl' : 'ltr'}
+                      >
+                        &ldquo;{test.comment}&rdquo;
+                      </p>
                     </div>
-                    <p className="text-xs text-emerald-100/90 leading-relaxed italic">
-                      &ldquo;{test.comment}&rdquo;
-                    </p>
-                    <div className="mt-2 pt-2 border-t border-emerald-800/40 flex items-center justify-between">
-                      <span className="text-xs font-bold text-white">{test.name}</span>
-                      <span className="text-[10px] text-emerald-300">{test.role}</span>
+
+                    <div className="mt-3 pt-3 border-t border-emerald-800/50 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="w-7 h-7 rounded-full bg-gradient-to-br from-emerald-500 to-teal-700 text-white font-black text-xs flex items-center justify-center shadow-xs">
+                          {test.name.slice(0, 1)}
+                        </div>
+                        <span className="text-xs sm:text-sm font-bold text-white tracking-tight">{test.name}</span>
+                      </div>
+                      <span className="text-[10px] sm:text-[11px] font-semibold text-emerald-300/90">{test.role}</span>
                     </div>
                   </div>
                 ))}

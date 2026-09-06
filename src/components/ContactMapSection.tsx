@@ -114,7 +114,7 @@ export const ContactMapSection: React.FC = () => {
                       <ShopStatusBadge />
                     </div>
                     <div className="text-xs sm:text-sm text-slate-700 font-semibold mt-0.5">
-                      8:00 AM — 8:00 PM (Daily)
+                      7:00 AM — 6:30 PM (Daily)
                     </div>
                     <div className="urdu-text text-xs text-slate-500" dir="rtl">
                       ہفتے کے 7 دن کسان بھائیوں کی خدمت میں کھلا ہے (واٹس ایپ ہیلپ لائن 24/7)
