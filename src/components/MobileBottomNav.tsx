@@ -1,6 +1,7 @@
 import React from 'react';
 import { BUSINESS_INFO } from '../data/agroData';
 import { useInquiryCart } from '../context/InquiryCartContext';
+import { useLanguage } from '../context/LanguageContext';
 
 interface MobileBottomNavProps {
   activeSection: string;
@@ -9,6 +10,7 @@ interface MobileBottomNavProps {
 
 export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ activeSection, onOpenAdvisory }) => {
   const { totalCount, setIsDrawerOpen } = useInquiryCart();
+  const { isUrdu } = useLanguage();
 
   const navItems = [
     { id: 'home', label: 'Home', urdu: 'ہوم', icon: 'home', href: '#home' },
@@ -26,7 +28,11 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ activeSection,
       label: 'WhatsApp',
       urdu: 'واٹس ایپ',
       icon: 'chat',
-      href: `${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent('السلام علیکم! کسان ایگرو ٹریڈرز، مجھے زرعی رہنمائی درکار ہے۔')}`,
+      href: `${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent(
+        isUrdu
+          ? 'السلام علیکم! کسان ایگرو ٹریڈرز، مجھے زرعی رہنمائی درکار ہے۔'
+          : 'Salam! Kissan Agro Traders, I need agricultural guidance.'
+      )}`,
       isExternal: true,
       highlight: true,
     },
@@ -36,11 +42,13 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ activeSection,
     <nav
       id="mobile-bottom-nav"
       aria-label="Mobile Bottom Navigation"
+      dir={isUrdu ? 'rtl' : 'ltr'}
       className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-slate-950/95 backdrop-blur-lg border-t border-slate-200 dark:border-emerald-950 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] pb-safe transition-all duration-300"
     >
       <div className="flex items-center justify-around px-2 py-1.5 h-16">
         {navItems.map((item) => {
           const isActive = activeSection === item.id;
+          const displayLabel = isUrdu ? item.urdu : item.label;
 
           if (item.action) {
             return (
@@ -56,7 +64,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ activeSection,
                   </span>
                 </div>
                 <span className="text-[10px] font-bold text-slate-600 dark:text-slate-300 leading-tight">
-                  {item.urdu}
+                  {displayLabel}
                 </span>
               </button>
             );
@@ -75,7 +83,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ activeSection,
                   <span className="material-symbols-outlined text-[20px]">{item.icon}</span>
                 </div>
                 <span className="text-[10px] font-black text-green-600 dark:text-green-400 leading-tight mt-0.5">
-                  {item.urdu}
+                  {displayLabel}
                 </span>
               </a>
             );
@@ -102,7 +110,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ activeSection,
                 </span>
               </div>
               <span className="text-[10px] leading-tight">
-                {item.urdu}
+                {displayLabel}
               </span>
             </a>
           );

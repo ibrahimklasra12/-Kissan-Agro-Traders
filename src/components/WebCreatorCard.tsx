@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import { ServiceInquiryModal } from './ServiceInquiryModal';
+import { useLanguage } from '../context/LanguageContext';
 
 // ============================================================================
 // 🔵 FACEBOOK PROFILE CONFIGURATION
-// Paste your exact Facebook profile link below between the quotes:
-// Example: "https://www.facebook.com/your-username"
 // ============================================================================
 const FACEBOOK_PROFILE_URL = "PASTE_YOUR_FACEBOOK_PROFILE_LINK_HERE";
 
 export const WebCreatorCard: React.FC = () => {
+  const { isUrdu } = useLanguage();
   const [isInquiryModalOpen, setIsInquiryModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState('Business Website');
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
 
   const whatsappUrl =
     'https://wa.me/923007157733?text=Assalam%20o%20Alaikum%20Ibrahim%20bhai%2C%20mujhe%20apne%20business%20ke%20liye%20website%20banwani%20hai.';
@@ -24,59 +23,73 @@ export const WebCreatorCard: React.FC = () => {
   const services = [
     {
       id: 'web-design',
-      title: '🖥️ Website Design',
+      title: isUrdu ? '🖥️ ویب سائٹ ڈیزائننگ' : '🖥️ Website Design',
       name: 'Business Website',
       icon: 'desktop_windows',
-      desc: 'High-speed, beautifully branded, and responsive websites for modern businesses & distributors.',
+      desc: isUrdu
+        ? 'بزنسز اور ڈسٹری بیوٹرز کے لیے تیز رفتار، جدید برانڈنگ والی موبائل فرینڈلی ویب سائٹس۔'
+        : 'High-speed, beautifully branded, and responsive websites for modern businesses & distributors.',
     },
     {
       id: 'pwa-dev',
-      title: '📱 PWA Development',
+      title: isUrdu ? '📱 پی ڈبلیو اے (PWA) ایپس' : '📱 PWA Development',
       name: 'PWA / Installable Web App',
       icon: 'install_mobile',
-      desc: 'Offline-ready mobile app experience that installs directly on customer home screens without app store hassle.',
+      desc: isUrdu
+        ? 'پلے اسٹور کے بغیر براہ راست کسٹمر کے موبائل ہوم اسکرین پر انسٹال ہونے والی جدید ویب ایپس۔'
+        : 'Offline-ready mobile app experience that installs directly on customer home screens without app store hassle.',
     },
     {
       id: 'ui-design',
-      title: '🎨 UI/UX Design',
+      title: isUrdu ? '🎨 یو آئی / یو ایکس ڈیزائن' : '🎨 UI/UX Design',
       name: 'UI/UX Design',
       icon: 'palette',
-      desc: 'Clean typography, intuitive navigation, high contrast colors, and seamless mobile interactions.',
+      desc: isUrdu
+        ? 'صاف ستھری ٹائپوگرافی، آسان نیویگیشن اور موبائل پر بہترین ہموار صارف تجربہ۔'
+        : 'Clean typography, intuitive navigation, high contrast colors, and seamless mobile interactions.',
     },
     {
       id: 'landing-pages',
-      title: '🚀 Landing Pages',
+      title: isUrdu ? '🚀 لینڈنگ پیجز' : '🚀 Landing Pages',
       name: 'Landing Page',
       icon: 'rocket_launch',
-      desc: 'High-converting product showcase pages optimized for WhatsApp inquiries and instant sales.',
+      desc: isUrdu
+        ? 'پروڈکٹ کی فوری فروخت اور واٹس ایپ انکوائری کے لیے مخصوص اور پرکشش سیلز پیجز۔'
+        : 'High-converting product showcase pages optimized for WhatsApp inquiries and instant sales.',
     },
     {
       id: 'maintenance',
-      title: '🛠️ Website Maintenance',
+      title: isUrdu ? '🛠️ ویب سائٹ دیکھ بھال' : '🛠️ Website Maintenance',
       name: 'Website Maintenance',
       icon: 'build_circle',
-      desc: 'Speed optimization, real-time bug fixes, SSL & domain management, and continuous technical support.',
+      desc: isUrdu
+        ? 'ویب اسپیڈ میں اضافہ، بگز کی درستی، ڈومین سیکیورٹی اور مسلسل تکنیکی معاونت۔'
+        : 'Speed optimization, real-time bug fixes, SSL & domain management, and continuous technical support.',
     },
   ];
 
   const projects = [
     {
       id: 'kissan-agro',
-      title: 'Kissan Agro Traders',
-      category: 'PWA & Agricultural E-Commerce',
-      desc: 'Full-featured agricultural portal with real-time crop advisory, photo inquiry, drone spray booking, and inquiry cart.',
+      title: isUrdu ? 'کسان ایگرو ٹریڈرز' : 'Kissan Agro Traders',
+      category: isUrdu ? 'پی ڈبلیو اے زرعی پورٹل' : 'PWA & Agricultural E-Commerce',
+      desc: isUrdu
+        ? 'فصلوں کی لائیو رہنمائی، فوٹو انکوائری، ڈرون بکنگ اور واٹس ایپ انکوائری کے ساتھ مکمل زرعی پورٹل۔'
+        : 'Full-featured agricultural portal with real-time crop advisory, photo inquiry, drone spray booking, and inquiry cart.',
       tech: ['React', 'TypeScript', 'Tailwind CSS', 'Vite PWA'],
-      status: 'Live & Active',
+      status: isUrdu ? 'لائیو اور فعال' : 'Live & Active',
       link: '#home',
       image: 'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=600&q=80',
     },
     {
       id: 'drone-spray-mechanization',
-      title: 'Agro Drone Mechanization Portal',
-      category: 'Precision Agriculture Service Platform',
-      desc: 'Automated field booking system, GPS area calculations, battery logistics, and real-time farmer scheduling.',
+      title: isUrdu ? 'ایگرو ڈرون بکنگ پورٹل' : 'Agro Drone Mechanization Portal',
+      category: isUrdu ? 'زرعی مکینائزیشن سروس' : 'Precision Agriculture Service Platform',
+      desc: isUrdu
+        ? 'کھیت کی جی پی ایس پیمائش، بیٹری لاجسٹکس اور لائیو اسپرے شیڈولنگ کا خودکار نظام۔'
+        : 'Automated field booking system, GPS area calculations, battery logistics, and real-time farmer scheduling.',
       tech: ['TypeScript', 'PWA', 'Tailwind', 'Interactive State'],
-      status: 'Integrated in App',
+      status: isUrdu ? 'ایپ میں شامل' : 'Integrated in App',
       link: '#services',
       image: 'https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=600&q=80',
     },
@@ -85,26 +98,29 @@ export const WebCreatorCard: React.FC = () => {
   const testimonials = [
     {
       id: 't-1',
-      name: 'محمد طارق کلاسرہ',
-      role: 'Owner, Kissan Agro Traders',
+      name: isUrdu ? 'محمد طارق کلاسرہ' : 'Muhammad Tariq Klasra',
+      role: isUrdu ? 'اونر، کسان ایگرو ٹریڈرز' : 'Owner, Kissan Agro Traders',
       rating: 5,
-      comment: 'ابراہیم کلاسرہ نے ہماری دکان کے لیے انتہائی شاندار اور تیز رفتار ویب سائٹ تیار کی۔ کسانوں کو واٹس ایپ پر آرڈر دینا بہت آسان ہو گیا ہے۔',
-      isUrdu: true,
+      comment: isUrdu
+        ? 'ابراہیم کلاسرہ نے ہماری دکان کے لیے انتہائی شاندار اور تیز رفتار ویب سائٹ تیار کی۔ کسانوں کو واٹس ایپ پر آرڈر دینا بہت آسان ہو گیا ہے۔'
+        : 'Ibrahim Klasra designed an exceptionally fast and intuitive website for our business. Farmers find it effortless to place orders directly on WhatsApp.',
     },
     {
       id: 't-2',
-      name: 'Malik Zeeshan',
-      role: 'Business Owner, Punjab',
+      name: isUrdu ? 'ملک ذیشان' : 'Malik Zeeshan',
+      role: isUrdu ? 'بزنس اونر، پنجاب' : 'Business Owner, Punjab',
       rating: 5,
-      comment: 'Super fast delivery and flawless mobile responsive design. The PWA installability works smoothly on all smartphones.',
-      isUrdu: false,
+      comment: isUrdu
+        ? 'بہت تیز ڈیلیوری اور زبردست رسپانسو موبائل ڈیزائن۔ موبائل ہوم اسکرین پر بغیر کسی رکاوٹ کے ایپ انسٹال ہو جاتی ہے۔'
+        : 'Super fast delivery and flawless mobile responsive design. The PWA installability works smoothly on all smartphones.',
     },
     {
       id: 't-3',
-      name: 'Adil Abbas',
-      role: 'Customer / Reviewer',
-      comment: 'بہت اچھی ایپس بناتے ہیں، ابھی جو ایپ بنائی ہے وہ بھی بہت کمال کی چل رہی ہے۔ کام صاف، خوبصورت اور استعمال میں آسان ہے۔',
-      isUrdu: true,
+      name: isUrdu ? 'عادل عباس' : 'Adil Abbas',
+      role: isUrdu ? 'کسٹمر و ریویور' : 'Customer / Reviewer',
+      comment: isUrdu
+        ? 'بہت عمدہ ایپس بناتے ہیں، کام صاف ستھرا، خوبصورت اور استعمال میں انتہائی آسان ہے۔'
+        : 'Creates remarkable web apps. The user experience is clean, modern, robust, and exceptionally easy to navigate.',
     },
   ];
 
@@ -129,7 +145,7 @@ export const WebCreatorCard: React.FC = () => {
             {/* 1. Header: Profile, Identity, Title & Contacts */}
             <div className="flex flex-col lg:flex-row items-center lg:items-start justify-between gap-6 pb-6 border-b border-emerald-800/60">
               {/* Left Profile */}
-              <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-5 w-full lg:w-auto">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left rtl:sm:text-right gap-5 w-full lg:w-auto">
                 <div className="relative shrink-0">
                   <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-gradient-to-br from-emerald-400 via-emerald-600 to-teal-800 text-white font-black text-3xl sm:text-4xl flex items-center justify-center shadow-xl border-2 border-emerald-300/40 ring-4 ring-emerald-900/80">
                     <span>IK</span>
@@ -146,28 +162,34 @@ export const WebCreatorCard: React.FC = () => {
                   <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
                     <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-emerald-500/25 border border-emerald-400/40 text-[11px] font-extrabold text-emerald-300 tracking-wide uppercase">
                       <span className="material-symbols-outlined text-[14px]">verified</span>
-                      Website Creator
+                      {isUrdu ? 'ویب کریئٹر' : 'Website Creator'}
                     </span>
                     <span className="px-2.5 py-0.5 rounded-full bg-white/10 text-white text-[11px] font-bold">
-                      Freelancer • Digital Web Creator
+                      {isUrdu ? 'فری لانس ویب ڈویلپر' : 'Freelancer • Full-Stack Web Creator'}
                     </span>
                   </div>
 
                   <div>
                     <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-                      Ibrahim Klasra
+                      {isUrdu ? 'ابراہیم کلاسرہ' : 'Ibrahim Klasra'}
                     </h3>
                     <p className="text-xs sm:text-sm font-semibold text-emerald-300">
-                      Website Designed &amp; Created by Ibrahim Klasra
+                      {isUrdu
+                        ? 'ویب سائٹ ڈیزائنر و ڈویلپر: ابراہیم کلاسرہ'
+                        : 'Website Designed & Created by Ibrahim Klasra'}
                     </p>
                   </div>
 
                   <p className="text-amber-300 font-semibold text-xs sm:text-sm">
-                    “Modern websites aur digital experiences create karta hoon.”
+                    {isUrdu
+                      ? '“جدید، تیز رفتار اور خوبصورت ڈیجیٹل ویب سائٹس بناتا ہوں۔”'
+                      : '“Crafting modern websites, fast PWAs, and delightful digital experiences.”'}
                   </p>
 
                   <p className="text-emerald-100/90 text-xs sm:text-sm max-w-xl leading-relaxed">
-                    Aapka business, meri digital creativity. Apne karobar، dukaan ya personal brand ke liye modern, fast aur installable PWA website banwane ke liye rabta karein.
+                    {isUrdu
+                      ? 'آپ کا بزنس، میری ڈیجیٹل مہارت۔ اپنے کاروبار، دکان یا ذاتی برانڈ کے لیے جدید اور موبائل فرینڈلی PWA ویب سائٹ بنوانے کے لیے رابطہ کریں۔'
+                      : 'Elevate your business with digital craftsmanship. Contact for modern, fast, and installable PWA web solutions.'}
                   </p>
                 </div>
               </div>
@@ -182,7 +204,7 @@ export const WebCreatorCard: React.FC = () => {
                   className="btn-shimmer inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 text-xs sm:text-sm font-black px-5 py-3 rounded-2xl shadow-lg hover:shadow-amber-400/30 transition-all duration-200 hover:scale-[1.02] active:scale-95 border border-amber-200/80 cursor-pointer"
                 >
                   <span className="material-symbols-outlined text-[18px]">flash_on</span>
-                  <span>Build Your Website (ویب سائٹ بنوائیں)</span>
+                  <span>{isUrdu ? 'اپنی ویب سائٹ بنوائیں' : 'Build Your Website'}</span>
                 </button>
 
                 {/* Creator WhatsApp */}
@@ -208,7 +230,7 @@ export const WebCreatorCard: React.FC = () => {
                   <svg className="w-4 h-4 fill-white shrink-0" viewBox="0 0 24 24">
                     <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                   </svg>
-                  <span>Follow on Facebook</span>
+                  <span>{isUrdu ? 'فیس بک پر وزٹ کریں' : 'Follow on Facebook'}</span>
                 </a>
               </div>
             </div>
@@ -219,11 +241,11 @@ export const WebCreatorCard: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <span className="material-symbols-outlined text-[20px] text-amber-300">design_services</span>
                   <h4 className="text-base sm:text-lg font-bold text-white">
-                    Freelancer Web Services / <span className="urdu-text text-emerald-300 text-sm font-medium" dir="rtl">خدمات</span>
+                    {isUrdu ? 'فری لانس ویب خدمات' : 'Freelancer Web Services'}
                   </h4>
                 </div>
                 <span className="text-[11px] text-emerald-300/80 font-medium hidden sm:inline">
-                  Click any service to request inquiry
+                  {isUrdu ? 'انکوائری کے لیے سروس پر کلک کریں' : 'Click any service to request inquiry'}
                 </span>
               </div>
 
@@ -246,8 +268,10 @@ export const WebCreatorCard: React.FC = () => {
                       </p>
                     </div>
                     <div className="pt-3 flex items-center gap-1 text-[10px] font-bold text-amber-300 group-hover:underline">
-                      <span>Inquire Now</span>
-                      <span className="material-symbols-outlined text-[12px]">arrow_forward</span>
+                      <span>{isUrdu ? 'انکوائری بھیجیں' : 'Inquire Now'}</span>
+                      <span className="material-symbols-outlined text-[12px]">
+                        {isUrdu ? 'arrow_back' : 'arrow_forward'}
+                      </span>
                     </div>
                   </div>
                 ))}
@@ -260,7 +284,7 @@ export const WebCreatorCard: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <span className="material-symbols-outlined text-[20px] text-emerald-400">language</span>
                   <h4 className="text-sm sm:text-base font-bold text-white">
-                    My Websites / Projects Showcase (پورٹ فولیو)
+                    {isUrdu ? 'ویب سائٹس و پورٹ فولیو پروجیکٹس' : 'Websites & Projects Portfolio'}
                   </h4>
                 </div>
               </div>
@@ -310,8 +334,10 @@ export const WebCreatorCard: React.FC = () => {
                           href={proj.link}
                           className="inline-flex items-center gap-1 text-xs font-bold text-amber-300 hover:text-amber-200 transition-colors"
                         >
-                          <span>View Project</span>
-                          <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
+                          <span>{isUrdu ? 'پروجیکٹ دیکھیں' : 'View Project'}</span>
+                          <span className="material-symbols-outlined text-[14px]">
+                            {isUrdu ? 'arrow_back' : 'arrow_forward'}
+                          </span>
                         </a>
                       </div>
                     </div>
@@ -323,9 +349,13 @@ export const WebCreatorCard: React.FC = () => {
                   <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-slate-400 mb-2">
                     <span className="material-symbols-outlined text-[24px]">more_horiz</span>
                   </div>
-                  <h5 className="text-sm font-bold text-white">More Projects Coming Soon</h5>
+                  <h5 className="text-sm font-bold text-white">
+                    {isUrdu ? 'مزید پروجیکٹس جلد آ رہے ہیں' : 'More Projects Coming Soon'}
+                  </h5>
                   <p className="text-[11px] text-slate-400 mt-1 max-w-xs leading-relaxed">
-                    Working on innovative business portals and high-speed web apps.
+                    {isUrdu
+                      ? 'جدید بزنس پورٹلز اور تیز رفتار ویب ایپس پر کام جاری ہے۔'
+                      : 'Working on innovative business portals and high-speed web apps.'}
                   </p>
                 </div>
               </div>
@@ -336,7 +366,7 @@ export const WebCreatorCard: React.FC = () => {
               <div className="flex items-center gap-2 mb-3">
                 <span className="material-symbols-outlined text-[18px] text-amber-400">rate_review</span>
                 <h4 className="text-sm sm:text-base font-bold text-white">
-                  Client &amp; User Feedback / اعتماد
+                  {isUrdu ? 'کلائنٹس کا اعتماد اور تاثرات' : 'Client Feedback & Reviews'}
                 </h4>
               </div>
 
@@ -365,12 +395,7 @@ export const WebCreatorCard: React.FC = () => {
                         </span>
                       </div>
 
-                      <p
-                        className={`text-xs sm:text-sm text-emerald-100/90 leading-relaxed ${
-                          test.isUrdu ? 'urdu-text font-medium leading-relaxed text-right' : 'italic'
-                        }`}
-                        dir={test.isUrdu ? 'rtl' : 'ltr'}
-                      >
+                      <p className="text-xs sm:text-sm text-emerald-100/90 leading-relaxed italic">
                         &ldquo;{test.comment}&rdquo;
                       </p>
                     </div>
@@ -394,13 +419,15 @@ export const WebCreatorCard: React.FC = () => {
               <div>
                 <div className="inline-flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider text-amber-300 mb-0.5">
                   <span className="material-symbols-outlined text-[15px]">flash_on</span>
-                  <span>Need a Website?</span>
+                  <span>{isUrdu ? 'ویب سائٹ بنوانی ہے؟' : 'Need a Website?'}</span>
                 </div>
                 <h4 className="text-base sm:text-lg font-black text-white">
-                  Apni Website Banwayein / <span className="urdu-text font-bold text-amber-300" dir="rtl">اپنی ویب سائٹ بنوائیں</span>
+                  {isUrdu ? 'ابراہیم کلاسرہ سے رابطہ کریں' : 'Build Your Professional Website Today'}
                 </h4>
                 <p className="text-xs text-emerald-100/90 mt-0.5 leading-relaxed">
-                  Business ke liye modern, fast aur responsive website banwane ke liye Ibrahim Klasra se rabta karein.
+                  {isUrdu
+                    ? 'اپنے بزنس کے لیے جدید، تیز رفتار اور موبائل فرینڈلی ویب سائٹ بنوانے کے لیے رابطہ کریں۔'
+                    : 'Get in touch with Ibrahim Klasra for high-performance, modern business websites and apps.'}
                 </p>
               </div>
 
@@ -409,8 +436,10 @@ export const WebCreatorCard: React.FC = () => {
                 onClick={() => handleOpenInquiry('Business Website')}
                 className="btn-shimmer inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs sm:text-sm shadow-md transition-all duration-200 hover:scale-[1.02] active:scale-95 whitespace-nowrap cursor-pointer border border-amber-200/80"
               >
-                <span>Contact Ibrahim Klasra</span>
-                <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+                <span>{isUrdu ? 'ابراہیم کلاسرہ سے رابطہ کریں' : 'Contact Ibrahim Klasra'}</span>
+                <span className="material-symbols-outlined text-[16px]">
+                  {isUrdu ? 'arrow_back' : 'arrow_forward'}
+                </span>
               </button>
             </div>
           </div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ShopStatusBadgeProps {
   showHours?: boolean;
@@ -6,6 +7,7 @@ interface ShopStatusBadgeProps {
 }
 
 export const ShopStatusBadge: React.FC<ShopStatusBadgeProps> = ({ showHours = false, className = '' }) => {
+  const { isUrdu } = useLanguage();
   const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
@@ -36,7 +38,15 @@ export const ShopStatusBadge: React.FC<ShopStatusBadgeProps> = ({ showHours = fa
           ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-400/30'
           : 'bg-rose-500/20 text-rose-300 border border-rose-400/30'
       } ${className}`}
-      title={isOpen ? 'Open Now (7:00 AM - 6:30 PM PKT)' : 'Closed Now (WhatsApp Helpline 24/7)'}
+      title={
+        isOpen
+          ? isUrdu
+            ? 'دکان اس وقت کھلی ہے (صبح 7:00 تا شام 6:30)'
+            : 'Open Now (7:00 AM - 6:30 PM PKT)'
+          : isUrdu
+          ? 'دکان بند ہے (واٹس ایپ ہیلپ لائن 24/7 فعال ہے)'
+          : 'Closed Now (WhatsApp Helpline 24/7)'
+      }
     >
       <span className="relative flex h-2 w-2">
         <span
@@ -50,9 +60,17 @@ export const ShopStatusBadge: React.FC<ShopStatusBadgeProps> = ({ showHours = fa
           }`}
         />
       </span>
-      <span>{isOpen ? '🟢 Open Now' : '🔴 Closed Now'}</span>
+      <span>
+        {isOpen
+          ? isUrdu
+            ? '🟢 کھلا ہے'
+            : '🟢 Open Now'
+          : isUrdu
+          ? '🔴 بند ہے'
+          : '🔴 Closed Now'}
+      </span>
       {showHours && (
-        <span className="text-[10px] opacity-80 hidden sm:inline">
+        <span className="text-[10px] opacity-80 hidden sm:inline" dir="ltr">
           (7:00 AM - 6:30 PM)
         </span>
       )}

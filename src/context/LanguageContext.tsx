@@ -6,6 +6,8 @@ export type Direction = 'rtl' | 'ltr';
 interface LanguageContextType {
   language: Language;
   direction: Direction;
+  isUrdu: boolean;
+  isEnglish: boolean;
   toggleLanguage: () => void;
   setLanguage: (lang: Language) => void;
   t: (key: string, englishFallback: string, urduFallback?: string) => string;
@@ -50,6 +52,8 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   });
 
   const direction: Direction = language === 'ur' ? 'rtl' : 'ltr';
+  const isUrdu = language === 'ur';
+  const isEnglish = language === 'en';
 
   useEffect(() => {
     const root = document.documentElement;
@@ -75,7 +79,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   return (
-    <LanguageContext.Provider value={{ language, direction, toggleLanguage, setLanguage, t }}>
+    <LanguageContext.Provider value={{ language, direction, isUrdu, isEnglish, toggleLanguage, setLanguage, t }}>
       {children}
     </LanguageContext.Provider>
   );

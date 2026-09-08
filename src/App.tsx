@@ -8,7 +8,8 @@ import { TopNoticeBar } from './components/TopNoticeBar';
 import { SeasonalBanner } from './components/SeasonalBanner';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
-import { WebCreatorCard } from './components/WebCreatorCard';
+import { WeatherSection } from './components/WeatherSection';
+import { ScrollProgressBar } from './components/ScrollProgressBar';
 import { BusinessStats } from './components/BusinessStats';
 import { CategoryHighlights } from './components/CategoryHighlights';
 import { FeaturedProducts } from './components/FeaturedProducts';
@@ -33,6 +34,7 @@ import { DroneBookingModal } from './components/DroneBookingModal';
 import { CropAdvisoryModal } from './components/CropAdvisoryModal';
 import { ExpertConsultationModal } from './components/ExpertConsultationModal';
 import { ProductDetailModal } from './components/ProductDetailModal';
+import { ReviewModal } from './components/ReviewModal';
 import { InquiryDrawer } from './components/InquiryDrawer';
 import { InquiryToast } from './components/InquiryToast';
 import { PWAInstallBanner } from './components/PWAInstallBanner';
@@ -53,11 +55,13 @@ export default function App() {
   const [isGlobalDroneBookingOpen, setIsGlobalDroneBookingOpen] = useState(false);
   const [isGlobalCropAdvisoryOpen, setIsGlobalCropAdvisoryOpen] = useState(false);
   const [isGlobalConsultationOpen, setIsGlobalConsultationOpen] = useState(false);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [selectedProductForModal, setSelectedProductForModal] = useState<Product | null>(null);
 
   useEffect(() => {
     const sections = [
       'home',
+      'weather-section',
       'featured-products',
       'products',
       'services',
@@ -103,6 +107,9 @@ export default function App() {
               {/* Premium Brand Loading Screen */}
               <LoadingScreen />
 
+              {/* Top Page Scroll Progress Indicator */}
+              <ScrollProgressBar />
+
               <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex flex-col font-sans selection:bg-emerald-500 selection:text-white transition-colors duration-200">
                 {/* 1. Top Notice Announcement & Contact Bar with Real-time Shop Status */}
                 <TopNoticeBar />
@@ -118,11 +125,11 @@ export default function App() {
 
                 {/* 3. Main Content Container */}
                 <main className="flex-1 pb-16 md:pb-0">
-                  {/* Existing Hero Section (Strictly Preserved) */}
+                  {/* Existing Hero Section with Compact Ibrahim Klasra Card & Live Weather */}
                   <HeroSection />
 
-                  {/* Creator Portfolio for Ibrahim Klasra (Digital Web Creator & Services) */}
-                  <WebCreatorCard />
+                  {/* 🌦️ Dedicated Large Premium Weather & Farming Weather Section */}
+                  <WeatherSection id="weather-section" />
 
                   {/* 📊 Trust / Business Statistics Section (Animated Counters) */}
                   <BusinessStats />
@@ -175,7 +182,7 @@ export default function App() {
                   <BrandSignatureBanner />
 
                   {/* ⭐ Customer Trust / Reviews Section (Hamare Customers Ka Aitmaad) */}
-                  <CustomerReviews />
+                  <CustomerReviews onOpenReviewModal={() => setIsReviewModalOpen(true)} />
 
                   {/* 📸 Real Shop & Field Gallery Section */}
                   <ShopGallerySection />
@@ -187,7 +194,7 @@ export default function App() {
                   <AboutSection />
 
                   {/* 📍 Shop Location (Hamari Location) & 📞 Contact Section with Dynamic Status */}
-                  <ContactMapSection />
+                  <ContactMapSection onOpenReviewModal={() => setIsReviewModalOpen(true)} />
                 </main>
 
                 {/* Existing Complete Footer (Strictly Preserved) */}
@@ -203,6 +210,12 @@ export default function App() {
                 <MobileBottomNav
                   activeSection={activeSection}
                   onOpenAdvisory={() => setIsGlobalCropAdvisoryOpen(true)}
+                />
+
+                {/* Global Review Popup Modal */}
+                <ReviewModal
+                  isOpen={isReviewModalOpen}
+                  onClose={() => setIsReviewModalOpen(false)}
                 />
 
                 {/* Global Drone Spray Booking Modal */}

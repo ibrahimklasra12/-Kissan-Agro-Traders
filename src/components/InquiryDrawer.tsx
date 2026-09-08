@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useInquiryCart } from '../context/InquiryCartContext';
-import { BUSINESS_INFO } from '../data/agroData';
+import { useLanguage } from '../context/LanguageContext';
+import { getProductCartInquiryUrl } from '../utils/whatsapp';
 
 export const InquiryDrawer: React.FC = () => {
   const {
@@ -15,6 +16,7 @@ export const InquiryDrawer: React.FC = () => {
     setCustomerDetails,
   } = useInquiryCart();
 
+  const { isUrdu, language } = useLanguage();
   const [showCustomerForm, setShowCustomerForm] = useState(false);
 
   // Close on Escape
@@ -45,25 +47,8 @@ export const InquiryDrawer: React.FC = () => {
   const handleSendWhatsAppInquiry = () => {
     if (items.length === 0) return;
 
-    let message = 'Assalam o Alaikum!\nMujhe Kissan Agro Traders ke following products ke bare mein maloomat chahiye:\n\n';
+    const whatsappUrl = getProductCartInquiryUrl(items, customerDetails, language);
 
-    items.forEach((item, index) => {
-      message += `${index + 1}. ${item.product.name} (${item.product.tagline}) — Qty: ${item.quantity}\n`;
-    });
-
-    const hasCustomerDetails =
-      customerDetails.name.trim() || customerDetails.phone.trim() || customerDetails.villageArea.trim();
-
-    if (hasCustomerDetails) {
-      message += '\n👤 Customer Details:\n';
-      if (customerDetails.name.trim()) message += `• Naam: ${customerDetails.name.trim()}\n`;
-      if (customerDetails.phone.trim()) message += `• Mobile: ${customerDetails.phone.trim()}\n`;
-      if (customerDetails.villageArea.trim()) message += `• Village/Area: ${customerDetails.villageArea.trim()}\n`;
-    }
-
-    message += '\nMeherbani karke availability aur price ke bare mein batayein.';
-
-    const whatsappUrl = `${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
   };
 
@@ -80,6 +65,7 @@ export const InquiryDrawer: React.FC = () => {
         id="inquiry-drawer-panel"
         className="bg-white w-full max-w-md h-full shadow-2xl flex flex-col justify-between border-l border-slate-200/90 animate-in slide-in-from-right duration-300 relative"
         onClick={(e) => e.stopPropagation()}
+        dir={isUrdu ? 'rtl' : 'ltr'}
       >
         {/* Drawer Header */}
         <div className="p-4 sm:p-5 border-b border-slate-200 bg-slate-50/90 flex items-center justify-between">
@@ -90,14 +76,14 @@ export const InquiryDrawer: React.FC = () => {
             <div>
               <div className="flex items-center gap-2">
                 <h2 id="inquiry-drawer-title" className="text-base sm:text-lg font-black text-slate-900 leading-tight">
-                  Product Inquiry Cart
+                  {isUrdu ? 'پروڈکٹ انکوائری کارٹ' : 'Product Inquiry Cart'}
                 </h2>
                 <span className="bg-emerald-100 text-emerald-800 text-xs font-extrabold px-2 py-0.5 rounded-full">
                   {totalCount}
                 </span>
               </div>
-              <p className="urdu-text text-xs text-emerald-800 font-bold" dir="rtl">
-                منتخب زرعی اشیاء کی انکوائری لسٹ
+              <p className="text-xs text-emerald-800 font-bold">
+                {isUrdu ? 'منتخب زرعی اشیاء کی انکوائری لسٹ' : 'Selected Agricultural Items Inquiry List'}
               </p>
             </div>
           </div>
@@ -122,10 +108,12 @@ export const InquiryDrawer: React.FC = () => {
                 <span className="material-symbols-outlined text-[38px] text-slate-400">remove_shopping_cart</span>
               </div>
               <h3 className="text-base font-bold text-slate-800 mb-1">
-                آپ کی انکوائری لسٹ خالی ہے
+                {isUrdu ? 'آپ کی انکوائری لسٹ خالی ہے' : 'Your Inquiry Cart is Empty'}
               </h3>
               <p className="text-xs text-slate-500 max-w-xs mb-6">
-                اپنی مطلوبہ کیڑے مار ادویات، کھادیں یا بیج تلاش کریں اور "Add to Inquiry" کے بٹن پر کلک کریں۔
+                {isUrdu
+                  ? 'اپنی مطلوبہ زرعی ادویات، کھادیں یا بیج تلاش کریں اور "کارٹ میں شامل کریں" پر کلک کریں۔'
+                  : 'Find your desired pesticides, fertilizers or seeds and click "Add to Inquiry".'}
               </p>
               <button
                 type="button"
@@ -139,7 +127,7 @@ export const InquiryDrawer: React.FC = () => {
                 className="px-5 py-2.5 rounded-2xl bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-extrabold shadow-sm transition-all hover:scale-[1.02] cursor-pointer flex items-center gap-2"
               >
                 <span className="material-symbols-outlined text-[18px]">search</span>
-                <span>پروڈکٹس دیکھیں (Browse Products)</span>
+                <span>{isUrdu ? 'پروڈکٹس دیکھیں' : 'Browse Products'}</span>
               </button>
             </div>
           ) : (
@@ -147,7 +135,7 @@ export const InquiryDrawer: React.FC = () => {
             <div className="space-y-3">
               <div className="flex items-center justify-between pb-1">
                 <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                  Selected Items ({items.length})
+                  {isUrdu ? `منتخب اشیاء (${items.length})` : `Selected Items (${items.length})`}
                 </span>
                 <button
                   type="button"
@@ -155,7 +143,7 @@ export const InquiryDrawer: React.FC = () => {
                   className="text-xs text-rose-600 hover:text-rose-700 font-bold hover:underline cursor-pointer flex items-center gap-1"
                 >
                   <span className="material-symbols-outlined text-[14px]">delete_sweep</span>
-                  <span>Clear Inquiry (لسٹ خالی کریں)</span>
+                  <span>{isUrdu ? 'لسٹ خالی کریں' : 'Clear Inquiry'}</span>
                 </button>
               </div>
 
@@ -179,7 +167,7 @@ export const InquiryDrawer: React.FC = () => {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-1">
                       <h4 className="text-sm font-extrabold text-slate-900 truncate">
-                        {product.name}
+                        {isUrdu ? product.nameUrdu || product.name : product.name}
                       </h4>
                       <button
                         type="button"
@@ -192,15 +180,15 @@ export const InquiryDrawer: React.FC = () => {
                     </div>
 
                     <p className="text-[11px] text-emerald-700 font-bold truncate">
-                      {product.tagline}
+                      {isUrdu ? product.tagline : product.taglineEnglish || product.tagline}
                     </p>
 
                     {/* Quantity controls */}
                     <div className="flex items-center justify-between mt-2 pt-1 border-t border-slate-200/50">
                       <span className="text-[11px] text-slate-400 font-semibold">
-                        تعداد (Qty):
+                        {isUrdu ? 'تعداد:' : 'Quantity:'}
                       </span>
-                      <div className="flex items-center gap-1.5 bg-white px-1.5 py-0.5 rounded-lg border border-slate-200">
+                      <div className="flex items-center gap-1.5 bg-white px-1.5 py-0.5 rounded-lg border border-slate-200" dir="ltr">
                         <button
                           type="button"
                           onClick={() => updateQuantity(product.id, -1)}
@@ -235,7 +223,7 @@ export const InquiryDrawer: React.FC = () => {
                 >
                   <div className="flex items-center gap-2">
                     <span className="material-symbols-outlined text-[18px] text-emerald-700">person</span>
-                    <span>کسٹمر تفصیلات (Optional Details)</span>
+                    <span>{isUrdu ? 'کسٹمر تفصیلات (اختیاری)' : 'Customer Details (Optional)'}</span>
                   </div>
                   <span className="material-symbols-outlined text-[18px] text-slate-400">
                     {showCustomerForm ? 'expand_less' : 'expand_more'}
@@ -246,7 +234,7 @@ export const InquiryDrawer: React.FC = () => {
                   <div className="mt-2.5 p-3 rounded-2xl bg-white border border-slate-200 space-y-2.5 animate-in fade-in duration-150">
                     <div>
                       <label htmlFor="inquiry-cust-name" className="block text-[11px] font-bold text-slate-600 mb-1">
-                        کسان کا نام (Name):
+                        {isUrdu ? 'کسان کا نام:' : 'Farmer Name:'}
                       </label>
                       <input
                         id="inquiry-cust-name"
@@ -255,14 +243,14 @@ export const InquiryDrawer: React.FC = () => {
                         onChange={(e) =>
                           setCustomerDetails((prev) => ({ ...prev, name: e.target.value }))
                         }
-                        placeholder="مثال: محمد احمد"
+                        placeholder={isUrdu ? 'مثال: محمد احمد' : 'e.g. Muhammad Ahmad'}
                         className="w-full px-3 py-1.5 text-xs rounded-xl border border-slate-200 focus:outline-hidden focus:ring-1 focus:ring-emerald-500"
                       />
                     </div>
 
                     <div>
                       <label htmlFor="inquiry-cust-phone" className="block text-[11px] font-bold text-slate-600 mb-1">
-                        موبائل نمبر (Mobile Number):
+                        {isUrdu ? 'موبائل نمبر:' : 'Mobile Number:'}
                       </label>
                       <input
                         id="inquiry-cust-phone"
@@ -271,14 +259,15 @@ export const InquiryDrawer: React.FC = () => {
                         onChange={(e) =>
                           setCustomerDetails((prev) => ({ ...prev, phone: e.target.value }))
                         }
-                        placeholder="مثال: 0300-1234567"
+                        placeholder="e.g. 0300-1234567"
                         className="w-full px-3 py-1.5 text-xs rounded-xl border border-slate-200 focus:outline-hidden focus:ring-1 focus:ring-emerald-500"
+                        dir="ltr"
                       />
                     </div>
 
                     <div>
                       <label htmlFor="inquiry-cust-area" className="block text-[11px] font-bold text-slate-600 mb-1">
-                        علاقہ یا چک نمبر (Village / Area):
+                        {isUrdu ? 'علاقہ یا چک نمبر:' : 'Village / Area:'}
                       </label>
                       <input
                         id="inquiry-cust-area"
@@ -287,7 +276,7 @@ export const InquiryDrawer: React.FC = () => {
                         onChange={(e) =>
                           setCustomerDetails((prev) => ({ ...prev, villageArea: e.target.value }))
                         }
-                        placeholder="مثال: کوٹ ادو بائی پاس، موضع..."
+                        placeholder={isUrdu ? 'مثال: کوٹ ادو بائی پاس، موضع...' : 'e.g. Kot Addu, Chak No...'}
                         className="w-full px-3 py-1.5 text-xs rounded-xl border border-slate-200 focus:outline-hidden focus:ring-1 focus:ring-emerald-500"
                       />
                     </div>
@@ -309,13 +298,17 @@ export const InquiryDrawer: React.FC = () => {
               className="btn-shimmer w-full py-3.5 px-4 rounded-2xl bg-green-500 hover:bg-green-600 text-white text-sm font-extrabold flex items-center justify-center gap-2 shadow-md hover:shadow-green-500/25 transition-all duration-300 hover:scale-[1.01] active:scale-95 border border-green-400/40 cursor-pointer"
             >
               <span className="material-symbols-outlined text-[20px]">chat</span>
-              <span>📲 WhatsApp Par Inquiry Bhejein</span>
+              <span>{isUrdu ? '📲 واٹس ایپ پر انکوائری بھیجیں' : '📲 Send Inquiry via WhatsApp'}</span>
             </button>
 
             {/* Delivery Trust Note */}
             <div className="flex items-center justify-center gap-1.5 text-[11px] text-emerald-800 font-semibold bg-emerald-50/80 py-2 px-3 rounded-xl border border-emerald-200/60">
               <span className="material-symbols-outlined text-[15px] text-emerald-600">local_shipping</span>
-              <span>مفت ہوم و فارم ڈیلیوری کوٹ ادو اور ملحقہ علاقوں میں</span>
+              <span>
+                {isUrdu
+                  ? 'مفت ہوم و فارم ڈیلیوری کوٹ ادو اور ملحقہ علاقوں میں'
+                  : 'Free Home & Farm Delivery in Kot Addu and Surrounding Areas'}
+              </span>
             </div>
           </div>
         )}

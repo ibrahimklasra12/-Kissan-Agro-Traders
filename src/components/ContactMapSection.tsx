@@ -10,7 +10,7 @@ import { ShopStatusBadge } from './ShopStatusBadge';
 export const GOOGLE_MAPS_URL =
   'https://maps.google.com/?q=Kot+Addu+Bypass+Madina+Chowk+Pakistan';
 
-export const ContactMapSection: React.FC = () => {
+export const ContactMapSection: React.FC<{ onOpenReviewModal?: () => void }> = ({ onOpenReviewModal }) => {
   const mapImgUrl =
     'https://lh3.googleusercontent.com/aida-public/AB6AXuCJoz_X0nmnXeJCoiE6NncIEN8OsBPda3B4MxtPmC7_QKChm3XKiicwmOhoi-qqBLlHCArM4DcAtpezy3l3cwKlOtbaAMwJ7DAro4SU5zd0MOM3pmhqaDkyKdY3BBJZ6Ng5Q0YuAnRXSZ61CB0P_h9hlBPLdZuMN3iQxQ52TAbVBJ9T4uh8ktrFnZEeOmMNMJVwAT-FuSWHrQYQ7ucxABilWbGMmS7JCjJ_V9btYVkSP66_7CAGSi3-';
 
@@ -226,22 +226,38 @@ export const ContactMapSection: React.FC = () => {
               </div>
             </div>
 
-            {/* 🧭 Get Directions Button (Feature 5) */}
-            <div className="mt-6 pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
-              <a
-                id="get-directions-btn"
-                className="btn-shimmer inline-flex items-center gap-2 bg-emerald-700 hover:bg-emerald-800 text-white text-xs sm:text-sm font-extrabold px-5 py-3 rounded-2xl transition-all shadow-xs hover:shadow-md active:scale-95"
-                href={GOOGLE_MAPS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span className="material-symbols-outlined text-[19px]">directions</span>
-                <span>🧭 Get Directions (راستہ دیکھیں)</span>
-              </a>
+            {/* 🧭 Dual Actions: 📍 Get Directions & ⭐ Apni Rai Dein */}
+            <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto">
+                {/* 📍 Action 1: Get Directions */}
+                <a
+                  id="get-directions-btn"
+                  className="btn-shimmer inline-flex items-center justify-center gap-2 bg-emerald-700 hover:bg-emerald-800 text-white text-xs sm:text-sm font-extrabold px-5 py-3 rounded-2xl transition-all shadow-xs hover:shadow-md active:scale-95"
+                  href={GOOGLE_MAPS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span className="material-symbols-outlined text-[19px]">directions</span>
+                  <span>📍 Get Directions (راستہ دیکھیں)</span>
+                </a>
+
+                {/* ⭐ Action 2: Apni Rai Dein */}
+                {onOpenReviewModal && (
+                  <button
+                    id="contact-open-review-btn"
+                    type="button"
+                    onClick={onOpenReviewModal}
+                    className="inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs sm:text-sm font-black px-5 py-3 rounded-2xl transition-all shadow-xs hover:shadow-md active:scale-95 cursor-pointer"
+                  >
+                    <span className="material-symbols-outlined text-[19px]">rate_review</span>
+                    <span>⭐ Apni Rai Dein (اپنی رائے دیں)</span>
+                  </button>
+                )}
+              </div>
 
               <a
                 id="open-in-google-maps"
-                className="inline-flex items-center gap-1.5 text-slate-700 hover:text-emerald-700 text-xs sm:text-sm font-bold hover:underline"
+                className="inline-flex items-center justify-center sm:justify-start gap-1.5 text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 text-xs sm:text-sm font-bold hover:underline py-1"
                 href={GOOGLE_MAPS_URL}
                 target="_blank"
                 rel="noopener noreferrer"

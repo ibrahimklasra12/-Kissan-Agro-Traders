@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PRODUCTS } from '../data/agroData';
+import { useLanguage } from '../context/LanguageContext';
 
 export const BusinessStats: React.FC = () => {
+  const { isUrdu } = useLanguage();
   const [hasAnimated, setHasAnimated] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -71,31 +73,39 @@ export const BusinessStats: React.FC = () => {
   const stats = [
     {
       metric: `${counter100Genuine}%`,
-      label: 'Genuine Products',
-      urduLabel: 'اصل اور مصدقہ پروڈکٹس',
+      title: isUrdu ? 'اصل اور مصدقہ پروڈکٹس' : 'Genuine Products',
+      subtitle: isUrdu ? '100% Original' : '100% Authentic',
       icon: 'verified_user',
-      description: 'Zero counterfeit guarantee on all pesticides and fertilizers.',
+      description: isUrdu
+        ? 'جعلی ادویات سے مکمل پاک، صرف مستند برانڈز کی زرعی ادویات اور کھادیں۔'
+        : 'Zero counterfeit guarantee on all pesticides and fertilizers.',
     },
     {
       metric: `${counterCategories}+`,
-      label: 'Core Categories',
-      urduLabel: 'چار زرعی شعبہ جات',
+      title: isUrdu ? 'بنیادی زرعی شعبہ جات' : 'Core Categories',
+      subtitle: isUrdu ? 'جامع کیٹلاگ' : 'Comprehensive Catalog',
       icon: 'category',
-      description: 'Pesticides, Fertilizers, Hybrid Seeds, and Drone Mechanization.',
+      description: isUrdu
+        ? 'کیڑے مار ادویات، کھادیں، ہائبرڈ بیج اور جدید زرعی ڈرون اسپرے۔'
+        : 'Pesticides, Fertilizers, Hybrid Seeds, and Drone Mechanization.',
     },
     {
       metric: `${counterProducts}+`,
-      label: 'Verified Products',
-      urduLabel: 'مستند زرعی کیٹلاگ',
+      title: isUrdu ? 'مصدقہ زرعی پروڈکٹس' : 'Verified Products',
+      subtitle: isUrdu ? 'معیاری برانڈز' : 'Top Tier Brands',
       icon: 'inventory_2',
-      description: 'Handpicked pesticides and high-yield seeds for Punjab agriculture.',
+      description: isUrdu
+        ? 'پنجاب کی تمام بڑی فصلوں کے لیے منتخب اور آزمودہ زرعی مصنوعات۔'
+        : 'Handpicked pesticides and high-yield seeds for Punjab agriculture.',
     },
     {
       metric: `${counter100Delivery}%`,
-      label: 'Free Farm Delivery',
-      urduLabel: 'مفت فارم ڈیلیوری',
+      title: isUrdu ? 'مفت فارم ڈیلیوری' : 'Free Farm Delivery',
+      subtitle: isUrdu ? 'کوٹ ادو و مضافات' : 'Kot Addu & Surroundings',
       icon: 'local_shipping',
-      description: 'Direct delivery to dera or field anywhere in Kot Addu bypass region.',
+      description: isUrdu
+        ? 'کوٹ ادو اور ملحقہ دیہات میں آپ کے ڈیرے یا کھیت تک مفت ترسیل۔'
+        : 'Direct delivery to dera or field anywhere in Kot Addu bypass region.',
     },
   ];
 
@@ -103,6 +113,7 @@ export const BusinessStats: React.FC = () => {
     <section
       ref={sectionRef}
       id="business-stats"
+      dir={isUrdu ? 'rtl' : 'ltr'}
       className="py-12 bg-emerald-950 text-white relative overflow-hidden"
     >
       {/* Background Ambience */}
@@ -114,13 +125,15 @@ export const BusinessStats: React.FC = () => {
         <div className="text-center max-w-2xl mx-auto mb-10">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-900/90 border border-emerald-500/30 text-emerald-300 text-xs font-bold uppercase tracking-wider mb-2">
             <span className="material-symbols-outlined text-[15px]">insights</span>
-            <span>Business Facts &amp; Trust</span>
+            <span>{isUrdu ? 'کاروباری حقائق اور کسانوں کا اعتماد' : 'Business Facts & Trust'}</span>
           </span>
           <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-            Hamare Karobar Ka Aitmaad / <span className="urdu-text text-amber-400 font-bold" dir="rtl">ہمارا اعتماد</span>
+            {isUrdu ? 'ہمارے کاروبار کا اعتماد' : 'Trusted Agricultural Excellence'}
           </h2>
           <p className="text-xs sm:text-sm text-emerald-200/80 mt-1">
-            Verified agricultural reliability with transparent standards across Punjab.
+            {isUrdu
+              ? 'کوٹ ادو اور گردونواح کے کاشتکاروں کے لیے مستند و شفاف خدمات۔'
+              : 'Verified agricultural reliability with transparent standards across Punjab.'}
           </p>
         </div>
 
@@ -135,16 +148,16 @@ export const BusinessStats: React.FC = () => {
                 <span className="material-symbols-outlined text-[26px]">{stat.icon}</span>
               </div>
 
-              <div className="text-3xl sm:text-4xl font-black text-amber-300 tracking-tight mb-1 tabular-nums">
+              <div className="text-3xl sm:text-4xl font-black text-amber-300 tracking-tight mb-1 tabular-nums" dir="ltr">
                 {stat.metric}
               </div>
 
               <div className="text-base font-bold text-white mb-0.5">
-                {stat.label}
+                {stat.title}
               </div>
 
-              <div className="urdu-text text-xs text-emerald-300 font-semibold mb-2" dir="rtl">
-                {stat.urduLabel}
+              <div className="text-xs text-emerald-300 font-semibold mb-2">
+                {stat.subtitle}
               </div>
 
               <p className="text-xs text-emerald-100/70 leading-relaxed">

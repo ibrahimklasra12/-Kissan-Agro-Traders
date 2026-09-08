@@ -5,6 +5,7 @@ import { useInquiryCart } from '../context/InquiryCartContext';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useToast } from '../context/ToastContext';
+import { getGeneralWhatsAppUrl } from '../utils/whatsapp';
 
 interface NavbarProps {
   activeSection: string;
@@ -16,7 +17,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onOpenConsultatio
   const [isScrolled, setIsScrolled] = useState(false);
   const { totalCount, setIsDrawerOpen } = useInquiryCart();
   const { theme, toggleTheme } = useTheme();
-  const { language, toggleLanguage, t } = useLanguage();
+  const { language, toggleLanguage, isUrdu, t } = useLanguage();
   const { showToast } = useToast();
 
   useEffect(() => {
@@ -33,32 +34,43 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onOpenConsultatio
 
   const handleShareWebsite = async () => {
     const shareData = {
-      title: 'Kissan Agro Traders',
-      text: '🌾 Kissan Agro Traders — Pesticides, Fertilizers, Seeds & Drone Spray Services in Kot Addu',
+      title: isUrdu ? 'کسان ایگرو ٹریڈرز' : 'Kissan Agro Traders',
+      text: isUrdu
+        ? '🌾 کسان ایگرو ٹریڈرز — زرعی ادویات، کھادیں، ہائبرڈ بیج اور جدید ڈرون اسپرے سروس کوٹ ادو'
+        : '🌾 Kissan Agro Traders — Pesticides, Fertilizers, Seeds & Drone Spray Services in Kot Addu',
       url: window.location.href,
     };
 
     if (navigator.share) {
       try {
         await navigator.share(shareData);
-        showToast('success', 'ویب سائٹ شیئر ہو گئی!', 'Website shared successfully');
+        showToast(
+          'success',
+          isUrdu ? 'ویب سائٹ شیئر ہو گئی!' : 'Website shared!',
+          isUrdu ? 'لنک کامیابی سے شیئر کر دیا گیا ہے۔' : 'Website shared successfully'
+        );
       } catch (err) {
         // User dismissed or share canceled
       }
     } else if (navigator.clipboard) {
       try {
         await navigator.clipboard.writeText(window.location.href);
-        showToast('success', 'لنک کاپی ہو گیا!', 'Website link copied to clipboard');
+        showToast(
+          'success',
+          isUrdu ? 'لنک کاپی ہو گیا!' : 'Link copied!',
+          isUrdu ? 'ویب سائٹ کا لنک کلپ بورڈ میں محفوظ ہو گیا۔' : 'Website link copied to clipboard'
+        );
       } catch {
-        showToast('info', 'لنک کاپی کریں:', window.location.href);
+        showToast('info', isUrdu ? 'لنک کاپی کریں:' : 'Copy link:', window.location.href);
       }
     } else {
-      showToast('info', 'ویب سائٹ ایڈریس:', window.location.href);
+      showToast('info', isUrdu ? 'ویب سائٹ ایڈریس:' : 'Website address:', window.location.href);
     }
   };
 
   const navLinks = [
     { label: t('nav.home', 'Home', 'ہوم'), href: '#home' },
+    { label: isUrdu ? 'موسم' : 'Weather', href: '#weather-section' },
     { label: t('nav.products', 'Products', 'پروڈکٹس'), href: '#products' },
     { label: t('nav.services', 'Services', 'خدمات'), href: '#services' },
     { label: t('nav.advisory', 'Advisory', 'زرعی مشورہ'), href: '#crop-advisory' },
@@ -66,6 +78,8 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onOpenConsultatio
     { label: t('nav.about', 'About', 'ہمارے بارے میں'), href: '#about' },
     { label: t('nav.contact', 'Contact', 'رابطہ'), href: '#contact' },
   ];
+
+  const whatsappUrl = getGeneralWhatsAppUrl(language);
 
   return (
     <header
@@ -95,7 +109,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onOpenConsultatio
                 Kot Addu, Pakistan
               </span>
               <span className="text-xs font-semibold text-emerald-800 dark:text-emerald-300 urdu-text hidden sm:inline" dir="rtl">
-                {BUSINESS_INFO.urduName}
+                {isUrdu ? BUSINESS_INFO.urduName : 'Kot Addu Punjab'}
               </span>
             </div>
           </div>
@@ -158,11 +172,11 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onOpenConsultatio
             id="nav-share-website-btn"
             type="button"
             onClick={handleShareWebsite}
-            title="Share Website"
+            title={isUrdu ? 'ویب سائٹ شیئر کریں' : 'Share Website'}
             className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-2xs"
           >
             <span className="material-symbols-outlined text-[16px] text-emerald-600 dark:text-emerald-400">share</span>
-            <span className="hidden md:inline">Share</span>
+            <span className="hidden md:inline">{isUrdu ? 'شیئر' : 'Share'}</span>
           </button>
 
           {/* 4. Inquiry Cart Action Button */}
@@ -174,7 +188,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onOpenConsultatio
             className="inline-flex items-center gap-1 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-full bg-emerald-50 dark:bg-emerald-950/70 hover:bg-emerald-100 dark:hover:bg-emerald-900 text-emerald-900 dark:text-emerald-200 border border-emerald-300 dark:border-emerald-700 text-xs sm:text-sm font-extrabold transition-all duration-200 hover:scale-[1.03] active:scale-95 cursor-pointer shadow-2xs"
           >
             <span className="material-symbols-outlined text-[18px] sm:text-[20px] text-emerald-700 dark:text-emerald-400">shopping_cart</span>
-            <span className="hidden sm:inline">Cart</span>
+            <span className="hidden sm:inline">{isUrdu ? 'کارٹ' : 'Cart'}</span>
             <span
               className={`inline-flex items-center justify-center min-w-[18px] h-4.5 px-1 rounded-full text-[10px] font-black transition-all ${
                 totalCount > 0
@@ -190,7 +204,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onOpenConsultatio
           <a
             id="nav-whatsapp-btn"
             className="btn-shimmer hidden sm:inline-flex items-center gap-1.5 bg-green-500 hover:bg-green-600 text-white text-xs sm:text-sm font-bold px-3 sm:px-4 py-1.5 sm:py-2 rounded-full shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.03] active:scale-95 border border-green-400/40"
-            href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent('السلام علیکم! کسان ایگرو ٹریڈرز، مجھے زرعی رہنمائی اور ادویات کی معلومات درکار ہیں۔')}`}
+            href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -248,7 +262,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onOpenConsultatio
               className="flex items-center justify-center gap-2 px-3 py-2 text-xs font-bold text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 rounded-xl cursor-pointer"
             >
               <span className="material-symbols-outlined text-[18px] text-emerald-600 dark:text-emerald-400">share</span>
-              <span>📤 Share Website (ویب سائٹ شیئر کریں)</span>
+              <span>{isUrdu ? '📤 ویب سائٹ شیئر کریں' : '📤 Share Website'}</span>
             </button>
 
             {/* Cart Button */}
@@ -262,10 +276,10 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onOpenConsultatio
             >
               <div className="flex items-center gap-2">
                 <span className="material-symbols-outlined text-[20px] text-emerald-700 dark:text-emerald-400">shopping_cart</span>
-                <span>🛒 Product Inquiry Cart</span>
+                <span>{isUrdu ? '🛒 پروڈکٹ انکوائری کارٹ' : '🛒 Product Inquiry Cart'}</span>
               </div>
               <span className="px-2 py-0.5 rounded-full bg-emerald-700 text-white text-xs font-black">
-                {totalCount} Items
+                {totalCount} {isUrdu ? 'اشیاء' : 'Items'}
               </span>
             </button>
 
@@ -275,18 +289,18 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onOpenConsultatio
               className="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-slate-800 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 rounded-xl"
             >
               <span className="material-symbols-outlined text-[18px] text-slate-700 dark:text-slate-300">call</span>
-              <span>Call Helpline: {BUSINESS_INFO.phone}</span>
+              <span>{isUrdu ? `ہیلپ لائن کال: ${BUSINESS_INFO.phone}` : `Call Helpline: ${BUSINESS_INFO.phone}`}</span>
             </a>
 
             {/* WhatsApp */}
             <a
-              href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent('السلام علیکم! کسان ایگرو ٹریڈرز، مجھے زرعی ادویات سے متعلق رہنمائی درکار ہے۔')}`}
+              href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 px-3 py-2.5 text-sm font-bold text-white bg-green-500 hover:bg-green-600 rounded-xl shadow-xs"
             >
               <span className="material-symbols-outlined text-[18px]">chat</span>
-              <span>WhatsApp پر رابطہ کریں</span>
+              <span>{isUrdu ? 'WhatsApp پر رابطہ کریں' : 'Contact on WhatsApp'}</span>
             </a>
           </div>
         </div>

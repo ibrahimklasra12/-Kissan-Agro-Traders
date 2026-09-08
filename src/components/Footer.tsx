@@ -1,10 +1,13 @@
 import React from 'react';
 import { BUSINESS_INFO } from '../data/agroData';
 import { KissanLogo } from './KissanLogo';
+import { useLanguage } from '../context/LanguageContext';
 
 export const Footer: React.FC = () => {
+  const { isUrdu } = useLanguage();
+
   return (
-    <footer id="site-footer" className="bg-slate-900 text-slate-400 pt-12 pb-8 border-t border-slate-800">
+    <footer id="site-footer" dir={isUrdu ? 'rtl' : 'ltr'} className="bg-slate-900 text-slate-400 pt-12 pb-8 border-t border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-10 border-b border-slate-800">
           {/* Brand Info */}
@@ -14,50 +17,52 @@ export const Footer: React.FC = () => {
                 <KissanLogo size={44} animated={false} />
               </div>
               <span className="text-base font-extrabold text-white tracking-tight">
-                {BUSINESS_INFO.name}
+                {isUrdu ? BUSINESS_INFO.urduName : BUSINESS_INFO.name}
               </span>
             </div>
-            <p className="urdu-text text-sm font-bold text-emerald-400 mb-3" dir="rtl">
-              {BUSINESS_INFO.urduName} - {BUSINESS_INFO.tagline}
+            <p className="text-sm font-bold text-emerald-400 mb-3">
+              {isUrdu ? `${BUSINESS_INFO.urduName} — ${BUSINESS_INFO.tagline}` : `${BUSINESS_INFO.name} — ${BUSINESS_INFO.englishTagline}`}
             </p>
             <p className="text-xs text-slate-400 leading-relaxed mb-4">
-              Providing certified agri-inputs and high-efficiency drone spray mechanization to farmers across Kot Addu and surrounding areas.
+              {isUrdu
+                ? 'کوٹ ادو اور مضافاتی علاقوں کے کسان بھائیوں کے لیے مصدقہ زرعی ادویات، معیاری کھادیں، ہائبرڈ بیج اور جدید ترین ڈرون اسپرے سروس۔'
+                : 'Providing certified agricultural inputs, premium fertilizers, hybrid seeds, and high-efficiency drone spray mechanization to farmers across Kot Addu and surrounding areas.'}
             </p>
             <div className="flex items-center gap-2 text-xs text-emerald-400 font-semibold">
               <span className="material-symbols-outlined text-[16px]">verified</span>
-              <span>100% Genuine Certified Dealer</span>
+              <span>{isUrdu ? '100% تصدیق شدہ اصل زرعی ڈیلر' : '100% Genuine Certified Dealer'}</span>
             </div>
           </div>
 
           {/* Product Categories */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-4">
-              Core Products / مصنوعات
+              {isUrdu ? 'اہم مصنوعات و خدمات' : 'Core Products & Services'}
             </h4>
             <ul className="space-y-2.5 text-xs text-slate-400">
               <li>
                 <a href="#products" className="hover:text-emerald-400 transition-colors">
-                  Pesticides &amp; Insecticides (کیڑے مار ادویات)
+                  {isUrdu ? 'کیڑے مار و فنگس کش ادویات' : 'Pesticides & Fungicides'}
                 </a>
               </li>
               <li>
                 <a href="#products" className="hover:text-emerald-400 transition-colors">
-                  Organic &amp; Mineral Fertilizers (کھادیں)
+                  {isUrdu ? 'نامیاتی و کیمیائی کھادیں' : 'Organic & Mineral Fertilizers'}
                 </a>
               </li>
               <li>
                 <a href="#products" className="hover:text-emerald-400 transition-colors">
-                  Certified Hybrid Seeds (مصدقہ بیج)
+                  {isUrdu ? 'مصدقہ ہائبرڈ بیج' : 'Certified Hybrid Seeds'}
                 </a>
               </li>
               <li>
-                <a href="#services" className="hover:text-emerald-400 transition-colors">
-                  Agricultural Drone Spray (ڈرون اسپرے)
+                <a href="#drone-spray-section" className="hover:text-emerald-400 transition-colors">
+                  {isUrdu ? 'زرعی ڈرون اسپرے سروس' : 'Agricultural Drone Spray Service'}
                 </a>
               </li>
               <li>
                 <a href="#offers" className="hover:text-emerald-400 transition-colors">
-                  Seasonal Protection Bundles (خصوصی پیکجز)
+                  {isUrdu ? 'موسمی حفاظتی پیکجز و آفرز' : 'Seasonal Crop Protection Packages'}
                 </a>
               </li>
             </ul>
@@ -66,26 +71,38 @@ export const Footer: React.FC = () => {
           {/* Quick Navigation */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-4">
-              Navigation / فوری روابط
+              {isUrdu ? 'فوری روابط' : 'Quick Navigation'}
             </h4>
             <ul className="space-y-2.5 text-xs text-slate-400">
               <li>
-                <a href="#home" className="hover:text-emerald-400 transition-colors">Home (مرکزی صفحہ)</a>
+                <a href="#home" className="hover:text-emerald-400 transition-colors">
+                  {isUrdu ? 'مرکزی صفحہ (ہوم)' : 'Home'}
+                </a>
               </li>
               <li>
-                <a href="#products" className="hover:text-emerald-400 transition-colors">Product Showcase</a>
+                <a href="#products" className="hover:text-emerald-400 transition-colors">
+                  {isUrdu ? 'مصنوعات کی فہرست' : 'Product Showcase'}
+                </a>
               </li>
               <li>
-                <a href="#services" className="hover:text-emerald-400 transition-colors">Drone Spray Booking</a>
+                <a href="#crop-advisory" className="hover:text-emerald-400 transition-colors">
+                  {isUrdu ? 'مفت زرعی مشورہ' : 'Free Crop Advisory'}
+                </a>
               </li>
               <li>
-                <a href="#offers" className="hover:text-emerald-400 transition-colors">Seasonal Packages</a>
+                <a href="#drone-spray-section" className="hover:text-emerald-400 transition-colors">
+                  {isUrdu ? 'ڈرون اسپرے بکنگ' : 'Drone Spray Booking'}
+                </a>
               </li>
               <li>
-                <a href="#about" className="hover:text-emerald-400 transition-colors">About Kissan Agro</a>
+                <a href="#reviews" className="hover:text-emerald-400 transition-colors">
+                  {isUrdu ? 'کسانوں کے تاثرات' : 'Customer Reviews'}
+                </a>
               </li>
               <li>
-                <a href="#contact" className="hover:text-emerald-400 transition-colors">Store Location &amp; Map</a>
+                <a href="#contact" className="hover:text-emerald-400 transition-colors">
+                  {isUrdu ? 'دکان لوکیشن و نقشہ' : 'Store Location & Map'}
+                </a>
               </li>
             </ul>
           </div>
@@ -93,15 +110,14 @@ export const Footer: React.FC = () => {
           {/* Store Contacts */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-4">
-              مدینہ چوک / پتہ اور رابطہ
+              {isUrdu ? 'پتہ اور ہیلپ لائن' : 'Address & Helpline'}
             </h4>
             <div className="space-y-3 text-xs text-slate-400">
               <div className="flex items-start gap-2">
                 <span className="material-symbols-outlined text-[18px] text-emerald-400 shrink-0 mt-0.5">location_on</span>
                 <div>
-                  <div>Kot Addu Bypass, Madina Chowk, Punjab, Pakistan</div>
-                  <div className="urdu-text text-[11px] text-slate-500 mt-0.5" dir="rtl">
-                    کوٹ ادو بائی پاس، مدینہ چوک
+                  <div className="text-slate-300 font-medium">
+                    {isUrdu ? BUSINESS_INFO.addressUrdu : BUSINESS_INFO.address}
                   </div>
                 </div>
               </div>
@@ -114,13 +130,17 @@ export const Footer: React.FC = () => {
               <div className="flex items-center gap-2">
                 <span className="material-symbols-outlined text-[18px] text-emerald-400 shrink-0">chat</span>
                 <a
-                  href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent('Salam Kissan Agro Traders')}`}
+                  href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent(isUrdu ? 'السلام علیکم کسان ایگرو ٹریڈرز' : 'Salam Kissan Agro Traders')}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-white font-semibold transition-colors"
                 >
                   WhatsApp: +92 342 6400074
                 </a>
+              </div>
+              <div className="flex items-center gap-2 text-slate-400">
+                <span className="material-symbols-outlined text-[18px] text-emerald-400 shrink-0">schedule</span>
+                <span>{isUrdu ? `اوقات: ${BUSINESS_INFO.openingHoursUrdu}` : `Hours: ${BUSINESS_INFO.openingHours}`}</span>
               </div>
             </div>
           </div>
@@ -129,15 +149,15 @@ export const Footer: React.FC = () => {
         {/* Bottom Bar with Ibrahim Klasra Credit */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
           <div>
-            &copy; {new Date().getFullYear()} {BUSINESS_INFO.name}. All rights reserved.
+            &copy; {new Date().getFullYear()} {isUrdu ? BUSINESS_INFO.urduName : BUSINESS_INFO.name}. {isUrdu ? 'جملہ حقوق محفوظ ہیں۔' : 'All rights reserved.'}
           </div>
           <div className="flex items-center gap-3">
             <span className="text-slate-300 font-bold">
-              Made by Ibrahim Klasra
+              {isUrdu ? 'ویب ڈیزائنر: ابراہیم کلاسرا' : 'Designed & Developed by Ibrahim Klasra'}
             </span>
             <span>•</span>
-            <span className="urdu-text text-emerald-400 font-medium" dir="rtl">
-              کوٹ ادو، پنجاب، پاکستان
+            <span className="text-emerald-400 font-medium">
+              {isUrdu ? 'کوٹ ادو، پنجاب، پاکستان' : 'Kot Addu, Punjab, Pakistan'}
             </span>
           </div>
         </div>

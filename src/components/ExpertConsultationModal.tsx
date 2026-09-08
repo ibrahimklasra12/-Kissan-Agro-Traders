@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { FarmingQuestionForm } from './FarmingQuestionForm';
 import { BUSINESS_INFO } from '../data/agroData';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ExpertConsultationModalProps {
   isOpen: boolean;
@@ -8,6 +9,8 @@ interface ExpertConsultationModalProps {
 }
 
 export const ExpertConsultationModal: React.FC<ExpertConsultationModalProps> = ({ isOpen, onClose }) => {
+  const { isUrdu } = useLanguage();
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -24,6 +27,10 @@ export const ExpertConsultationModal: React.FC<ExpertConsultationModalProps> = (
 
   if (!isOpen) return null;
 
+  const quickWaText = isUrdu
+    ? 'السلام علیکم! کسان ایگرو ٹریڈرز، مجھے زرعی رہنمائی اور ادویات سے متعلق ماہرانہ مشورہ درکار ہے۔'
+    : 'Hello Kissan Agro Traders, I need expert advice regarding crops and treatments.';
+
   return (
     <div
       id="expert-consultation-modal-backdrop"
@@ -35,6 +42,7 @@ export const ExpertConsultationModal: React.FC<ExpertConsultationModalProps> = (
     >
       <div
         id="expert-consultation-modal-container"
+        dir={isUrdu ? 'rtl' : 'ltr'}
         className="bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border border-slate-200 my-auto relative animate-in fade-in zoom-in-95 duration-200 max-h-[92vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
@@ -46,10 +54,10 @@ export const ExpertConsultationModal: React.FC<ExpertConsultationModalProps> = (
             </div>
             <div>
               <h3 id="expert-consultation-title" className="text-base font-black tracking-tight leading-tight">
-                ماہر زرعی مشورہ / Expert Consultation
+                {isUrdu ? 'ماہر زرعی مشورہ' : 'Expert Consultation'}
               </h3>
               <p className="text-[11px] text-emerald-300">
-                Kissan Agro Traders • Kot Addu
+                {isUrdu ? 'کسان ایگرو ٹریڈرز • کوٹ ادو' : 'Kissan Agro Traders • Kot Addu'}
               </p>
             </div>
           </div>
@@ -70,16 +78,18 @@ export const ExpertConsultationModal: React.FC<ExpertConsultationModalProps> = (
 
           {/* Quick WhatsApp Alternative */}
           <div className="mt-4 pt-4 border-t border-slate-100 text-center">
-            <span className="text-xs text-slate-400 block mb-2">یا براہ راست واٹس ایپ پر سلام بھیجیں:</span>
+            <span className="text-xs text-slate-400 block mb-2">
+              {isUrdu ? 'یا براہِ راست واٹس ایپ پر سلام بھیجیں:' : 'Or message directly on WhatsApp:'}
+            </span>
             <a
               id="expert-modal-quick-whatsapp"
-              href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent('السلام علیکم! کسان ایگرو ٹریڈرز، مجھے زرعی رہنمائی اور ادویات سے متعلق ماہرانہ مشورہ درکار ہے۔')}`}
+              href={`${BUSINESS_INFO.whatsappBaseUrl}?text=${encodeURIComponent(quickWaText)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-shimmer inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-green-500 hover:bg-green-600 text-white text-xs font-bold shadow-xs transition-all active:scale-95"
             >
               <span className="material-symbols-outlined text-[17px]">chat</span>
-              <span>💬 ون ٹیپ واٹس ایپ چیٹ (Direct WhatsApp)</span>
+              <span>{isUrdu ? '💬 فوری واٹس ایپ چیٹ' : '💬 Direct WhatsApp Chat'}</span>
             </a>
           </div>
         </div>

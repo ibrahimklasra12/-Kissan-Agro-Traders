@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useToast } from '../context/ToastContext';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ServiceInquiryModalProps {
   isOpen: boolean;
@@ -13,6 +14,7 @@ export const ServiceInquiryModal: React.FC<ServiceInquiryModalProps> = ({
   defaultService = 'Business Website',
 }) => {
   const { showToast } = useToast();
+  const { isUrdu } = useLanguage();
   const [name, setName] = useState('');
   const [mobile, setMobile] = useState('');
   const [service, setService] = useState(defaultService);
@@ -46,7 +48,7 @@ export const ServiceInquiryModal: React.FC<ServiceInquiryModalProps> = ({
     e.preventDefault();
 
     if (!name.trim() || !mobile.trim()) {
-      showToast('error', 'نام اور موبائل نمبر درج کریں');
+      showToast('error', isUrdu ? 'نام اور موبائل نمبر درج کریں' : 'Please provide your name and phone number');
       return;
     }
 
@@ -55,20 +57,34 @@ export const ServiceInquiryModal: React.FC<ServiceInquiryModalProps> = ({
     setTimeout(() => {
       setIsLoading(false);
 
-      const waText = `🌐 *Website Development Inquiry — Ibrahim Klasra*
+      const waText = isUrdu
+        ? `🌐 *ویب سائٹ ڈویلپمنٹ انکوائری — ابراہیم کلاسرہ*
+━━━━━━━━━━━━━━━━━━━━
+👤 *کلائنٹ کا نام:* ${name.trim()}
+📱 *موبائل:* ${mobile.trim()}
+🛠️ *مطلوبہ سروس:* ${service}
+📁 *پروجیکٹ کی نوعیت:* ${projectType}
+💬 *تفصیل:* ${message.trim() || 'میرے بزنس کے لیے ایک جدید اور تیز رفتار ویب سائٹ درکار ہے۔'}
+━━━━━━━━━━━━━━━━━━━━
+کسان ایگرو ٹریڈرز پورٹل کے ذریعے بھیجا گیا`
+        : `🌐 *Website Development Inquiry — Ibrahim Klasra*
 ━━━━━━━━━━━━━━━━━━━━
 👤 *Client Name:* ${name.trim()}
 📱 *Mobile:* ${mobile.trim()}
 🛠️ *Service Required:* ${service}
 📁 *Project Type:* ${projectType}
-💬 *Message / Requirements:* ${message.trim() || 'Need a modern website for my business.'}
+💬 *Message / Requirements:* ${message.trim() || 'Need a modern, fast website for my business.'}
 ━━━━━━━━━━━━━━━━━━━━
-Inquiry from Kissan Agro Traders website`;
+Sent from Kissan Agro Traders website`;
 
       const creatorWaUrl = `https://wa.me/923007157733?text=${encodeURIComponent(waText)}`;
       window.open(creatorWaUrl, '_blank', 'noopener,noreferrer');
 
-      showToast('success', 'انکوائری تیار ہے!', 'Ibrahim Klasra کے واٹس ایپ پر چیٹ اوپن ہو رہی ہے...');
+      showToast(
+        'success',
+        isUrdu ? 'انکوائری تیار ہے!' : 'Inquiry Ready!',
+        isUrdu ? 'ابراہیم کلاسرہ کے واٹس ایپ پر چیٹ اوپن ہو رہی ہے...' : 'Opening WhatsApp chat with Ibrahim Klasra...'
+      );
       onClose();
     }, 500);
   };
@@ -95,10 +111,10 @@ Inquiry from Kissan Agro Traders website`;
             </div>
             <div>
               <h3 id="service-inquiry-modal-title" className="text-base font-black tracking-tight leading-tight">
-                Build Your Website / اپنی ویب سائٹ بنوائیں
+                {isUrdu ? 'اپنی ویب سائٹ یا ایپ بنوائیں' : 'Build Your Website / App'}
               </h3>
               <p className="text-[11px] text-emerald-300">
-                Ibrahim Klasra • Freelance Web Creator
+                {isUrdu ? 'ابراہیم کلاسرہ • فری لانس ویب کریئٹر' : 'Ibrahim Klasra • Full-Stack Web Creator'}
               </p>
             </div>
           </div>
@@ -106,7 +122,7 @@ Inquiry from Kissan Agro Traders website`;
           <button
             type="button"
             onClick={onClose}
-            aria-label="Close inquiry modal"
+            aria-label={isUrdu ? 'بند کریں' : 'Close modal'}
             className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80 hover:text-white transition-colors cursor-pointer"
           >
             <span className="material-symbols-outlined text-[20px]">close</span>
@@ -117,7 +133,7 @@ Inquiry from Kissan Agro Traders website`;
         <form onSubmit={handleSubmit} className="p-5 sm:p-6 space-y-4 overflow-y-auto">
           <div>
             <label htmlFor="service-name-input" className="block text-xs font-bold text-slate-700 mb-1">
-              آپ کا نام / Your Name <span className="text-rose-500">*</span>
+              {isUrdu ? 'آپ کا نام' : 'Your Name'} <span className="text-rose-500">*</span>
             </label>
             <input
               id="service-name-input"
@@ -125,14 +141,14 @@ Inquiry from Kissan Agro Traders website`;
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="مثال: محمد احمد"
+              placeholder={isUrdu ? 'مثال: محمد احمد' : 'e.g. Muhammad Ahmed'}
               className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
             />
           </div>
 
           <div>
             <label htmlFor="service-mobile-input" className="block text-xs font-bold text-slate-700 mb-1">
-              موبائل نمبر / Mobile Number <span className="text-rose-500">*</span>
+              {isUrdu ? 'موبائل یا واٹس ایپ نمبر' : 'Mobile / WhatsApp Number'} <span className="text-rose-500">*</span>
             </label>
             <input
               id="service-mobile-input"
@@ -147,7 +163,7 @@ Inquiry from Kissan Agro Traders website`;
 
           <div>
             <label htmlFor="service-select" className="block text-xs font-bold text-slate-700 mb-1">
-              مطلوبہ سروس / Service Required
+              {isUrdu ? 'مطلوبہ سروس' : 'Required Service'}
             </label>
             <select
               id="service-select"
@@ -155,17 +171,17 @@ Inquiry from Kissan Agro Traders website`;
               onChange={(e) => setService(e.target.value)}
               className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-hidden bg-white"
             >
-              <option value="Business Website">Business Website (کاروباری ویب سائٹ)</option>
-              <option value="PWA / Installable Web App">PWA / Installable Web App (موبائل ایپ جیسی ویب سائٹ)</option>
-              <option value="UI/UX Design">UI/UX Design (ڈیزائننگ)</option>
-              <option value="Landing Page">Landing Page (پروڈکٹ پیج)</option>
-              <option value="Website Maintenance">Website Maintenance (اسپیڈ و دیکھ بھال)</option>
+              <option value="Business Website">{isUrdu ? 'کاروباری ویب سائٹ (Business Website)' : 'Business & Brand Website'}</option>
+              <option value="PWA / Installable Web App">{isUrdu ? 'موبائل ایپ جیسی ویب سائٹ (PWA)' : 'PWA / Installable Web Application'}</option>
+              <option value="UI/UX Design">{isUrdu ? 'یو آئی / یو ایکس ڈیزائن (UI/UX Design)' : 'UI/UX Mobile First Design'}</option>
+              <option value="Landing Page">{isUrdu ? 'پروڈکٹ لینڈنگ پیج (Landing Page)' : 'High Converting Landing Page'}</option>
+              <option value="Website Maintenance">{isUrdu ? 'ویب سائٹ اسپیڈ و دیکھ بھال (Maintenance)' : 'Website Maintenance & Optimization'}</option>
             </select>
           </div>
 
           <div>
             <label htmlFor="project-type-select" className="block text-xs font-bold text-slate-700 mb-1">
-              پروجیکٹ کی نوعیت / Project Type
+              {isUrdu ? 'پروجیکٹ کی نوعیت' : 'Project Type'}
             </label>
             <select
               id="project-type-select"
@@ -173,22 +189,22 @@ Inquiry from Kissan Agro Traders website`;
               onChange={(e) => setProjectType(e.target.value)}
               className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-hidden bg-white"
             >
-              <option value="New Project">New Project (بالکل نیا پروجیکٹ)</option>
-              <option value="Redesign / Upgrade">Redesign / Upgrade (موجودہ ویب سائٹ بہتر کرنی ہے)</option>
-              <option value="Consultation">Consultation (مشورہ لینا ہے)</option>
+              <option value="New Project">{isUrdu ? 'نیا پروجیکٹ شروع کرنا ہے' : 'Start a New Project'}</option>
+              <option value="Redesign / Upgrade">{isUrdu ? 'موجودہ ویب سائٹ اپ گریڈ کرنی ہے' : 'Redesign Existing Website'}</option>
+              <option value="Consultation">{isUrdu ? 'تکنیکی مشورہ لینا ہے' : 'Technical Consultation'}</option>
             </select>
           </div>
 
           <div>
             <label htmlFor="service-message-input" className="block text-xs font-bold text-slate-700 mb-1">
-              مختصر پیغام یا ضرورت / Message (اختیاری)
+              {isUrdu ? 'پیغام یا ضروریات (اختیاری)' : 'Message / Requirements (Optional)'}
             </label>
             <textarea
               id="service-message-input"
               rows={2}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              placeholder="اپنے بزنس یا ویب سائٹ کے بارے میں بتائیں..."
+              placeholder={isUrdu ? 'اپنے کاروبار یا پروجیکٹ کے بارے میں مختصر بتائیں...' : 'Briefly describe your project or requirements...'}
               className="w-full p-3 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-emerald-500 focus:outline-hidden resize-none"
             />
           </div>
@@ -199,11 +215,11 @@ Inquiry from Kissan Agro Traders website`;
             className="btn-shimmer w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs sm:text-sm font-black shadow-md transition-all active:scale-95 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
           >
             {isLoading ? (
-              <span>بھیجا جا رہا ہے...</span>
+              <span>{isUrdu ? 'بھیجا جا رہا ہے...' : 'Submitting...'}</span>
             ) : (
               <>
                 <span className="material-symbols-outlined text-[18px]">chat</span>
-                <span>Ibrahim Klasra کو واٹس ایپ کریں</span>
+                <span>{isUrdu ? 'ابراہیم کلاسرہ کو واٹس ایپ کریں' : 'Send WhatsApp to Ibrahim Klasra'}</span>
               </>
             )}
           </button>

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { BUSINESS_INFO } from '../data/agroData';
+import { useLanguage } from '../context/LanguageContext';
+import { getDroneBookingUrl } from '../utils/whatsapp';
 
 interface DroneBookingModalProps {
   isOpen: boolean;
@@ -13,6 +15,7 @@ export const DroneBookingModal: React.FC<DroneBookingModalProps> = ({ isOpen, on
   const [crop, setCrop] = useState('');
   const [acres, setAcres] = useState('');
   const [error, setError] = useState('');
+  const { isUrdu, language } = useLanguage();
 
   if (!isOpen) return null;
 
@@ -21,41 +24,40 @@ export const DroneBookingModal: React.FC<DroneBookingModalProps> = ({ isOpen, on
 
     // 1. Form Validation
     if (!name.trim()) {
-      setError('Barah-e-karam apna naam darj karein (Please enter your name).');
+      setError(isUrdu ? 'براہِ کرم اپنا نام درج کریں۔' : 'Please enter your name.');
       return;
     }
     if (!phone.trim()) {
-      setError('Barah-e-karam apna mobile number darj karein (Please enter mobile number).');
+      setError(isUrdu ? 'براہِ کرم اپنا موبائل نمبر درج کریں۔' : 'Please enter your mobile number.');
       return;
     }
     if (!village.trim()) {
-      setError('Barah-e-karam apna gaon ya ilaqah darj karein (Please enter village/area).');
+      setError(isUrdu ? 'براہِ کرم اپنا گاؤں یا علاقہ درج کریں۔' : 'Please enter your village/area.');
       return;
     }
     if (!crop.trim()) {
-      setError('Barah-e-karam fasal ka naam darj karein (Please enter crop name).');
+      setError(isUrdu ? 'براہِ کرم فصل کا نام درج کریں۔' : 'Please enter your crop name.');
       return;
     }
     if (!acres.trim()) {
-      setError('Barah-e-karam kul raqbah (Total Acres) darj karein.');
+      setError(isUrdu ? 'براہِ کرم کل رقبہ (ایکڑ) درج کریں۔' : 'Please enter total acres.');
       return;
     }
 
     setError('');
 
-    // 2. Prepare exact WhatsApp message required
-    const message = `Assalam o Alaikum! Mujhe Drone Spray booking karwani hai.
-
-Naam: ${name.trim()}
-Mobile: ${phone.trim()}
-Village / Area: ${village.trim()}
-Crop: ${crop.trim()}
-Total Acres: ${acres.trim()}
-
-Kissan Agro Traders se Drone Spray service ke hawale se rabta karna hai.`;
-
-    const encoded = encodeURIComponent(message);
-    const whatsappUrl = `${BUSINESS_INFO.whatsappBaseUrl}?text=${encoded}`;
+    // 2. Prepare localized WhatsApp message
+    const whatsappUrl = getDroneBookingUrl(
+      {
+        name: name.trim(),
+        phone: phone.trim(),
+        village: village.trim(),
+        crop: crop.trim(),
+        acres: acres.trim(),
+        date: new Date().toLocaleDateString(isUrdu ? 'ur-PK' : 'en-PK'),
+      },
+      language
+    );
 
     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
     resetAndClose();
@@ -79,6 +81,7 @@ Kissan Agro Traders se Drone Spray service ke hawale se rabta karna hai.`;
     >
       <div
         id="drone-booking-modal"
+        dir={isUrdu ? 'rtl' : 'ltr'}
         className="bg-white max-w-lg w-full rounded-3xl p-6 sm:p-8 shadow-2xl border border-emerald-200 relative my-8 max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
@@ -86,7 +89,7 @@ Kissan Agro Traders se Drone Spray service ke hawale se rabta karna hai.`;
         <button
           type="button"
           onClick={resetAndClose}
-          className="absolute top-5 right-5 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 flex items-center justify-center transition-colors cursor-pointer"
+          className={`absolute top-5 ${isUrdu ? 'left-5' : 'right-5'} w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 flex items-center justify-center transition-colors cursor-pointer`}
           aria-label="Close"
         >
           <span className="material-symbols-outlined text-[20px]">close</span>
@@ -99,19 +102,21 @@ Kissan Agro Traders se Drone Spray service ke hawale se rabta karna hai.`;
           </div>
           <div>
             <span className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider block">
-              Precision Drone Spray • جدید ڈرون اسپرے
+              {isUrdu ? 'جدید زرعی ڈرون اسپرے سروس' : 'Precision Agricultural Drone Spray'}
             </span>
             <h3 className="text-xl sm:text-2xl font-black text-slate-800">
-              🚁 Drone Spray Booking
+              {isUrdu ? '🚁 ڈرون اسپرے بکنگ' : '🚁 Drone Spray Booking'}
             </h3>
-            <span className="urdu-text text-xs text-emerald-700 font-bold block" dir="rtl">
-              اپنی فصل کا اسپرے اب ڈرون سے کروائیں
+            <span className="text-xs text-emerald-700 font-bold block">
+              {isUrdu ? 'اپنی فصل کا اسپرے اب ڈرون سے کروائیں' : 'Save time and ensure uniform spray coverage'}
             </span>
           </div>
         </div>
 
         <p className="text-xs text-slate-500 mb-5 leading-relaxed">
-          Neeche diye gaye form mein apni fasal aur raqbah ki maloomat darj karein. Form submit karne par WhatsApp par booking request auto-fill ho jaye gi.
+          {isUrdu
+            ? 'نیچے دیے گئے فارم میں اپنی فصل اور رقبہ کی معلومات درج کریں۔ بٹن دبانے پر واٹس ایپ پر بکنگ ریکویسٹ خودکار طور پر تیار ہو جائے گی۔'
+            : 'Fill in your crop and field acreage details below. Submitting will prepare your booking request directly in WhatsApp.'}
         </p>
 
         {error && (
@@ -123,17 +128,17 @@ Kissan Agro Traders se Drone Spray service ke hawale se rabta karna hai.`;
 
         {/* Form Fields */}
         <form onSubmit={handleSubmit} className="space-y-3.5">
-          {/* 1. Naam */}
+          {/* 1. Name */}
           <div>
             <label className="block text-xs font-bold text-slate-700 mb-1">
-              1. Naam (آپ کا نام) <span className="text-red-500">*</span>
+              {isUrdu ? '1. آپ کا نام' : '1. Your Name'} <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="e.g. Muhammad Tariq"
+              placeholder={isUrdu ? 'مثلاً: محمد طارق کلاسرا' : 'e.g. Muhammad Tariq'}
               className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-800 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
             />
           </div>
@@ -141,14 +146,14 @@ Kissan Agro Traders se Drone Spray service ke hawale se rabta karna hai.`;
           {/* 2. Mobile Number */}
           <div>
             <label className="block text-xs font-bold text-slate-700 mb-1">
-              2. Mobile Number (موبائل نمبر) <span className="text-red-500">*</span>
+              {isUrdu ? '2. موبائل نمبر' : '2. Mobile Number'} <span className="text-red-500">*</span>
             </label>
             <input
               type="tel"
               required
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              placeholder="e.g. 0342-6400074"
+              placeholder={isUrdu ? 'مثلاً: 0342-6400074' : 'e.g. 0342-6400074'}
               className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-800 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
             />
           </div>
@@ -156,14 +161,14 @@ Kissan Agro Traders se Drone Spray service ke hawale se rabta karna hai.`;
           {/* 3. Village / Area */}
           <div>
             <label className="block text-xs font-bold text-slate-700 mb-1">
-              3. Village / Area (گاؤں / علاقہ) <span className="text-red-500">*</span>
+              {isUrdu ? '3. گاؤں / علاقہ' : '3. Village / Area'} <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
               required
               value={village}
               onChange={(e) => setVillage(e.target.value)}
-              placeholder="e.g. Kot Addu, Madina Chowk"
+              placeholder={isUrdu ? 'مثلاً: کوٹ ادو، مدینہ چوک' : 'e.g. Kot Addu, Madina Chowk'}
               className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-800 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
             />
           </div>
@@ -171,14 +176,14 @@ Kissan Agro Traders se Drone Spray service ke hawale se rabta karna hai.`;
           {/* 4. Crop */}
           <div>
             <label className="block text-xs font-bold text-slate-700 mb-1">
-              4. Crop (فصل کا نام) <span className="text-red-500">*</span>
+              {isUrdu ? '4. فصل کا نام' : '4. Crop Name'} <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
               required
               value={crop}
               onChange={(e) => setCrop(e.target.value)}
-              placeholder="e.g. گندم / کپاس / مکئی / کماد / باغات"
+              placeholder={isUrdu ? 'مثلاً: گندم، کپاس، مکئی، کماد یا باغات' : 'e.g. Wheat, Cotton, Corn, Sugarcane'}
               className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-800 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
             />
           </div>
@@ -186,7 +191,7 @@ Kissan Agro Traders se Drone Spray service ke hawale se rabta karna hai.`;
           {/* 5. Total Acres */}
           <div>
             <label className="block text-xs font-bold text-slate-700 mb-1">
-              5. Total Acres (کل رقبہ / ایکڑ) <span className="text-red-500">*</span>
+              {isUrdu ? '5. کل رقبہ (ایکڑ)' : '5. Total Acres'} <span className="text-red-500">*</span>
             </label>
             <input
               type="number"
@@ -195,7 +200,7 @@ Kissan Agro Traders se Drone Spray service ke hawale se rabta karna hai.`;
               required
               value={acres}
               onChange={(e) => setAcres(e.target.value)}
-              placeholder="e.g. 5 یا 10 ایکڑ"
+              placeholder={isUrdu ? 'مثلاً: 5 یا 10 ایکڑ' : 'e.g. 5 or 10 Acres'}
               className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-800 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
             />
           </div>
@@ -208,14 +213,14 @@ Kissan Agro Traders se Drone Spray service ke hawale se rabta karna hai.`;
               className="btn-shimmer w-full py-3.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-sm font-extrabold flex items-center justify-center gap-2 shadow-md hover:shadow-emerald-600/30 transition-all cursor-pointer active:scale-98"
             >
               <span className="material-symbols-outlined text-[20px]">chat</span>
-              <span>📲 WhatsApp Par Booking Bhejein</span>
+              <span>{isUrdu ? '📲 واٹس ایپ پر بکنگ بھیجیں' : '📲 Send Booking on WhatsApp'}</span>
             </button>
           </div>
         </form>
 
         {/* Footnote */}
         <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
-          <span>Kissan Agro Traders Drone Pilot Helpline</span>
+          <span>{isUrdu ? 'کسان ایگرو ٹریڈرز ڈرون پائلٹ ہیلپ لائن' : 'Kissan Agro Traders Drone Pilot Helpline'}</span>
           <span className="font-bold text-emerald-700">{BUSINESS_INFO.phone}</span>
         </div>
       </div>
