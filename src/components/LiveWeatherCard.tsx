@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import {
+  PRESET_LOCATIONS,
+  LocationOption,
+  fetchLiveWeatherData,
+  getWeatherConditionInfo,
+} from '../utils/weatherService';
 
 interface WeatherData {
   temperature: number;
@@ -10,70 +16,11 @@ interface WeatherData {
   sunrise: string;
   sunset: string;
   updatedAt: string;
+  isFallback?: boolean;
 }
-
-interface LocationOption {
-  name: string;
-  urduName: string;
-  lat: number;
-  lon: number;
-}
-
-const PRESET_LOCATIONS: LocationOption[] = [
-  { name: 'Kot Addu', urduName: 'کوٹ ادو (دکان کی جگہ)', lat: 30.47, lon: 70.96 },
-  { name: 'Chowk Sarwar Shaheed', urduName: 'چوک سرور شہید', lat: 30.56, lon: 71.32 },
-  { name: 'Sanawan', urduName: 'سنوان', lat: 30.31, lon: 71.01 },
-  { name: 'Muzaffargarh', urduName: 'مظفر گڑھ', lat: 30.07, lon: 71.19 },
-  { name: 'D.G. Khan', urduName: 'ڈیرہ غازی خان', lat: 30.05, lon: 70.63 },
-  { name: 'Taunsa Sharif', urduName: 'تونسہ شریف', lat: 30.70, lon: 70.65 },
-  { name: 'Layyah', urduName: 'لیہ', lat: 30.96, lon: 70.94 },
-  { name: 'Bhakkar', urduName: 'بھکر', lat: 31.62, lon: 71.06 },
-  { name: 'Multan', urduName: 'ملتان', lat: 30.19, lon: 71.47 },
-  { name: 'Khanewal', urduName: 'خانیوال', lat: 30.30, lon: 71.93 },
-  { name: 'Bahawalpur', urduName: 'بہاولپور', lat: 29.39, lon: 71.68 },
-  { name: 'Rajanpur', urduName: 'راجن پور', lat: 29.10, lon: 70.32 },
-  { name: 'Alipur', urduName: 'علی پور', lat: 29.38, lon: 70.91 },
-  { name: 'Jhang', urduName: 'جھنگ', lat: 31.27, lon: 72.32 },
-  { name: 'Mianwali', urduName: 'میانوالی', lat: 32.58, lon: 71.54 },
-  { name: 'Rahim Yar Khan', urduName: 'رحیم یار خان', lat: 28.42, lon: 70.30 },
-];
 
 function getWeatherInfo(code: number): { description: string; urdu: string; icon: string; isRain: boolean } {
-  switch (code) {
-    case 0:
-      return { description: 'Clear Sky', urdu: 'صاف آسمان', icon: 'wb_sunny', isRain: false };
-    case 1:
-      return { description: 'Mainly Clear', urdu: 'زیادہ تر صاف', icon: 'partly_cloudy_day', isRain: false };
-    case 2:
-      return { description: 'Partly Cloudy', urdu: 'جزوی ابر آلود', icon: 'partly_cloudy_day', isRain: false };
-    case 3:
-      return { description: 'Overcast', urdu: 'گہرے بادل', icon: 'cloud', isRain: false };
-    case 45:
-    case 48:
-      return { description: 'Fog / Mist', urdu: 'دھند', icon: 'foggy', isRain: false };
-    case 51:
-    case 53:
-    case 55:
-      return { description: 'Drizzle', urdu: 'ہلکی بوندا باندی', icon: 'rainy', isRain: true };
-    case 61:
-    case 63:
-    case 65:
-      return { description: 'Rain', urdu: 'بارش', icon: 'rainy', isRain: true };
-    case 71:
-    case 73:
-    case 75:
-      return { description: 'Snow', urdu: 'برف باری', icon: 'ac_unit', isRain: false };
-    case 80:
-    case 81:
-    case 82:
-      return { description: 'Rain Showers', urdu: 'تیز بارش کی پھوار', icon: 'thunderstorm', isRain: true };
-    case 95:
-    case 96:
-    case 99:
-      return { description: 'Thunderstorm', urdu: 'گرج چمک کے ساتھ بارش', icon: 'thunderstorm', isRain: true };
-    default:
-      return { description: 'Fair Weather', urdu: 'معتدل موسم', icon: 'wb_cloudy', isRain: false };
-  }
+  return getWeatherConditionInfo(code);
 }
 
 function formatTime(isoString?: string): string {
@@ -114,42 +61,24 @@ export const LiveWeatherCard: React.FC<LiveWeatherCardProps> = ({ className = ''
     setIsLoading(true);
     setErrorMessage(null);
     try {
-      // Direct call to Open-Meteo live API (Asia/Karachi timezone)
-      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m&daily=sunrise,sunset&timezone=Asia%2FKarachi`;
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`Weather service returned HTTP ${response.status}`);
-      }
-      const json = await response.json();
-
-      if (!json.current) {
-        throw new Error('Incomplete weather payload received');
-      }
-
-      const now = new Date();
-      const updatedFormatted = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
-
+      const data = await fetchLiveWeatherData(lat, lon);
       setWeatherData({
-        temperature: Math.round(json.current.temperature_2m * 10) / 10,
-        humidity: Math.round(json.current.relative_humidity_2m),
-        windSpeed: Math.round(json.current.wind_speed_10m * 10) / 10,
-        precipitation: json.current.precipitation ?? 0,
-        weatherCode: json.current.weather_code ?? 0,
-        sunrise: json.daily?.sunrise?.[0] || '',
-        sunset: json.daily?.sunset?.[0] || '',
-        updatedAt: updatedFormatted,
+        temperature: data.temperature,
+        humidity: data.humidity,
+        windSpeed: data.windSpeed,
+        precipitation: data.precipitation,
+        weatherCode: data.weatherCode,
+        sunrise: data.sunrise,
+        sunset: data.sunset,
+        updatedAt: data.updatedAt,
+        isFallback: data.isFallback,
       });
-    } catch (err: any) {
-      console.error('Weather fetch failed:', err);
-      setErrorMessage(
-        isUrdu
-          ? 'موسم کا لائیو ڈیٹا دستیاب نہیں ہو سکا۔ برائے مہربانی انٹرنیٹ کنکشن چیک کر کے دوبارہ کوشش کریں۔'
-          : 'Live weather data temporarily unavailable. Please check internet connection and retry.'
-      );
+    } catch {
+      // Handled gracefully inside fetchLiveWeatherData (seasonal model)
     } finally {
       setIsLoading(false);
     }
-  }, [isUrdu]);
+  }, []);
 
   useEffect(() => {
     fetchWeather(selectedLocation.lat, selectedLocation.lon);
@@ -218,7 +147,7 @@ export const LiveWeatherCard: React.FC<LiveWeatherCardProps> = ({ className = ''
               </span>
               <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 text-[10px] font-bold">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                <span>Open-Meteo</span>
+                <span>{weatherData?.isFallback ? (isUrdu ? 'آف لائن ریکارڈ' : 'Offline / Cached') : 'Open-Meteo'}</span>
               </span>
             </div>
             <div className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white flex items-center gap-1">

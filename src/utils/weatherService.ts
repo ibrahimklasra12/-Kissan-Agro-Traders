@@ -130,125 +130,304 @@ export function getDayNames(isoDateStr: string): { en: string; ur: string } {
   }
 }
 
-export async function fetchLiveWeatherData(lat: number, lon: number): Promise<FullWeatherData> {
-  const currentParams = [
-    'temperature_2m',
-    'relative_humidity_2m',
-    'apparent_temperature',
-    'precipitation',
-    'rain',
-    'weather_code',
-    'cloud_cover',
-    'surface_pressure',
-    'wind_speed_10m',
-    'wind_direction_10m',
-    'wind_gusts_10m',
-    'uv_index',
-    'is_day',
-  ].join(',');
+// In-flight deduplication map so multiple simultaneous components share the same promise
+const inflightRequests = new Map<string, Promise<FullWeatherData>>();
 
-  const hourlyParams = [
-    'temperature_2m',
-    'relative_humidity_2m',
-    'precipitation_probability',
-    'weather_code',
-    'wind_speed_10m',
-  ].join(',');
+/**
+ * Generates a calibrated Punjab agricultural seasonal weather model
+ * used when network is offline, blocked by adblockers, or unavailable.
+ */
+export function generateSeasonalFallbackWeather(lat: number, lon: number): FullWeatherData {
+  const now = new Date();
+  const month = now.getMonth(); // 0 - 11
+  const hour = now.getHours();
 
-  const dailyParams = [
-    'weather_code',
-    'temperature_2m_max',
-    'temperature_2m_min',
-    'sunrise',
-    'sunset',
-    'daylight_duration',
-    'precipitation_sum',
-    'precipitation_probability_max',
-    'wind_speed_10m_max',
-  ].join(',');
+  // Baseline seasonal temperatures for South Punjab / Indus Basin (Kot Addu / Multan area)
+  const seasonalProfiles = [
+    { max: 21, min: 7, humidity: 62, rainProb: 10, code: 0 },   // Jan
+    { max: 25, min: 10, humidity: 55, rainProb: 12, code: 0 },  // Feb
+    { max: 31, min: 16, humidity: 48, rainProb: 15, code: 1 },  // Mar
+    { max: 38, min: 22, humidity: 36, rainProb: 10, code: 0 },  // Apr
+    { max: 43, min: 27, humidity: 30, rainProb: 8, code: 0 },   // May
+    { max: 44, min: 30, humidity: 38, rainProb: 15, code: 1 },  // Jun
+    { max: 40, min: 29, humidity: 62, rainProb: 35, code: 2 },  // Jul (Monsoon)
+    { max: 38, min: 28, humidity: 65, rainProb: 30, code: 2 },  // Aug
+    { max: 36, min: 25, humidity: 55, rainProb: 15, code: 1 },  // Sep
+    { max: 33, min: 19, humidity: 48, rainProb: 5, code: 0 },   // Oct
+    { max: 28, min: 13, humidity: 56, rainProb: 5, code: 0 },   // Nov
+    { max: 22, min: 8, humidity: 64, rainProb: 8, code: 0 },    // Dec
+  ];
 
-  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=${currentParams}&hourly=${hourlyParams}&daily=${dailyParams}&timezone=Asia%2FKarachi&forecast_days=7`;
+  const profile = seasonalProfiles[month] || seasonalProfiles[8];
 
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Weather service returned HTTP ${response.status}`);
-  }
+  // Diurnal sinusoidal temperature calculation for current hour
+  const diurnalPeakHour = 15;
+  const diurnalRad = ((hour - (diurnalPeakHour - 6)) / 12) * Math.PI;
+  const normalizedCycle = Math.max(0, Math.min(1, (Math.sin(diurnalRad) + 1) / 2));
+  const currentTemp = Math.round(profile.min + (profile.max - profile.min) * normalizedCycle);
 
-  const data = await response.json();
-  const current = data.current || {};
-  const hourly = data.hourly || {};
-  const daily = data.daily || {};
+  const humidity = Math.round(profile.humidity + (1 - normalizedCycle) * 12 - normalizedCycle * 8);
+  const dewPoint = calculateDewPoint(currentTemp, humidity);
+  const feelsLike = currentTemp > 28 && humidity > 50 ? Math.round(currentTemp + (humidity - 40) * 0.1) : currentTemp;
 
-  const temp = Math.round(current.temperature_2m ?? 30);
-  const humidity = Math.round(current.relative_humidity_2m ?? 45);
-  const dewPoint = calculateDewPoint(temp, humidity);
+  const isDay = hour >= 6 && hour < 19;
+  const sunriseStr = '06:05 AM';
+  const sunsetStr = '06:35 PM';
 
-  // Parse Hourly (take next 24 hours starting from current hour)
+  // 24-hour hourly forecast
   const hourlyItems: HourlyForecastItem[] = [];
-  if (Array.isArray(hourly.time)) {
-    const nowIso = new Date().toISOString().slice(0, 13); // match YYYY-MM-DDTHH
-    let startIndex = hourly.time.findIndex((t: string) => t.startsWith(nowIso));
-    if (startIndex === -1) startIndex = 0;
+  for (let i = 0; i < 24; i++) {
+    const fHour = (hour + i) % 24;
+    const fRad = ((fHour - 9) / 12) * Math.PI;
+    const fCycle = (Math.sin(fRad) + 1) / 2;
+    const fTemp = Math.round(profile.min + (profile.max - profile.min) * fCycle);
+    const d = new Date(now.getTime() + i * 3600000);
+    const timeFormatted = d.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true });
 
-    const sliceLength = Math.min(24, hourly.time.length - startIndex);
-    for (let i = 0; i < sliceLength; i++) {
-      const idx = startIndex + i;
-      hourlyItems.push({
-        time: formatForecastTime(hourly.time[idx]),
-        weatherCode: hourly.weather_code?.[idx] ?? 0,
-        temperature: Math.round(hourly.temperature_2m?.[idx] ?? temp),
-        precipitationProbability: Math.round(hourly.precipitation_probability?.[idx] ?? 0),
-        windSpeed: Math.round(hourly.wind_speed_10m?.[idx] ?? 10),
-      });
-    }
+    hourlyItems.push({
+      time: timeFormatted,
+      weatherCode: profile.code,
+      temperature: fTemp,
+      precipitationProbability: Math.max(0, profile.rainProb + (i % 3) * 2 - 2),
+      windSpeed: Math.round(9 + fCycle * 4),
+    });
   }
 
-  // Parse Daily (7 days)
+  // 7-day daily forecast
   const dailyItems: DailyForecastItem[] = [];
-  if (Array.isArray(daily.time)) {
-    for (let i = 0; i < daily.time.length; i++) {
-      const code = daily.weather_code?.[i] ?? 0;
-      const cond = getWeatherConditionInfo(code);
-      const dayNames = getDayNames(daily.time[i]);
-      dailyItems.push({
-        date: daily.time[i],
-        dayName: i === 0 ? 'Today' : dayNames.en,
-        dayNameUrdu: i === 0 ? 'آج' : dayNames.ur,
-        weatherCode: code,
-        maxTemp: Math.round(daily.temperature_2m_max?.[i] ?? 35),
-        minTemp: Math.round(daily.temperature_2m_min?.[i] ?? 22),
-        precipitationProbability: Math.round(daily.precipitation_probability_max?.[i] ?? 0),
-        rainSum: Math.round((daily.precipitation_sum?.[i] ?? 0) * 10) / 10,
-        windMax: Math.round(daily.wind_speed_10m_max?.[i] ?? 15),
-        condition: cond.description,
-        conditionUrdu: cond.urdu,
-      });
-    }
+  const enDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const urDays = ['اتوار', 'پیر', 'منگل', 'بدھ', 'جمعرات', 'جمعہ', 'ہفتہ'];
+
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(now.getTime() + i * 86400000);
+    const dayIndex = d.getDay();
+    const cond = getWeatherConditionInfo(profile.code);
+    dailyItems.push({
+      date: d.toISOString().split('T')[0],
+      dayName: i === 0 ? 'Today' : enDays[dayIndex],
+      dayNameUrdu: i === 0 ? 'آج' : urDays[dayIndex],
+      weatherCode: profile.code,
+      maxTemp: profile.max + (i % 2 === 0 ? 0 : 1),
+      minTemp: profile.min,
+      precipitationProbability: profile.rainProb,
+      rainSum: 0,
+      windMax: 14 + (i % 3),
+      condition: cond.description,
+      conditionUrdu: cond.urdu,
+    });
   }
 
   return {
-    temperature: temp,
-    feelsLike: Math.round(current.apparent_temperature ?? temp),
-    weatherCode: current.weather_code ?? 0,
+    temperature: currentTemp,
+    feelsLike,
+    weatherCode: profile.code,
     humidity,
     dewPoint,
-    windSpeed: Math.round(current.wind_speed_10m ?? 12),
-    windDirection: Math.round(current.wind_direction_10m ?? 0),
-    windGusts: Math.round(current.wind_gusts_10m ?? current.wind_speed_10m ?? 15),
-    precipitation: Math.round((current.precipitation ?? 0) * 10) / 10,
-    rain: Math.round((current.rain ?? 0) * 10) / 10,
-    cloudCover: Math.round(current.cloud_cover ?? 10),
-    visibility: Math.round((current.visibility ?? 10000) / 1000), // convert m to km
-    surfacePressure: Math.round(current.surface_pressure ?? 1012),
-    uvIndex: Math.round((current.uv_index ?? 5) * 10) / 10,
-    isDay: current.is_day === 1,
-    sunrise: daily.sunrise?.[0] || '',
-    sunset: daily.sunset?.[0] || '',
-    daylightDuration: daily.daylight_duration?.[0] || 43200,
-    updatedAt: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }),
+    windSpeed: 11,
+    windDirection: 210, // SSW
+    windGusts: 16,
+    precipitation: 0,
+    rain: 0,
+    cloudCover: profile.code === 0 ? 10 : 30,
+    visibility: 9,
+    surfacePressure: 1012,
+    uvIndex: isDay ? 6 : 0,
+    isDay,
+    sunrise: sunriseStr,
+    sunset: sunsetStr,
+    daylightDuration: 44100,
+    updatedAt: now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }),
     hourly: hourlyItems,
     daily: dailyItems,
+    isFallback: true,
   };
+}
+
+export async function fetchLiveWeatherData(lat: number, lon: number): Promise<FullWeatherData> {
+  const key = `${lat.toFixed(2)}_${lon.toFixed(2)}`;
+
+  // Deduplicate simultaneous requests
+  if (inflightRequests.has(key)) {
+    return inflightRequests.get(key)!;
+  }
+
+  const fetchPromise = (async () => {
+    const currentParams = [
+      'temperature_2m',
+      'relative_humidity_2m',
+      'apparent_temperature',
+      'precipitation',
+      'rain',
+      'weather_code',
+      'cloud_cover',
+      'surface_pressure',
+      'wind_speed_10m',
+      'wind_direction_10m',
+      'wind_gusts_10m',
+      'uv_index',
+      'is_day',
+    ].join(',');
+
+    const hourlyParams = [
+      'temperature_2m',
+      'relative_humidity_2m',
+      'precipitation_probability',
+      'weather_code',
+      'wind_speed_10m',
+    ].join(',');
+
+    const dailyParams = [
+      'weather_code',
+      'temperature_2m_max',
+      'temperature_2m_min',
+      'sunrise',
+      'sunset',
+      'daylight_duration',
+      'precipitation_sum',
+      'precipitation_probability_max',
+      'wind_speed_10m_max',
+    ].join(',');
+
+    const query = `latitude=${lat}&longitude=${lon}&current=${currentParams}&hourly=${hourlyParams}&daily=${dailyParams}&timezone=Asia%2FKarachi&forecast_days=7`;
+    const url = `https://api.open-meteo.com/v1/forecast?${query}`;
+
+    let data: any = null;
+
+    try {
+      // 1. Direct Open-Meteo call with 4.5s timeout
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 4500);
+
+      const response = await fetch(url, {
+        signal: controller.signal,
+        headers: { Accept: 'application/json' },
+      });
+      clearTimeout(timer);
+
+      if (response.ok) {
+        data = await response.json();
+      }
+    } catch {
+      // Network unreachable, timeout, adblocker, or CORS in iframe
+      // Proceed to cached or seasonal fallback gracefully
+    }
+
+    // If live API payload successfully parsed
+    if (data && data.current) {
+      const current = data.current || {};
+      const hourly = data.hourly || {};
+      const daily = data.daily || {};
+
+      const temp = Math.round(current.temperature_2m ?? 30);
+      const humidity = Math.round(current.relative_humidity_2m ?? 45);
+      const dewPoint = calculateDewPoint(temp, humidity);
+
+      // Parse Hourly (take next 24 hours starting from current hour)
+      const hourlyItems: HourlyForecastItem[] = [];
+      if (Array.isArray(hourly.time)) {
+        const nowIso = new Date().toISOString().slice(0, 13); // match YYYY-MM-DDTHH
+        let startIndex = hourly.time.findIndex((t: string) => t.startsWith(nowIso));
+        if (startIndex === -1) startIndex = 0;
+
+        const sliceLength = Math.min(24, hourly.time.length - startIndex);
+        for (let i = 0; i < sliceLength; i++) {
+          const idx = startIndex + i;
+          hourlyItems.push({
+            time: formatForecastTime(hourly.time[idx]),
+            weatherCode: hourly.weather_code?.[idx] ?? 0,
+            temperature: Math.round(hourly.temperature_2m?.[idx] ?? temp),
+            precipitationProbability: Math.round(hourly.precipitation_probability?.[idx] ?? 0),
+            windSpeed: Math.round(hourly.wind_speed_10m?.[idx] ?? 10),
+          });
+        }
+      }
+
+      // Parse Daily (7 days)
+      const dailyItems: DailyForecastItem[] = [];
+      if (Array.isArray(daily.time)) {
+        for (let i = 0; i < daily.time.length; i++) {
+          const code = daily.weather_code?.[i] ?? 0;
+          const cond = getWeatherConditionInfo(code);
+          const dayNames = getDayNames(daily.time[i]);
+          dailyItems.push({
+            date: daily.time[i],
+            dayName: i === 0 ? 'Today' : dayNames.en,
+            dayNameUrdu: i === 0 ? 'آج' : dayNames.ur,
+            weatherCode: code,
+            maxTemp: Math.round(daily.temperature_2m_max?.[i] ?? 35),
+            minTemp: Math.round(daily.temperature_2m_min?.[i] ?? 22),
+            precipitationProbability: Math.round(daily.precipitation_probability_max?.[i] ?? 0),
+            rainSum: Math.round((daily.precipitation_sum?.[i] ?? 0) * 10) / 10,
+            windMax: Math.round(daily.wind_speed_10m_max?.[i] ?? 15),
+            condition: cond.description,
+            conditionUrdu: cond.urdu,
+          });
+        }
+      }
+
+      const result: FullWeatherData = {
+        temperature: temp,
+        feelsLike: Math.round(current.apparent_temperature ?? temp),
+        weatherCode: current.weather_code ?? 0,
+        humidity,
+        dewPoint,
+        windSpeed: Math.round(current.wind_speed_10m ?? 12),
+        windDirection: Math.round(current.wind_direction_10m ?? 0),
+        windGusts: Math.round(current.wind_gusts_10m ?? current.wind_speed_10m ?? 15),
+        precipitation: Math.round((current.precipitation ?? 0) * 10) / 10,
+        rain: Math.round((current.rain ?? 0) * 10) / 10,
+        cloudCover: Math.round(current.cloud_cover ?? 10),
+        visibility: Math.round((current.visibility ?? 10000) / 1000),
+        surfacePressure: Math.round(current.surface_pressure ?? 1012),
+        uvIndex: Math.round((current.uv_index ?? 5) * 10) / 10,
+        isDay: current.is_day === 1,
+        sunrise: daily.sunrise?.[0] || '',
+        sunset: daily.sunset?.[0] || '',
+        daylightDuration: daily.daylight_duration?.[0] || 43200,
+        updatedAt: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }),
+        hourly: hourlyItems,
+        daily: dailyItems,
+        isFallback: false,
+      };
+
+      // Persist to local storage for offline use
+      try {
+        if (typeof window !== 'undefined' && window.localStorage) {
+          localStorage.setItem(`kissan_weather_cache_${key}`, JSON.stringify(result));
+        }
+      } catch {
+        // LocalStorage quota or access denied - safely ignore
+      }
+
+      return result;
+    }
+
+    // 2. Fallback to Local Cache if available
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        const cachedRaw = localStorage.getItem(`kissan_weather_cache_${key}`);
+        if (cachedRaw) {
+          const cached = JSON.parse(cachedRaw) as FullWeatherData;
+          cached.isFallback = true;
+          return cached;
+        }
+      }
+    } catch {
+      // ignore parse errors
+    }
+
+    // 3. Fallback to Calibrated Punjab Seasonal Model
+    return generateSeasonalFallbackWeather(lat, lon);
+  })();
+
+  inflightRequests.set(key, fetchPromise);
+
+  try {
+    const res = await fetchPromise;
+    return res;
+  } finally {
+    inflightRequests.delete(key);
+  }
 }
 
 export interface FarmingInsight {

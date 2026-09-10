@@ -83,6 +83,7 @@ export interface FullWeatherData {
   updatedAt: string;
   hourly: HourlyForecastItem[];
   daily: DailyForecastItem[];
+  isFallback?: boolean;
 }
 
 export interface PestDiseaseInquiry {

@@ -6,6 +6,7 @@ import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useToast } from '../context/ToastContext';
 import { getGeneralWhatsAppUrl } from '../utils/whatsapp';
+import { usePWAInstall } from '../hooks/usePWAInstall';
 
 interface NavbarProps {
   activeSection: string;
@@ -19,6 +20,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onOpenConsultatio
   const { theme, toggleTheme } = useTheme();
   const { language, toggleLanguage, isUrdu, t } = useLanguage();
   const { showToast } = useToast();
+  const { isInstalled, triggerInstall } = usePWAInstall();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -200,7 +202,21 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onOpenConsultatio
             </span>
           </button>
 
-          {/* 5. WhatsApp Button (Desktop) */}
+          {/* 5. Install App CTA Button (Desktop / Tablet, hidden if already installed) */}
+          {!isInstalled && (
+            <button
+              id="nav-install-app-btn"
+              type="button"
+              onClick={() => triggerInstall()}
+              title={isUrdu ? 'ایپ انسٹال کریں' : 'Install App'}
+              className="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 sm:py-2 rounded-full bg-emerald-700 hover:bg-emerald-600 text-white text-xs sm:text-sm font-extrabold transition-all duration-200 hover:scale-[1.03] active:scale-95 cursor-pointer shadow-xs border border-emerald-500/40"
+            >
+              <span className="material-symbols-outlined text-[17px] text-amber-300">install_mobile</span>
+              <span>{isUrdu ? 'ایپ انسٹال' : 'Install App'}</span>
+            </button>
+          )}
+
+          {/* 6. WhatsApp Button (Desktop) */}
           <a
             id="nav-whatsapp-btn"
             className="btn-shimmer hidden sm:inline-flex items-center gap-1.5 bg-green-500 hover:bg-green-600 text-white text-xs sm:text-sm font-bold px-3 sm:px-4 py-1.5 sm:py-2 rounded-full shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.03] active:scale-95 border border-green-400/40"
@@ -282,6 +298,27 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onOpenConsultatio
                 {totalCount} {isUrdu ? 'اشیاء' : 'Items'}
               </span>
             </button>
+
+            {/* 📲 Install App Button (Mobile Drawer) */}
+            {!isInstalled && (
+              <button
+                id="mobile-drawer-install-app-btn"
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  triggerInstall();
+                }}
+                className="flex items-center justify-between px-3.5 py-2.5 text-sm font-extrabold text-white bg-gradient-to-r from-emerald-800 to-teal-800 hover:from-emerald-700 hover:to-teal-700 rounded-xl shadow-xs transition-all active:scale-95 cursor-pointer border border-emerald-500/50"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="material-symbols-outlined text-[20px] text-amber-300">install_mobile</span>
+                  <span>{isUrdu ? '📲 ایپ انسٹال کریں' : '📲 Install App'}</span>
+                </div>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/20 text-emerald-100">
+                  {isUrdu ? 'موبائل ایپ' : 'Fast PWA'}
+                </span>
+              </button>
+            )}
 
             {/* Call Helpline */}
             <a

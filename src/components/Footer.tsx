@@ -2,9 +2,11 @@ import React from 'react';
 import { BUSINESS_INFO } from '../data/agroData';
 import { KissanLogo } from './KissanLogo';
 import { useLanguage } from '../context/LanguageContext';
+import { usePWAInstall } from '../hooks/usePWAInstall';
 
 export const Footer: React.FC = () => {
   const { isUrdu } = useLanguage();
+  const { isInstalled, triggerInstall } = usePWAInstall();
 
   return (
     <footer id="site-footer" dir={isUrdu ? 'rtl' : 'ltr'} className="bg-slate-900 text-slate-400 pt-12 pb-8 border-t border-slate-800">
@@ -104,6 +106,19 @@ export const Footer: React.FC = () => {
                   {isUrdu ? 'دکان لوکیشن و نقشہ' : 'Store Location & Map'}
                 </a>
               </li>
+              {!isInstalled && (
+                <li className="pt-1">
+                  <button
+                    id="footer-install-app-btn"
+                    type="button"
+                    onClick={() => triggerInstall()}
+                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-800/80 hover:bg-emerald-700 text-emerald-100 hover:text-white font-bold text-xs border border-emerald-500/40 transition-all active:scale-95 cursor-pointer"
+                  >
+                    <span className="material-symbols-outlined text-[16px] text-amber-300">install_mobile</span>
+                    <span>{isUrdu ? '📲 ایپ انسٹال کریں' : '📲 Install App (PWA)'}</span>
+                  </button>
+                </li>
+              )}
             </ul>
           </div>
 

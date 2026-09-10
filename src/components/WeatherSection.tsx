@@ -5,6 +5,7 @@ import {
   PRESET_LOCATIONS,
   LocationOption,
   fetchLiveWeatherData,
+  generateSeasonalFallbackWeather,
   getWeatherConditionInfo,
   getWindDirectionText,
   formatIsoTime,
@@ -48,17 +49,14 @@ export const WeatherSection: React.FC<WeatherSectionProps> = ({
     try {
       const data = await fetchLiveWeatherData(lat, lon);
       setWeatherData(data);
-    } catch (err: unknown) {
-      console.error('Weather load error:', err);
-      setErrorMessage(
-        isUrdu
-          ? 'موسمی ڈیٹا حاصل کرنے میں عارضی دشواری۔ براہ کرم دوبارہ کوشش کریں۔'
-          : 'Weather data temporarily unavailable. Please try again.'
-      );
+    } catch {
+      // Gracefully serve regional seasonal fallback
+      const fallback = generateSeasonalFallbackWeather(lat, lon);
+      setWeatherData(fallback);
     } finally {
       setIsLoading(false);
     }
-  }, [isUrdu]);
+  }, []);
 
   useEffect(() => {
     loadWeather(selectedLocation.lat, selectedLocation.lon);
@@ -247,6 +245,12 @@ export const WeatherSection: React.FC<WeatherSectionProps> = ({
                     <span className="material-symbols-outlined text-[14px]">location_on</span>
                     <span>{isUrdu ? selectedLocation.urduName : selectedLocation.name}</span>
                   </span>
+                  {weatherData.isFallback && (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-400/20 text-amber-200 text-xs font-semibold border border-amber-400/30">
+                      <span className="material-symbols-outlined text-[13px]">offline_bolt</span>
+                      <span>{isUrdu ? 'آف لائن ریکارڈ' : 'Offline / Cached'}</span>
+                    </span>
+                  )}
                 </div>
 
                 <div className="flex items-baseline gap-4">

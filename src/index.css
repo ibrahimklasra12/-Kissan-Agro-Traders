@@ -357,3 +357,40 @@ html.dark .card-premium-hover {
   direction: ltr;
 }
 
+/* 3D Transform optimization */
+@media (hover: hover) and (pointer: fine) {
+  .btn-shimmer,
+  .card-premium-3d,
+  .card-premium-hover {
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Subtle organic agricultural crop movement effect */
+@keyframes cropSubtleDrift {
+  0% {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: scale(1.06) translate3d(-6px, -4px, 0);
+  }
+  100% {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+}
+
+.animate-crop-drift {
+  animation: cropSubtleDrift 30s ease-in-out infinite;
+  will-change: transform;
+}
+

@@ -134,7 +134,10 @@ export const CropAdvisorySection: React.FC<CropAdvisorySectionProps> = ({
       {/* Dual Cards: 🌾 Crop Calendar & 🐛 Pest & Disease Guide */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         {/* 🌾 Crop Calendar Card */}
-        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
+        <div
+          id="crop-calendar-card"
+          className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group cursor-default"
+        >
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="w-12 h-12 rounded-2xl bg-amber-500/15 text-amber-600 dark:text-amber-400 flex items-center justify-center group-hover:scale-105 transition-transform">
@@ -170,7 +173,10 @@ export const CropAdvisorySection: React.FC<CropAdvisorySectionProps> = ({
         </div>
 
         {/* 🐛 Pest & Disease Guide Card with Form Trigger */}
-        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
+        <div
+          id="pest-guide-card"
+          className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group cursor-default"
+        >
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="w-12 h-12 rounded-2xl bg-rose-500/15 text-rose-600 dark:text-rose-400 flex items-center justify-center group-hover:scale-105 transition-transform">

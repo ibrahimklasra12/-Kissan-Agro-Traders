@@ -5,9 +5,11 @@ import { IbrahimCompactCard } from './IbrahimCompactCard';
 import { LiveWeatherCard } from './LiveWeatherCard';
 import { useLanguage } from '../context/LanguageContext';
 import { getGeneralWhatsAppUrl } from '../utils/whatsapp';
+import { usePWAInstall } from '../hooks/usePWAInstall';
 
 export const HeroSection: React.FC = () => {
   const { isUrdu, language } = useLanguage();
+  const { isInstalled, triggerInstall } = usePWAInstall();
   const shopBgUrl = kissanShopImg || `${import.meta.env.BASE_URL}images/shop.jpg`;
   const heroWhatsappUrl = getGeneralWhatsAppUrl(language);
 
@@ -92,18 +94,18 @@ export const HeroSection: React.FC = () => {
                   : 'High-quality Pesticides, Fertilizers, and Seeds tailored for Pakistan’s soil. Expert Drone Spray services available across Kot Addu and surrounding areas.'}
               </p>
 
-              {/* Dual CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 max-w-xl mb-6">
+              {/* CTA Buttons with Install App option */}
+              <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 max-w-2xl mb-6">
                 <a
                   id="hero-whatsapp-cta"
-                  className="btn-shimmer bg-green-500 hover:bg-green-600 text-white font-bold py-3.5 sm:py-4 px-6 rounded-2xl flex items-center justify-between group transition-all duration-300 shadow-lg hover:shadow-green-500/25 hover:scale-[1.02] active:scale-95 border border-green-400/40"
+                  className="btn-shimmer flex-1 min-w-[200px] bg-green-500 hover:bg-green-600 text-white font-bold py-3.5 sm:py-4 px-5 sm:px-6 rounded-2xl flex items-center justify-between group transition-all duration-300 shadow-lg hover:shadow-green-500/25 hover:scale-[1.02] active:scale-95 border border-green-400/40"
                   href={heroWhatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <div className="flex items-center gap-2.5">
                     <span className="material-symbols-outlined text-[22px] transition-transform duration-300 group-hover:rotate-6">chat</span>
-                    <span className="text-base sm:text-lg font-bold">
+                    <span className="text-sm sm:text-base font-bold">
                       {isUrdu ? 'WhatsApp پر رابطہ کریں' : 'Contact on WhatsApp'}
                     </span>
                   </div>
@@ -111,16 +113,39 @@ export const HeroSection: React.FC = () => {
                     <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
                   </span>
                 </a>
+
+                {/* 📲 Native PWA Install App Button (Hidden automatically if app is already installed) */}
+                {!isInstalled && (
+                  <button
+                    id="hero-install-app-btn"
+                    type="button"
+                    onClick={() => triggerInstall()}
+                    className="flex-1 min-w-[200px] bg-emerald-700 hover:bg-emerald-600 active:scale-95 text-white font-bold py-3.5 sm:py-4 px-5 sm:px-6 rounded-2xl border border-emerald-400/50 flex items-center justify-between transition-all duration-300 hover:scale-[1.02] shadow-lg shadow-emerald-950/40 cursor-pointer backdrop-blur-md group"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <span className="material-symbols-outlined text-[22px] text-amber-300 group-hover:scale-110 transition-transform">
+                        install_mobile
+                      </span>
+                      <span className="text-sm sm:text-base font-bold">
+                        {isUrdu ? '📲 ایپ انسٹال کریں' : '📲 Install App'}
+                      </span>
+                    </div>
+                    <span className="text-[10px] sm:text-xs font-black px-2 py-0.5 rounded-lg bg-emerald-500/30 text-emerald-100 border border-emerald-400/30">
+                      {isUrdu ? 'موبائل ایپ' : 'PWA'}
+                    </span>
+                  </button>
+                )}
+
                 <a
                   id="hero-call-cta"
-                  className="bg-white/10 hover:bg-white/20 text-white font-semibold py-3.5 sm:py-4 px-6 rounded-2xl border border-white/20 flex items-center justify-between transition-all duration-300 hover:scale-[1.02] backdrop-blur-md shadow-xs hover:shadow-md"
+                  className="bg-white/10 hover:bg-white/20 text-white font-semibold py-3.5 sm:py-4 px-5 sm:px-6 rounded-2xl border border-white/20 flex items-center justify-between transition-all duration-300 hover:scale-[1.02] backdrop-blur-md shadow-xs hover:shadow-md"
                   href={BUSINESS_INFO.mapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <div className="flex items-center gap-2">
                     <span className="material-symbols-outlined text-[20px] text-amber-300">near_me</span>
-                    <span>{isUrdu ? 'راستہ دیکھیں' : 'Get Directions'}</span>
+                    <span className="text-sm sm:text-base">{isUrdu ? 'راستہ دیکھیں' : 'Get Directions'}</span>
                   </div>
                   <span className="text-xs text-emerald-200">
                     {isUrdu ? 'مدینہ چوک' : 'Madina Chowk'}
